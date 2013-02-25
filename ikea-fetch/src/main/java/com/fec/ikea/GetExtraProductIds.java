@@ -30,8 +30,8 @@ public class GetExtraProductIds extends GetProductIds {
 				}
 				index = endIx;
 			}
-			System.out.println(Thread.currentThread().getName() + "ÔöÁ¿ÕÒµ½"
-					+ productlist.size() + "¸ö²úÆ·");
+			System.out.println(Thread.currentThread().getName() + "å¢é‡æ‰¾åˆ°"
+					+ productlist.size() + "ä¸ªäº§å“");
 			System.out.println(Thread.currentThread().getName() + ":"
 					+ productlist);
 		} catch (Exception e) {

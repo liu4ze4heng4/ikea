@@ -26,8 +26,8 @@ public class TabbedGui extends JFrame {
 	JPanel panel1, panel2;
 	JPanel manual_input, display1, multi_input, display2;
 	JTabbedPane tabbedPane;
-	JLabel id = new JLabel("ÒË¼Ò»õºÅ£º");
-	JLabel logd1 = new JLabel("ÔËĞĞ½á¹û");
+	JLabel id = new JLabel("å®œå®¶è´§å·ï¼š");
+	JLabel logd1 = new JLabel("è¿è¡Œç»“æœ");
 	JLabel error;
 	JTextArea ProductId, StartId, EndId;
 	JTextField multi_url = new JTextField(10);
@@ -63,16 +63,16 @@ public class TabbedGui extends JFrame {
 		sp3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		tabbedPane = new JTabbedPane();
-		tabbedPane.add("ÊÖ¶¯×¥È¡", panel1); // ½«Ãæ°åÌí¼Óµ½Ñ¡Ïî¿¨ÖĞ
-		tabbedPane.add("ÅúÁ¿×¥È¡", panel2);
+		tabbedPane.add("æ‰‹åŠ¨æŠ“å–", panel1); // å°†é¢æ¿æ·»åŠ åˆ°é€‰é¡¹å¡ä¸­
+		tabbedPane.add("æ‰¹é‡æŠ“å–", panel2);
 
-		button = new JButton("×¥È¡");
+		button = new JButton("æŠ“å–");
 		button.addActionListener(new SubmitListener());
-		JButton Clear1 = new JButton("Çå³ı");
+		JButton Clear1 = new JButton("æ¸…é™¤");
 		Clear1.addActionListener(new ClearListener());
-		exit = new JButton("ÍË³ö");
+		exit = new JButton("é€€å‡º");
 		exit.addActionListener(new ExitListener());
-		button_multi = new JButton("×¥È¡");
+		button_multi = new JButton("æŠ“å–");
 		button_multi.addActionListener(new MultiListener());
 		manual_input.add(id);
 		manual_input.add(sp1);
@@ -92,7 +92,7 @@ public class TabbedGui extends JFrame {
 		panel2.add(BorderLayout.SOUTH, display2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(tabbedPane);
-		frame.pack();// ½«Ñ¡Ïî¿¨¼ÓÈëµ½´°¿ÚÖĞ
+		frame.pack();// å°†é€‰é¡¹å¡åŠ å…¥åˆ°çª—å£ä¸­
 		frame.setVisible(true);
 	}
 
@@ -129,7 +129,7 @@ public class TabbedGui extends JFrame {
 				}
 
 				demo.saveCSV(tmps, new File("products.csv"), ".\\products\\");
-				// error.setText("³É¹¦»ñÈ¡£¡");
+				// error.setText("æˆåŠŸè·å–ï¼");
 				frame.repaint();
 				// demo.captureJavascript("107818590577");
 			} catch (Exception e) {

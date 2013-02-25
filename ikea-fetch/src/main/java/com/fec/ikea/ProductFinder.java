@@ -32,7 +32,7 @@ public class ProductFinder extends GetProductIds {
 			// e.printStackTrace();
 		}
 		// System.out.println(productlist);
-		System.out.println("ÕÒµ½" + productlist.size() + "¸ö²úÆ·Ä¿Â¼");
+		System.out.println("æ‰¾åˆ°" + productlist.size() + "ä¸ªäº§å“ç›®å½•");
 	}
 
 	public static void main(String[] args) {

@@ -22,7 +22,7 @@ public class GetMulu extends GetProductIds {
 		endIx = html.indexOf("\" />", beginIx);
 		String category = html.substring(beginIx + beginIxLength, endIx);
 		String result = category + "\\" + mulu;
-		System.out.println(Thread.currentThread().getName() + "´´½¨" + result);
+		System.out.println(Thread.currentThread().getName() + "åˆ›å»º" + result);
 		return result;
 	}
 }

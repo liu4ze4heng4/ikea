@@ -57,8 +57,8 @@ public class GetProductIds {
 			// e.printStackTrace();
 		}
 		// System.out.println(productlist);
-		System.out.println(Thread.currentThread().getName() + "ÕÒµ½"
-				+ productlist.size() + "¸ö²úÆ·");
+		System.out.println(Thread.currentThread().getName() + "æ‰¾åˆ°"
+				+ productlist.size() + "ä¸ªäº§å“");
 		GetExtraProductIds getExtraProductIds = new GetExtraProductIds();
 		getExtraProductIds.geT(url);
 		productlist.addAll(getExtraProductIds.productlist);
@@ -66,8 +66,8 @@ public class GetProductIds {
 		productset.addAll(productlist);
 		productlist.clear();
 		productlist.addAll(productset);
-		System.out.println(Thread.currentThread().getName() + "¹²ÕÒµ½"
-				+ productlist.size() + "¸ö²úÆ·");
+		System.out.println(Thread.currentThread().getName() + "å…±æ‰¾åˆ°"
+				+ productlist.size() + "ä¸ªäº§å“");
 	}
 
 	public static void main(String[] args) {

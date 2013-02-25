@@ -32,7 +32,7 @@ public class IkeaFilter {
 
 	// public void setId(String a)
 	// {
-	// path = new File(".\\"+a); //Éú³ÉÄ¿Â¼
+	// path = new File(".\\"+a); //ç”Ÿæˆç›®å½•
 	// path.mkdir();
 	// }
 
@@ -114,7 +114,7 @@ public class IkeaFilter {
 	}
 
 	 boolean SaveFile(String id, String diypath) {
-		File path = new File(diypath); // Éú³ÉÄ¿Â¼
+		File path = new File(diypath); // ç”Ÿæˆç›®å½•
 		path.mkdirs();
 		try {
 			captureHtml(id);
@@ -148,19 +148,19 @@ public class IkeaFilter {
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">"
 					+ "\n");
 			if (assembledSize.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°²×°ºó³ß´ç</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">å®‰è£…åå°ºå¯¸</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + assembledSize
 						+ "</span>\n");
 			}
 			if (keyFeatures.length() >= 15) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ÖØÒªÌØÕ÷</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">é‡è¦ç‰¹å¾</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + keyFeatures
 						+ "</span>" + "\n");
 			}
 			if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Éè¼ÆÊ¦</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">è®¾è®¡å¸ˆ</span></span><br />"
 						+ "\n");
 			}
 			if (designerThoughts.length() >= 1)
@@ -169,18 +169,18 @@ public class IkeaFilter {
 			if (designer.length() >= 1)
 				writer.write("<span style=\"font-size:14px;\">" + designer
 						+ "</span><br /><br />" + "\n");
-			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"
+			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />"
 					+ "\n");
-			writer.write("<span style=\"font-size:14px;\">°ü×°£º"
+			writer.write("<span style=\"font-size:14px;\">åŒ…è£…ï¼š"
 					+ numberOfPackages + "</span><br />" + "\n");
 			if (numberOfPackages.equals("1"))
 				writer.write("<span style=\"font-size:14px;\">"
 						+ productInformation + "</span><br /><br />" + "\n");
 			else
-				writer.write("<span style=\"font-size:14px;\">³ß´çºÍÖØÁ¿Ïê¼û¹ÙÍø</span><br /><br />"
+				writer.write("<span style=\"font-size:14px;\">å°ºå¯¸å’Œé‡é‡è¯¦è§å®˜ç½‘</span><br /><br />"
 						+ "\n");
 			if (environment.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">»·±£ĞÅÏ¢</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ç¯ä¿ä¿¡æ¯</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + environment
 						+ "</span><br /><br />" + "\n" + "</p>");
@@ -188,31 +188,31 @@ public class IkeaFilter {
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">"
 					+ "\n");
 			if (goodToKnow.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Ïà¹ØÌáÊ¾</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ç›¸å…³æç¤º</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + goodToKnow
 						+ "</span><br /><br />" + "\n");
 			}
 			if (careInst.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">±£ÑøËµÃ÷</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ä¿å…»è¯´æ˜</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + careInst
 						+ "</span><br /><br />" + "\n");
 			}
 			if (lowestPrice.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">µÍ¼Û¸ñ´ÓÄÄÀïÀ´</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ä½ä»·æ ¼ä»å“ªé‡Œæ¥</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + lowestPrice
 						+ "</span><br /><br />" + "\n");
 			}
 			if (custMaterials.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">²úÆ·ÃèÊö</span></span><br />"
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">äº§å“æè¿°</span></span><br />"
 						+ "\n");
 				writer.write("<span style=\"font-size:14px;\">" + custMaterials
 						+ "</span><br /><br />" + "\n");
 			}
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />"+"\n");
 
 			// for(String Info:InfoList){
 			// writer.write(Info +"\n");
@@ -250,7 +250,7 @@ public class IkeaFilter {
 				while ((read = bis.read()) != -1) {
 					bos.write(read);
 				}
-				bos.close();// ²»¹Ø±Õ£¬Êä³öÁ÷²»Ë¢ĞÂ£¬ÓĞ¿ÉÄÜµÃµ½ÎŞĞ§Í¼Æ¬
+				bos.close();// ä¸å…³é—­ï¼Œè¾“å‡ºæµä¸åˆ·æ–°ï¼Œæœ‰å¯èƒ½å¾—åˆ°æ— æ•ˆå›¾ç‰‡
 				// System.out.println("picture:"+pic_id[i]+"S"+p+" is ok!");
 			}
 		} catch (MalformedURLException e) {
@@ -286,7 +286,7 @@ public class IkeaFilter {
 		writer.write("version 1.00" + "\n");
 		writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
 				+ "\n");
-		writer.write("±¦±´Ãû³Æ	±¦±´ÀàÄ¿	µêÆÌÀàÄ¿	ĞÂ¾É³Ì¶È	Ê¡	³ÇÊĞ	³öÊÛ·½Ê½	±¦±´¼Û¸ñ	¼Ó¼Û·ù¶È	±¦±´ÊıÁ¿	ÓĞĞ§ÆÚ	ÔË·Ñ³Ğµ£	Æ½ÓÊ	EMS	¿ìµİ	·¢Æ±	±£ĞŞ	·ÅÈë²Ö¿â	³÷´°ÍÆ¼ö	¿ªÊ¼Ê±¼ä	±¦±´ÃèÊö	±¦±´ÊôĞÔ	ÓÊ·ÑÄ£°æID	»áÔ±´òÕÛ	ĞŞ¸ÄÊ±¼ä	ÉÏ´«×´Ì¬	Í¼Æ¬×´Ì¬	·µµã±ÈÀı	ĞÂÍ¼Æ¬	ÊÓÆµ	ÏúÊÛÊôĞÔ×éºÏ	ÓÃ»§ÊäÈëID´®	ÓÃ»§ÊäÈëÃû-Öµ¶Ô	ÉÌ¼Ò±àÂë	ÏúÊÛÊôĞÔ±ğÃû	´ú³äÀàĞÍ	Êı×ÖID	±¾µØID	±¦±´·ÖÀà	ÕË»§Ãû³Æ	±¦±´×´Ì¬	ÉÁµç·¢»õ	ĞÂÆ·	Ê³Æ·×¨Ïî	³ßÂë¿â	¿â´æÀàĞÍ	¿â´æ¼ÆÊı"
+		writer.write("å®è´åç§°	å®è´ç±»ç›®	åº—é“ºç±»ç›®	æ–°æ—§ç¨‹åº¦	çœ	åŸå¸‚	å‡ºå”®æ–¹å¼	å®è´ä»·æ ¼	åŠ ä»·å¹…åº¦	å®è´æ•°é‡	æœ‰æ•ˆæœŸ	è¿è´¹æ‰¿æ‹…	å¹³é‚®	EMS	å¿«é€’	å‘ç¥¨	ä¿ä¿®	æ”¾å…¥ä»“åº“	æ©±çª—æ¨è	å¼€å§‹æ—¶é—´	å®è´æè¿°	å®è´å±æ€§	é‚®è´¹æ¨¡ç‰ˆID	ä¼šå‘˜æ‰“æŠ˜	ä¿®æ”¹æ—¶é—´	ä¸Šä¼ çŠ¶æ€	å›¾ç‰‡çŠ¶æ€	è¿”ç‚¹æ¯”ä¾‹	æ–°å›¾ç‰‡	è§†é¢‘	é”€å”®å±æ€§ç»„åˆ	ç”¨æˆ·è¾“å…¥IDä¸²	ç”¨æˆ·è¾“å…¥å-å€¼å¯¹	å•†å®¶ç¼–ç 	é”€å”®å±æ€§åˆ«å	ä»£å……ç±»å‹	æ•°å­—ID	æœ¬åœ°ID	å®è´åˆ†ç±»	è´¦æˆ·åç§°	å®è´çŠ¶æ€	é—ªç”µå‘è´§	æ–°å“	é£Ÿå“ä¸“é¡¹	å°ºç åº“	åº“å­˜ç±»å‹	åº“å­˜è®¡æ•°"
 				+ "\n");
 		for (int i = 0; i < ids.size(); i++) {
 			try {
@@ -294,7 +294,7 @@ public class IkeaFilter {
 				loadFile(new File(diypath + ids.get(i) + ".html"));
 				writer.write("\"" + productNameProdInfo + productTypeProdInfo
 						+ "[" + product_dian_id + "]"
-						+ "\"	50006298	\"\"	1	\"±±¾©\"	\"±±¾©\"	1	" + price
+						+ "\"	50006298	\"\"	1	\"åŒ—äº¬\"	\"åŒ—äº¬\"	1	" + price
 						+ "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
 				for (String cell : describtions) {
 					writer.write(cell + "\n");
