@@ -29,16 +29,16 @@ public class CatsGet {
 			results[i] = results[i].replace("\"cid\":", "")
 					.replace("\"is_parent\":", "")
 					.replace("\"parent_cid\":", "").replace("\"name\":", "");
-			System.out.println(results[i]);
-			 if(results[i].contains("true"))
+			 if(results[i].contains("false"))
+			 {System.out.println(results[i]);
+			 }
+			 else
 			 {String[] str=results[i].split(",");
 			 
 			 testCatsGet(new Long(str[0]));
 			 }
-			 else break;
 		}
 
-		// System.out.println("result:"+response.getSubMsg());
 	}
 
 	public static void main(String[] args) {
