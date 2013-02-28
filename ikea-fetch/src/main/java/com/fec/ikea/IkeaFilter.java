@@ -1,5 +1,4 @@
-package com.fec.ikea;
-
+﻿package com.fec.ikea;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -11,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +18,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class IkeaFilter {
+	public static int count=0;
+	String buf=new String();
+	GetAnything something = new GetAnything();
 	String title, price, productNameProdInfo, productTypeProdInfo,
 			assembledSize, keyFeatures, designerThoughts, designer,
 			numberOfPackages, productInformation, environment;
@@ -36,10 +39,14 @@ public class IkeaFilter {
 	// path.mkdir();
 	// }
 
-	public void captureHtml(String id) throws Exception {
+	public void captureHtml(String id)  {
+		System.out.println(Thread.currentThread().getName() + "captureHtml");
 		String strURL = "http://www.ikea.com/cn/zh/catalog/products/" + id
-				+ "/";
-		URL url = new URL(strURL);
+				+ "/";		
+		URL url;
+		try {
+			url = new URL(strURL);
+		
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 		InputStreamReader input = new InputStreamReader(
 				httpConn.getInputStream(), "utf-8");
@@ -49,8 +56,25 @@ public class IkeaFilter {
 		while ((line = bufReader.readLine()) != null) {
 			contentBuf.append(line);
 		}
-		String buf = contentBuf.toString();
-		GetAnything something = new GetAnything();
+		
+		buf = contentBuf.toString();
+		
+		} catch (ConnectException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + id+"超时错误");
+			captureHtml(id);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+//			captureHtml(id);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + id+ "IO错误");
+//			captureHtml(id);
+		}
 		title = something.geT(buf, "<meta name=\"title\" content=", "- IKEA",
 				"");
 		// System.out.println(title);
@@ -97,8 +121,8 @@ public class IkeaFilter {
 		custMaterials = something.geT(buf,
 				"<div id=\"custMaterials\" class=\"texts\">", "</div>",
 				"custMaterials");
-		pic_id = something.getPicUrl(buf);
 		product_id = id;
+		pic_id = something.getPicUrl(buf,id);
 		// System.out.println(id);
 		product_dian_id = something.geT(buf,
 				"<div id=\"itemNumber\" class=\"floatLeft\">", "</div>",
@@ -113,19 +137,22 @@ public class IkeaFilter {
 		// something.SaveFile();
 	}
 
-	 boolean SaveFile(String id, String diypath) {
-		File path = new File(diypath); // 生成目录
-		path.mkdirs();
-		try {
-			captureHtml(id);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.print(Thread.currentThread().getName() + id
-					+ " is not exist\n");
-			notification = id + " is not exist\n";
-			// demo.repaint();
-			return false;
-		}
+	boolean SaveFile(String id, String diypath) {
+		System.out.println(Thread.currentThread().getName() + "is Saveing File"+id);
+//		File path = new File(diypath); // 生成目录
+//		path.mkdirs();
+		
+		
+//		try {
+//			captureHtml(id);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			System.out.print(Thread.currentThread().getName() + id
+//					+ " is not exist\n");
+//			notification = id + " is not exist\n";
+//			// demo.repaint();
+//			return false;
+//		}
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(diypath
 					+ id + ".html"));
@@ -229,12 +256,14 @@ public class IkeaFilter {
 	}
 
 	public  boolean SavePic(String id, int p, String diypath) {
-		try {
-			captureHtml(id);
-		} catch (Exception e) {
-			System.out.print(id + " is not exist[pic]\n");
-			return false;
-		}
+		System.out.println(Thread.currentThread().getName() + "is Saveing Pic"+id);
+//		try {
+//			captureHtml(id);
+////			pic_id = something.getPicUrl(buf,id);
+//		} catch (Exception e) {
+//			System.out.print(id + " is not exist[pic]\n");
+//			return false;
+//		}
 		try {
 			for (int i = 0; i < pic_id.length; i++) {
 				URL url = new URL("http://www.ikea.com/PIAimages/" + pic_id[i]
@@ -271,17 +300,22 @@ public class IkeaFilter {
 			while ((des = reader.readLine()) != null)
 				describtions.add(des);
 			reader.close();
-			// return describtions;
+		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		// return describtions;
 
 	}
 
 	 void saveCSV(ArrayList<String> ids, File crvfile,
 			String diypath) throws IOException {
-
+			File path = new File(diypath); 
+			
+			boolean ex=path.exists();
+			path.mkdirs();
+			System.out.println(Thread.currentThread().getName() + "创建" + diypath+ex);
+			System.out.println(Thread.currentThread().getName() + "创建" + diypath+"("+count+")");
+			count++;
 		BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
 		writer.write("version 1.00" + "\n");
 		writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
@@ -291,6 +325,8 @@ public class IkeaFilter {
 		for (int i = 0; i < ids.size(); i++) {
 			try {
 				captureHtml(ids.get(i));
+				SaveFile(ids.get(i), diypath);
+				SavePic(ids.get(i), 4, diypath);
 				loadFile(new File(diypath + ids.get(i) + ".html"));
 				writer.write("\"" + productNameProdInfo + productTypeProdInfo
 						+ "[" + product_dian_id + "]"
@@ -311,7 +347,7 @@ public class IkeaFilter {
 			}
 		}
 		writer.close();
-		System.out.println(diypath + "'s CRV is OK");
+		System.out.println(Thread.currentThread().getName()+diypath + "'s CRV is OK");
 
 	}
 }
@@ -343,12 +379,11 @@ class GetAnything {
 
 	}
 
-	String[] getPicUrl(String buf) {
-		int beginIx = buf.indexOf("\"zoom\":[");
-		String beginIndex = "\"zoom\":[";
-		int beginIxLength = beginIndex.length();
+	String[] getPicUrl(String buf,String id) {
+		
+		int beginIx = buf.indexOf("\"zoom\":[", buf.indexOf("availabilityUrl\":\"/cn/zh/catalog/availability/"+id)-1500);
 		int endIx = buf.indexOf("]", beginIx);
-		String result = buf.substring(beginIx + beginIxLength, endIx);
+		String result = buf.substring(beginIx + "\"zoom\":[".length(), endIx);
 		String result1 = result.replace("\"/PIAimages/", "");
 		result = result1.replace("_S5.JPG\"", "");
 		result1 = result.replace("_S5.jpg\"", "");

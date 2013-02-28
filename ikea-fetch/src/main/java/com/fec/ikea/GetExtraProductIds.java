@@ -1,16 +1,9 @@
-package com.fec.ikea;
-
-import java.io.IOException;
+﻿package com.fec.ikea;
 import java.util.Collections;
 
 public class GetExtraProductIds extends GetProductIds {
 	void geT(String url) {
-		try {
-			HtmlCatch(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		HtmlCatch(url);
 		int index = 10;
 		String result;
 		String[] results;
@@ -30,10 +23,10 @@ public class GetExtraProductIds extends GetProductIds {
 				}
 				index = endIx;
 			}
-			System.out.println(Thread.currentThread().getName() + "增量找到"
-					+ productlist.size() + "个产品");
-			System.out.println(Thread.currentThread().getName() + ":"
-					+ productlist);
+//			System.out.println(Thread.currentThread().getName() + "增量找到"
+//					+ productlist.size() + "个产品");
+//			System.out.println(Thread.currentThread().getName() + ":"
+//					+ productlist);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

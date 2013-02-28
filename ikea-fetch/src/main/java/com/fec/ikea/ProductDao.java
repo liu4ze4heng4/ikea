@@ -66,7 +66,7 @@ public class ProductDao {
 		ProductDao pd = new ProductDao();
 		Product pt = new Product();
 		pt.setCode("11116");
-		pt.setName("花书");
+		pt.setName("溜溜");
 		pt.setPrice(100.5);
 		pd.insert(pt);
 		System.out.println("test finish!!");

@@ -1,9 +1,10 @@
-package com.fec.ikea;
-
+﻿package com.fec.ikea;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,8 +17,11 @@ public class GetProductIds {
 	// "http://www.ikea.com/cn/zh/catalog/categories/departments/eating/16048/";
 	String html;
 
-	void HtmlCatch(String strURL) throws IOException {
-		URL url = new URL(strURL);
+	void HtmlCatch(String strURL) {
+		URL url;
+		try {
+			url = new URL(strURL);
+		
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 		InputStreamReader input = new InputStreamReader(
 				httpConn.getInputStream(), "utf-8");
@@ -27,16 +31,29 @@ public class GetProductIds {
 		while ((line = bufReader.readLine()) != null) {
 			contentBuf.append(line);
 		}
+		
 		html = contentBuf.toString();
-	}
-
-	void geT(String url) {
-		try {
-			HtmlCatch(url);
-		} catch (IOException e) {
+		
+		} catch (ConnectException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + strURL+" 超时错误");
+			HtmlCatch(strURL);
+		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+//			captureHtml(id);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + strURL+ " IO错误");
+//			captureHtml(id);
 		}
+	}
+
+	void geT(String url)  {
+		HtmlCatch(url);
 		int index = 0;
 		int x = 1;
 		try {
@@ -67,7 +84,7 @@ public class GetProductIds {
 		productlist.clear();
 		productlist.addAll(productset);
 		System.out.println(Thread.currentThread().getName() + "共找到"
-				+ productlist.size() + "个产品");
+				+ productlist.size() + "个产品@"+url);
 	}
 
 	public static void main(String[] args) {

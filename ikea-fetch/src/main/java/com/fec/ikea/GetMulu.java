@@ -1,15 +1,9 @@
-package com.fec.ikea;
+﻿package com.fec.ikea;
 
-import java.io.IOException;
 
 public class GetMulu extends GetProductIds {
 	String getmus(String url) {
-		try {
-			HtmlCatch(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		HtmlCatch(url);
 
 		int beginIx = html.indexOf("IRWStats.subCategoryLocal\" content=\"");
 		String beginstr = "IRWStats.subCategoryLocal\" content=\"";

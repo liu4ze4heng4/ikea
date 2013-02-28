@@ -1,4 +1,4 @@
-package com.fec.ikea;
+﻿package com.fec.ikea;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,17 +15,12 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 		String name = getmulu.getmus(url);
 		ArrayList<String> tmps = new ArrayList<String>();
 		tmps = getproductids.productlist;
-		for (int i = 0; i < tmps.size(); i++) {
-			SaveFile(tmps.get(i), ".\\" + name + "\\products\\");
-			SavePic(tmps.get(i), 4, ".\\" + name + "\\products\\");
-		}
-
-		saveCSV(tmps, new File(".\\" + name + "\\products.csv"), ".\\" + name
+		saveCSV(tmps, new File("E:\\IKEAs\\" + name + "\\products.csv"), "E:\\IKEAs\\" + name
 				+ "\\products\\");
 	}
 
 	public void run() {
-		System.out.println(Thread.currentThread().getName() + "is runing");
+
 		while (true) {
 			int i = getindex();
 			if (i != 9999) {
@@ -43,7 +38,7 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 	}
 
 	synchronized int getindex() {
-		if (index <= urls.size()) {
+		if (index < urls.size()) {
 			return index++;
 		} else
 			return 9999;
@@ -52,13 +47,15 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 	public static void main(String[] args) {
 		ProductFinder finder = new ProductFinder();
 		finder.geT("http://www.ikea.com/cn/zh/catalog/allproducts/");
-		ThreadMultiFilter.urls=finder.productlist;
-		for (int i = 1; i < 20; i++) {
+		urls = finder.productlist;
+
+		for (int i = 0; i <= 10; i++) {
 			ThreadMultiFilter a1 = new ThreadMultiFilter();
 			Thread t1 = new Thread(a1);
-			t1.setName("t"+i);
+			t1.setName("t" + i + ":");
 			t1.start();
 		}
+
 	}
 
 }
