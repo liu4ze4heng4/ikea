@@ -33,7 +33,7 @@ public class CatsGet {
 			 if(results[i].contains("true"))
 			 {String[] str=results[i].split(",");
 			 
-			 testCatsGet(str[0]);
+			 testCatsGet(new Long(str[0]));
 			 }
 			 else break;
 		}
