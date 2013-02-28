@@ -4,12 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.23/mysql-connector-java-5.1.23.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
-	<classpathentry kind="lib" path="E:/DEV/GIT/ikea/ikea-fetch/taobao-sdk-java-online_standard-20130228.jar" sourcepath="E:/DEV/GIT/ikea/ikea-fetch/taobao-sdk-java-online_standard-20130228.jar">
-		<attributes>
-			<attribute name="source_encoding" value="UTF-8"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="E:/DEV/GIT/ikea/ikea-fetch/taobao-sdk-java-online_standard-20130228-source.jar"/>
-	<classpathentry kind="lib" path="E:/DEV/GIT/ikea/ikea-fetch/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="taobao-sdk-java-online_standard-20130228-source.jar"/>
+	<classpathentry kind="lib" path="taobao-sdk-java-online_standard-20130228.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

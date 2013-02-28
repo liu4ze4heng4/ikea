@@ -30,12 +30,12 @@ public class CatsGet {
 					.replace("\"is_parent\":", "")
 					.replace("\"parent_cid\":", "").replace("\"name\":", "");
 			System.out.println(results[i]);
-//			 if(results[i].contains("true"))
-//			 {String[] str=results[i].split(",");
-//			 
-//			 testCatsGet(str[0]);
-//			 }
-//			 else break;
+			 if(results[i].contains("true"))
+			 {String[] str=results[i].split(",");
+			 
+			 testCatsGet(new Long(str[0]));
+			 }
+			 else break;
 		}
 
 		// System.out.println("result:"+response.getSubMsg());
