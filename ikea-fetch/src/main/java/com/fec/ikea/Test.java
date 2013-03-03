@@ -8,6 +8,7 @@ public class Test {
 	public void method1() {
 		System.out.println("2");
 		System.out.println("5");
+		System.out.println("4");
 	}
 
 	public void method2() {
@@ -17,6 +18,5 @@ public class Test {
 	}
 	
 	public void s(){
-		
 	}
 }
