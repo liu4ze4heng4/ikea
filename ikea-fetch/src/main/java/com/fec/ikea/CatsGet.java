@@ -20,23 +20,17 @@ public class CatsGet {
 		// req.setCids("18957,19562,");
 		ItemcatsGetResponse response = client.execute(req);
 		String tmp = response.getBody();
-		tmp = tmp
-				.replace(
-						"{\"itemcats_get_response\":{\"item_cats\":{\"item_cat\":[{",
-						"").replace("}]}}}", "").replace("},{", "!");
+		tmp = tmp.replace("{\"itemcats_get_response\":{\"item_cats\":{\"item_cat\":[{", "").replace("}]}}}", "").replace("},{", "!");
 		String[] results = tmp.split("!");
 		for (int i = 0; i < results.length; i++) {
-			results[i] = results[i].replace("\"cid\":", "")
-					.replace("\"is_parent\":", "")
-					.replace("\"parent_cid\":", "").replace("\"name\":", "");
-			 if(results[i].contains("false"))
-			 {System.out.println(results[i]);
-			 }
-			 else
-			 {String[] str=results[i].split(",");
-			 
-			 testCatsGet(new Long(str[0]));
-			 }
+			results[i] = results[i].replace("\"cid\":", "").replace("\"is_parent\":", "").replace("\"parent_cid\":", "").replace("\"name\":", "");
+			if (results[i].contains("false")) {
+				System.out.println(results[i]);
+			} else {
+				String[] str = results[i].split(",");
+
+				testCatsGet(new Long(str[0]));
+			}
 		}
 
 	}

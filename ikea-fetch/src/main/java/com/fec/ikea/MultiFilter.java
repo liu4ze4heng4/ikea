@@ -18,8 +18,7 @@ public class MultiFilter extends IkeaFilter {
 			SavePic(tmps.get(i), 4, ".\\" + name + "\\products\\");
 		}
 
-		saveCSV(tmps, new File(".\\" + name + "\\products.csv"), ".\\" + name
-				+ "\\products\\");
+		saveCSV(tmps, new File(".\\" + name + "\\products.csv"), ".\\" + name + "\\products\\");
 	}
 
 	public static void main(String[] args) {

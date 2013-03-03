@@ -1,4 +1,5 @@
 ﻿package com.fec.ikea;
+
 public class ProductFinder extends GetProductIds {
 	void geT(String url) {
 		HtmlCatch(url);
@@ -6,8 +7,7 @@ public class ProductFinder extends GetProductIds {
 		try {
 			productlist.clear();
 			while (true) {
-				int beginIx = html.indexOf(
-						" href=\"/cn/zh/catalog/categories/departments", index);
+				int beginIx = html.indexOf(" href=\"/cn/zh/catalog/categories/departments", index);
 				int endIx = html.indexOf("</a>", beginIx);
 				String tmp = html.substring(beginIx, endIx);
 				String result = tmp.replace("	", "");
@@ -16,14 +16,14 @@ public class ProductFinder extends GetProductIds {
 				String[] results;
 				results = result.split("!");
 				productlist.add(results[0]);
-				
+
 				index = endIx;
-//				 System.out.println(results[0]);
+				// System.out.println(results[0]);
 
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
 		// System.out.println(productlist);
 		productset.addAll(productlist);

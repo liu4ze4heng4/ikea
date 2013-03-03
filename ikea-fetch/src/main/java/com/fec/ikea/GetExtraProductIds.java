@@ -1,4 +1,5 @@
 ﻿package com.fec.ikea;
+
 import java.util.Collections;
 
 public class GetExtraProductIds extends GetProductIds {
@@ -23,10 +24,10 @@ public class GetExtraProductIds extends GetProductIds {
 				}
 				index = endIx;
 			}
-//			System.out.println(Thread.currentThread().getName() + "增量找到"
-//					+ productlist.size() + "个产品");
-//			System.out.println(Thread.currentThread().getName() + ":"
-//					+ productlist);
+			// System.out.println(Thread.currentThread().getName() + "增量找到"
+			// + productlist.size() + "个产品");
+			// System.out.println(Thread.currentThread().getName() + ":"
+			// + productlist);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

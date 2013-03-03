@@ -1,6 +1,5 @@
 ﻿package com.fec.ikea;
 
-
 public class GetMulu extends GetProductIds {
 	String getmus(String url) {
 		HtmlCatch(url);

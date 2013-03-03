@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ProductDao {
-	public Connection getConnection() throws SQLException,
-			java.lang.ClassNotFoundException {
+	public Connection getConnection() throws SQLException, java.lang.ClassNotFoundException {
 		String url = "jdbc:mysql://localhost:3306/ikea?characterEncoding=UTF-8";
 		Class.forName("com.mysql.jdbc.Driver");
 		String userName = "root";
@@ -27,18 +26,16 @@ public class ProductDao {
 			stmt.setDouble(3, product.getPrice());
 			stmt.execute();
 		} catch (SQLException e) {
-			System.out.println("=========SQLException=========="
-					+ e.getMessage());
+			System.out.println("=========SQLException==========" + e.getMessage());
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			System.out.println("========ClassNotFoundException==========="
-					+ e.getMessage());
+			System.out.println("========ClassNotFoundException===========" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
 	public Product getProduct(String code) {
-		String sql = "select * from  tbl_product where code="+code;
+		String sql = "select * from  tbl_product where code=" + code;
 		Product pt = null;
 		ResultSet rs = null;
 		try {
@@ -51,12 +48,10 @@ public class ProductDao {
 				pt.setPrice(rs.getDouble("price"));
 			}
 		} catch (SQLException e) {
-			System.out.println("=========SQLException=========="
-					+ e.getMessage());
+			System.out.println("=========SQLException==========" + e.getMessage());
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			System.out.println("========ClassNotFoundException==========="
-					+ e.getMessage());
+			System.out.println("========ClassNotFoundException===========" + e.getMessage());
 			e.printStackTrace();
 		}
 		return pt;
@@ -70,8 +65,8 @@ public class ProductDao {
 		pt.setPrice(100.5);
 		pd.insert(pt);
 		System.out.println("test finish!!");
-		
-		pt=pd.getProduct("11116");
-		System.out.println("get prodect fromDB:"+pt.getName());
+
+		pt = pd.getProduct("11116");
+		System.out.println("get prodect fromDB:" + pt.getName());
 	}
 }

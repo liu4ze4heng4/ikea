@@ -1,4 +1,5 @@
 ﻿package com.fec.ikea;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,38 +22,37 @@ public class GetProductIds {
 		URL url;
 		try {
 			url = new URL(strURL);
-		
-		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-		InputStreamReader input = new InputStreamReader(
-				httpConn.getInputStream(), "utf-8");
-		BufferedReader bufReader = new BufferedReader(input);
-		String line = "";
-		StringBuilder contentBuf = new StringBuilder();
-		while ((line = bufReader.readLine()) != null) {
-			contentBuf.append(line);
-		}
-		
-		html = contentBuf.toString();
-		
+
+			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+			InputStreamReader input = new InputStreamReader(httpConn.getInputStream(), "utf-8");
+			BufferedReader bufReader = new BufferedReader(input);
+			String line = "";
+			StringBuilder contentBuf = new StringBuilder();
+			while ((line = bufReader.readLine()) != null) {
+				contentBuf.append(line);
+			}
+
+			html = contentBuf.toString();
+
 		} catch (ConnectException e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			System.out.println(Thread.currentThread().getName() + strURL+" 超时错误");
+			// e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + strURL + " 超时错误");
 			HtmlCatch(strURL);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-//			captureHtml(id);
-			
+			// captureHtml(id);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			System.out.println(Thread.currentThread().getName() + strURL+ " IO错误");
-//			captureHtml(id);
+			// e.printStackTrace();
+			System.out.println(Thread.currentThread().getName() + strURL + " IO错误");
+			// captureHtml(id);
 		}
 	}
 
-	void geT(String url)  {
+	void geT(String url) {
 		HtmlCatch(url);
 		int index = 0;
 		int x = 1;
@@ -61,8 +61,7 @@ public class GetProductIds {
 				int beginIx = html.indexOf("<div id=\"item_", index);
 				String beginstr = "<div id=\"item_";
 				int beginIxLength = beginstr.length();
-				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn",
-						beginIx);
+				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String result = html.substring(beginIx + beginIxLength, endIx);
 				// System.out.println(result);
 				productlist.add(result);
@@ -74,8 +73,7 @@ public class GetProductIds {
 			// e.printStackTrace();
 		}
 		// System.out.println(productlist);
-		System.out.println(Thread.currentThread().getName() + "找到"
-				+ productlist.size() + "个产品");
+		System.out.println(Thread.currentThread().getName() + "找到" + productlist.size() + "个产品");
 		GetExtraProductIds getExtraProductIds = new GetExtraProductIds();
 		getExtraProductIds.geT(url);
 		productlist.addAll(getExtraProductIds.productlist);
@@ -83,8 +81,7 @@ public class GetProductIds {
 		productset.addAll(productlist);
 		productlist.clear();
 		productlist.addAll(productset);
-		System.out.println(Thread.currentThread().getName() + "共找到"
-				+ productlist.size() + "个产品@"+url);
+		System.out.println(Thread.currentThread().getName() + "共找到" + productlist.size() + "个产品@" + url);
 	}
 
 	public static void main(String[] args) {

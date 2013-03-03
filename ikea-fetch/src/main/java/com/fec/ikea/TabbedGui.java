@@ -1,4 +1,5 @@
 ﻿package com.fec.ikea;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -121,12 +122,12 @@ public class TabbedGui extends JFrame {
 				String[] tmplist = tmp.split("\n");
 				for (int j = 0; j < tmplist.length; j++)
 					tmps.add(tmplist[j]);
-//				for (int i = 0; i < tmps.size(); i++) {
-//					demo.captureHtml(tmps.get(i));
-//					demo.SaveFile(tmps.get(i), ".\\products\\");
-//					demo.SavePic(tmps.get(i), 4, ".\\products\\");
-//
-//				}
+				// for (int i = 0; i < tmps.size(); i++) {
+				// demo.captureHtml(tmps.get(i));
+				// demo.SaveFile(tmps.get(i), ".\\products\\");
+				// demo.SavePic(tmps.get(i), 4, ".\\products\\");
+				//
+				// }
 
 				demo.saveCSV(tmps, new File("products.csv"), ".\\products\\");
 				// error.setText("成功获取！");
