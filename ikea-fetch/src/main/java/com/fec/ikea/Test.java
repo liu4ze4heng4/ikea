@@ -12,6 +12,6 @@ public class Test {
 
 	public void method2() {
 		System.out.println("2");
-		System.out.println("add in develop");
+		System.out.println("add in develop2");
 	}
 }
