@@ -107,8 +107,8 @@ public class TabbedGui extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			Thread t = new Thread(new BackRun());
 			t.start();
-			GUIPrintStream guiPrintStream = new GUIPrintStream(System.out, Log1);
-			System.setOut(guiPrintStream);
+//			GUIPrintStream guiPrintStream = new GUIPrintStream(System.out, Log1);
+//			System.setOut(guiPrintStream);
 		}
 	}
 
@@ -129,7 +129,7 @@ public class TabbedGui extends JFrame {
 				//
 				// }
 
-				demo.saveCSV(tmps, new File("products.csv"), ".\\products\\");
+				demo.saveMaster(tmps, new File("products.csv"), ".\\products\\");
 				// error.setText("成功获取！");
 				frame.repaint();
 				// demo.captureJavascript("107818590577");

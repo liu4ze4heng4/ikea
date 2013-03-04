@@ -18,12 +18,15 @@ public class ProductDao {
 	}
 
 	public void insert(Product product) {
-		String sql = "insert into tbl_product(code,name,price) values(?,?,?)";
+		String sql = "insert into tbl_product(product_dian_id,productNameProdInfo,productTypeProdInfo,price,category) values(?,?,?,?,?)";
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
-			stmt.setString(1, product.getCode());
-			stmt.setString(2, product.getName());
-			stmt.setDouble(3, product.getPrice());
+			stmt.setString(1, product.getProduct_dian_id());
+			stmt.setString(2, product.getProductNameProdInfo());
+			stmt.setString(3, product.getProductTypeProdInfo());
+			stmt.setDouble(4, product.getPrice());
+			stmt.setString(5, product.getCategory());
+
 			stmt.execute();
 		} catch (SQLException e) {
 			System.out.println("=========SQLException==========" + e.getMessage());
@@ -43,9 +46,12 @@ public class ProductDao {
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				pt = new Product();
-				pt.setCode(rs.getString("code"));
-				pt.setName(rs.getString("name"));
+				pt.setProduct_dian_id(rs.getString("product_dian_id"));
+				pt.setProductNameProdInfo(rs.getString("productNameProdInfo"));
+				pt.setProductTypeProdInfo(rs.getString("productTypeProdInfo"));
 				pt.setPrice(rs.getDouble("price"));
+				pt.setCategory(rs.getString("category"));
+
 			}
 		} catch (SQLException e) {
 			System.out.println("=========SQLException==========" + e.getMessage());
@@ -59,14 +65,16 @@ public class ProductDao {
 
 	public static void main(String[] args) {
 		ProductDao pd = new ProductDao();
-		Product pt = new Product();
-		pt.setCode("11116");
-		pt.setName("溜溜");
-		pt.setPrice(100.5);
-		pd.insert(pt);
-		System.out.println("test finish!!");
-
-		pt = pd.getProduct("11116");
-		System.out.println("get prodect fromDB:" + pt.getName());
+	Product pt = new Product();
+	pt.setProduct_dian_id("1234");
+	pt.setProductNameProdInfo("222");
+	pt.setProductTypeProdInfo("1234");
+	pt.setPrice(12.3);
+	pt.setCategory("123");
+	pd.insert(pt);
+//		System.out.println("test finish!!");
+//
+//		pt = pd.getProduct("11116");
+//		System.out.println("get prodect fromDB:" + pt.getName());
 	}
 }

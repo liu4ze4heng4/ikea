@@ -15,7 +15,9 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 		String name = getmulu.getmus(url);
 		ArrayList<String> tmps = new ArrayList<String>();
 		tmps = getproductids.productlist;
-		saveCSV(tmps, new File("E:\\IKEAs\\" + name + "\\products.csv"), "E:\\IKEAs\\" + name + "\\products\\");
+//=========================在下面方法中选择执行的操作====================
+		saveMaster(tmps, new File("E:\\IKEAss\\" + name + "\\products.csv"), "E:\\IKEAss\\" + name + "\\products\\");
+//====================================================================
 	}
 
 	public void run() {

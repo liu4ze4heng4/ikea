@@ -23,7 +23,7 @@ public class IkeaFilter {
 	String buf = new String();
 	GetAnything something = new GetAnything();
 	String title, price, productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment;
-	String goodToKnow, careInst, lowestPrice, custMaterials, product_dian_id;
+	String goodToKnow, careInst, lowestPrice, custMaterials, product_dian_id, category;
 	String[] pic_id;
 	String describtion;
 	String product_id;
@@ -93,7 +93,7 @@ public class IkeaFilter {
 		pic_id = something.getPicUrl(buf, id);
 		// System.out.println(id);
 		product_dian_id = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
-
+		category = something.getCategory(buf);
 		// something.geT(buf,"","</div>","");
 		// something.geT(buf,"","</div>","");
 		// something.geT(buf,"","</div>","");
@@ -101,6 +101,19 @@ public class IkeaFilter {
 		// something.geT(buf,"","</div>","");
 		// something.geT(buf,"","</div>","");
 		// something.SaveFile();
+	}
+
+	public void capturetosql() {
+		ProductDao pd = new ProductDao();
+		Product pt = new Product();
+		pt.setProduct_dian_id(product_dian_id);
+		pt.setProductNameProdInfo(productNameProdInfo);
+		pt.setProductTypeProdInfo(productTypeProdInfo);
+		pt.setPrice(new Double(price));
+		System.out.println("==============="+productNameProdInfo+"  "+productTypeProdInfo+"===============");
+
+		pt.setCategory(category);
+		pd.insert(pt);
 	}
 
 	boolean SaveFile(String id, String diypath) {
@@ -241,7 +254,8 @@ public class IkeaFilter {
 
 	}
 
-	void saveCSV(ArrayList<String> ids, File crvfile, String diypath) throws IOException {
+
+	void createPath(String diypath) {
 		File path = new File(diypath);
 
 		boolean ex = path.exists();
@@ -249,88 +263,55 @@ public class IkeaFilter {
 		System.out.println(Thread.currentThread().getName() + "创建" + diypath + ex);
 		System.out.println(Thread.currentThread().getName() + "创建" + diypath + "(" + count + ")");
 		count++;
-		BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
-		writer.write("version 1.00" + "\n");
-		writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
-				+ "\n");
-		writer.write("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
-				+ "\n");
-		for (int i = 0; i < ids.size(); i++) {
-			try {
-				captureHtml(ids.get(i));
-				SaveFile(ids.get(i), diypath);
-				SavePic(ids.get(i), 4, diypath);
-				loadFile(new File(diypath + ids.get(i) + ".html"));
-				writer.write("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
-				for (String cell : describtions) {
-					writer.write(cell + "\n");
+	}
+
+	void saveCSV(ArrayList<String> ids, File crvfile, String diypath) {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
+			writer.write("version 1.00" + "\n");
+			writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
+					+ "\n");
+			writer.write("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
+					+ "\n");
+			for (int i = 0; i < ids.size(); i++) {
+				try {
+					captureHtml(ids.get(i));
+					capturetosql();
+					SaveFile(ids.get(i), diypath);
+					SavePic(ids.get(i), 4, diypath);
+					loadFile(new File(diypath + ids.get(i) + ".html"));
+					writer.write("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
+					for (String cell : describtions) {
+						writer.write(cell + "\n");
+					}
+					writer.write("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
+					for (int j = 0; j < pic_id.length; j++)
+						writer.write(product_id + pic_id[j] + "_S4" + ":1:" + j + ":|;");
+					writer.write("\"	\"\"	\"\"	\"\"	\"\"	\"\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					System.out.println(Thread.currentThread().getName() + ids.get(i) + " is not exist[csv]");
 				}
-				writer.write("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
-				for (int j = 0; j < pic_id.length; j++)
-					writer.write(product_id + pic_id[j] + "_S4" + ":1:" + j + ":|;");
-				writer.write("\"	\"\"	\"\"	\"\"	\"\"	\"\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
-			} catch (Exception e) {
-				System.out.println(Thread.currentThread().getName() + ids.get(i) + " is not exist[csv]");
 			}
+			writer.close();
+			System.out.println(Thread.currentThread().getName() + diypath + "'s CRV is OK");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
 		}
-		writer.close();
-		System.out.println(Thread.currentThread().getName() + diypath + "'s CRV is OK");
-
 	}
-}
-
-class GetAnything {
-	ArrayList<String> InfoList = new ArrayList<String>();
-	String Info = new String();
-	String[] PicUrl;
-
-	String geT(String buf, String beginstr, String endstr, String title) {
-		int beginIx = buf.indexOf(beginstr);
-		String beginIndex = beginstr;
-		int beginIxLength = beginIndex.length();
-		int endIx = buf.indexOf(endstr, beginIx);
-		String result = buf.substring(beginIx + beginIxLength, endIx);
-		String tmp = result.replace("<div class=\"designerName\">", "<br />---");
-		String tmp1 = tmp.replace("style=\"display:none\">", "");
-		tmp = tmp1.replace("style=\"display:block\">", "");
-		result = tmp.replace("	", "");
-		tmp = result.replace("<div>", "");
-		result = tmp.replace("</div>", "<br />");
-		String result_f = result.replace(" ", "");
-		// Info=title+ ":" + result_f;
-		Info = result_f;
-		// System.out.println(Info);
-		// InfoList.add(Info);
-		return Info;
-
+	void saveMaster(ArrayList<String> ids, File crvfile, String diypath) {
+//		createPath(diypath);
+		// ================循环==============================
+		for (int i = 0; i < ids.size(); i++) {
+			captureHtml(ids.get(i));
+			capturetosql();
+//			SaveFile(ids.get(i), diypath);
+//			SavePic(ids.get(i), 4, diypath);
+		}
+		// ===================================================
+//		saveCSV(ids, crvfile, diypath);
 	}
-
-	String[] getPicUrl(String buf, String id) {
-
-		int beginIx = buf.indexOf("\"zoom\":[", buf.indexOf("availabilityUrl\":\"/cn/zh/catalog/availability/" + id) - 1500);
-		int endIx = buf.indexOf("]", beginIx);
-		String result = buf.substring(beginIx + "\"zoom\":[".length(), endIx);
-		String result1 = result.replace("\"/PIAimages/", "");
-		result = result1.replace("_S5.JPG\"", "");
-		result1 = result.replace("_S5.jpg\"", "");
-		PicUrl = result1.split(",");
-
-		return PicUrl;
-
-	}
-
-	String getPrice(String buf, String beginstr, String endstr, String title) {
-		int beginIx = buf.indexOf(beginstr);
-		String beginIndex = beginstr;
-		int beginIxLength = beginIndex.length();
-		int endIx = buf.indexOf(endstr, beginIx);
-		String tmp = buf.substring(beginIx + beginIxLength + 5, endIx);
-		String result = tmp.replace("</b>", "");
-		tmp = result.replace(",", "");
-		// System.out.println(result);
-		// InfoList.add(Info);
-		return tmp;
-
-	}
-
 }
