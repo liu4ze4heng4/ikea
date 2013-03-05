@@ -13,12 +13,7 @@ public class MultiFilter extends IkeaFilter {
 		GetMulu getmulu = new GetMulu();
 		String name = getmulu.getmus(url);
 		tmps = getproductids.productlist;
-		for (int i = 0; i < tmps.size(); i++) {
-			SaveFile(tmps.get(i), ".\\" + name + "\\products\\");
-			SavePic(tmps.get(i), 4, ".\\" + name + "\\products\\");
-		}
-
-		saveCSV(tmps, new File(".\\" + name + "\\products.csv"), ".\\" + name + "\\products\\");
+		saveCSV(tmps, new File("E:\\IKEAss\\" + name + "\\products.csv"), "E:\\IKEAss\\" + name + "\\products\\");
 	}
 
 	public static void main(String[] args) {
