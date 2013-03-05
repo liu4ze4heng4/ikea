@@ -28,16 +28,7 @@ public class IkeaFilter {
 	String describtion;
 	String product_id;
 	ArrayList<String> describtions = new ArrayList<String>();
-	// main gui1=new main();
-	// String id="0";
 	String notification = new String("");
-
-	// public void setId(String a)
-	// {
-	// path = new File(".\\"+a); //生成目录
-	// path.mkdir();
-	// }
-
 	public void captureHtml(String id) {
 		System.out.println(Thread.currentThread().getName() + "captureHtml");
 		String strURL = "http://www.ikea.com/cn/zh/catalog/products/" + id + "/";
