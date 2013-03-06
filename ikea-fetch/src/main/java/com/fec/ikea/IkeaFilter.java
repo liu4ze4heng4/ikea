@@ -32,7 +32,7 @@ public class IkeaFilter implements Runnable {
 	ArrayList<String> describtions = new ArrayList<String>();
 	String notification = new String("");
 	ArrayList<String> productlist = new ArrayList<String>();
-	String categoryName=new String();
+	String categoryName=new String("");
 
 	public void captureHtml(String id) {
 		System.out.println(Thread.currentThread().getName() + "captureHtml");
@@ -128,60 +128,61 @@ public class IkeaFilter implements Runnable {
 		// return false;
 		// }
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(diypath + id + ".html"));
-			writer.write("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">" + "\n");
-			writer.write("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>" + "\n");
-			writer.write("<p style=\"width:200px;float:left;margin:30px 15px 0px 0px;\">" + "\n");
-			writer.write(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>" + "\n");
+			Writer writer = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(diypath + id + ".html"),"utf-8"));   
 
-			writer.write("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>" + "\n");
+			writer.write("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">" );
+			writer.write("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>" );
+			writer.write("<p style=\"width:200px;float:left;margin:30px 15px 0px 0px;\">" );
+			writer.write(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>" );
+
+			writer.write("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>" );
 			// writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:20px;background:#FFF;color:#000;width:300px;float:left;\">"
 			// +"\n");
 			// writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:20px;background:#FFF;color:#000;width:300px;float:left;\">"
 			// +"\n");
 
-			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">" + "\n");
+			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">" );
 			if (assembledSize.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + assembledSize + "</span>\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 			}
 			if (keyFeatures.length() >= 15) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + keyFeatures + "</span>" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + keyFeatures + "</span>" );
 			}
 			if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />" );
 			}
 			if (designerThoughts.length() >= 1)
-				writer.write("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />" );
 			if (designer.length() >= 1)
-				writer.write("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />" + "\n");
-			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />" + "\n");
-			writer.write("<span style=\"font-size:14px;\">包装：" + numberOfPackages + "</span><br />" + "\n");
+				writer.write("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />" );
+			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />" );
+			writer.write("<span style=\"font-size:14px;\">包装：" + numberOfPackages + "</span><br />" );
 			if (numberOfPackages.equals("1"))
-				writer.write("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />" );
 			else
-				writer.write("<span style=\"font-size:14px;\">尺寸和重量详见官网</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-size:14px;\">尺寸和重量详见官网</span><br /><br />" );
 			if (environment.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "\n" + "</p>");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />"  + "</p>");
 			}
-			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">" + "\n");
+			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">" );
 			if (goodToKnow.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />" );
 			}
 			if (careInst.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />" );
 			}
 			if (lowestPrice.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />" );
 			}
 			if (custMaterials.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />" + "\n");
-				writer.write("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />" + "\n");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />" );
+				writer.write("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />" );
 			}
 			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
 			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
@@ -261,9 +262,7 @@ public class IkeaFilter implements Runnable {
 
 	void saveCSV(ArrayList<String> ids, File crvfile, String diypath) {
 		try {
-//			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
 
-//			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
 			Writer writer = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(crvfile),"gbk"));   
 			writer.write("version 1.00" + "\n");
 			writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
@@ -277,9 +276,9 @@ public class IkeaFilter implements Runnable {
 					SaveFile(ids.get(i), diypath);
 					SavePic(ids.get(i), 4, diypath);
 					loadFile(new File(diypath + ids.get(i) + ".html"));
-					writer.write("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
+					writer.write("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\""+categoryName+"\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
 					for (String cell : describtions) {
-						writer.write(cell + "\n");
+						writer.write(cell);
 					}
 					writer.write("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
 					for (int j = 0; j < pic_id.length; j++)
