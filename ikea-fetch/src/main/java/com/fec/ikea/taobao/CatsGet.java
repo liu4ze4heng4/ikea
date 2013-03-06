@@ -1,5 +1,8 @@
-package com.fec.ikea;
+package com.fec.ikea.taobao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -8,7 +11,6 @@ import com.taobao.api.response.ItemcatsGetResponse;
 
 public class CatsGet {
 	protected static String url = "http://gw.api.taobao.com/router/rest";
-	// 正式环境需要设置为:http://gw.api.taobao.com/router/rest
 	protected static String appkey = "21402583";
 	protected static String appSecret = "b1e64744762fc12051465563b0a59724";
 
@@ -20,6 +22,7 @@ public class CatsGet {
 		// req.setCids("18957,19562,");
 		ItemcatsGetResponse response = client.execute(req);
 		String tmp = response.getBody();
+		System.out.println(tmp);
 		tmp = tmp.replace("{\"itemcats_get_response\":{\"item_cats\":{\"item_cat\":[{", "").replace("}]}}}", "").replace("},{", "!");
 		String[] results = tmp.split("!");
 		for (int i = 0; i < results.length; i++) {
@@ -36,10 +39,20 @@ public class CatsGet {
 	}
 
 	public static void main(String[] args) {
+//		String url1 = "http://gw.api.taobao.com/router/rest";
+//		TaobaoClient client=new DefaultTaobaoClient(url1, appkey, appSecret);
+//		TopatsItemcatsGetRequest req=new TopatsItemcatsGetRequest();
+//		req.setCids("18957,19562");
+//		req.setOutputFormat("csv");
+//		req.setType(1L);
+//		try {
+//			TopatsItemcatsGetResponse response = client.execute(req);
+//		} catch (ApiException e1) {
+//			e1.printStackTrace();
+//		}
 		try {
 			CatsGet.testCatsGet(50006281L);
 		} catch (ApiException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
