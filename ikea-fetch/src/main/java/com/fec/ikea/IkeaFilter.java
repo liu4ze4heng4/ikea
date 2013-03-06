@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -18,17 +20,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-public class IkeaFilter {
+public class IkeaFilter implements Runnable {
 	public static int count = 0;
 	String buf = new String();
 	GetAnything something = new GetAnything();
-	String title, price, productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment;
-	String goodToKnow, careInst, lowestPrice, custMaterials, product_dian_id, category;
+	String title, price, productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment, goodToKnow, careInst,
+			lowestPrice, custMaterials, product_dian_id, category;
 	String[] pic_id;
 	String describtion;
 	String product_id;
 	ArrayList<String> describtions = new ArrayList<String>();
 	String notification = new String("");
+	ArrayList<String> productlist = new ArrayList<String>();
+	String categoryName=new String();
+
 	public void captureHtml(String id) {
 		System.out.println(Thread.currentThread().getName() + "captureHtml");
 		String strURL = "http://www.ikea.com/cn/zh/catalog/products/" + id + "/";
@@ -101,7 +106,7 @@ public class IkeaFilter {
 		pt.setProductNameProdInfo(productNameProdInfo);
 		pt.setProductTypeProdInfo(productTypeProdInfo);
 		pt.setPrice(new Double(price));
-		System.out.println("==============="+productNameProdInfo+"  "+productTypeProdInfo+"===============");
+		System.out.println("===============" + productNameProdInfo + "  " + productTypeProdInfo + "===============");
 
 		pt.setCategory(category);
 		pd.insert(pt);
@@ -245,10 +250,8 @@ public class IkeaFilter {
 
 	}
 
-
 	void createPath(String diypath) {
 		File path = new File(diypath);
-
 		boolean ex = path.exists();
 		path.mkdirs();
 		System.out.println(Thread.currentThread().getName() + "创建" + diypath + ex);
@@ -258,7 +261,10 @@ public class IkeaFilter {
 
 	void saveCSV(ArrayList<String> ids, File crvfile, String diypath) {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
+//			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
+
+//			BufferedWriter writer = new BufferedWriter(new FileWriter(crvfile));
+			Writer writer = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(crvfile),"gbk"));   
 			writer.write("version 1.00" + "\n");
 			writer.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
 					+ "\n");
@@ -293,16 +299,38 @@ public class IkeaFilter {
 
 		}
 	}
+
 	void saveMaster(ArrayList<String> ids, File crvfile, String diypath) {
-//		createPath(diypath);
+		 createPath(diypath);
 		// ================循环==============================
 		for (int i = 0; i < ids.size(); i++) {
 			captureHtml(ids.get(i));
 			capturetosql();
-//			SaveFile(ids.get(i), diypath);
-//			SavePic(ids.get(i), 4, diypath);
+//			 SaveFile(ids.get(i), diypath);
+//			 SavePic(ids.get(i), 4, diypath);
 		}
 		// ===================================================
-//		saveCSV(ids, crvfile, diypath);
+		 saveCSV(ids, crvfile, diypath);
 	}
+
+//	public void go(String url) throws IOException {
+//		GetProductIds getproductids = new GetProductIds();		
+//		GetMulu getmulu = new GetMulu();
+//		String categoryName = getmulu.getmus(url);
+//		ArrayList<String> productlist = new ArrayList<String>();
+//		productlist = getproductids.geT(url);
+//		int i2=productlist.size()/2;
+//		ArrayList<String> productlist1=(ArrayList<String>) productlist.subList(0, i2);
+//		ArrayList<String> productlist2=(ArrayList<String>) productlist.subList(i2+1, productlist.size()-1);
+//
+//		// =========================在下面方法中选择执行的操作====================
+//		saveMaster(productlist, new File("E:\\IKEAss\\" + categoryName + "\\products.csv"), "E:\\IKEAss\\" + categoryName + "\\products\\");
+//		 //====================================================================
+//	}
+
+	public void run() {
+		// =========================在下面方法中选择执行的操作====================
+				saveMaster(productlist, new File("E:\\IKEAa\\" + categoryName + "\\products.csv"), "E:\\IKEAa\\" + categoryName + "\\products\\");
+				// ====================================================================
+			}
 }

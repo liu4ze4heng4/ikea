@@ -52,7 +52,7 @@ public class GetProductIds {
 		}
 	}
 
-	void geT(String url) {
+	ArrayList<String> geT(String url) {
 		HtmlCatch(url);
 		int index = 0;
 		int x = 1;
@@ -75,13 +75,15 @@ public class GetProductIds {
 		// System.out.println(productlist);
 		System.out.println(Thread.currentThread().getName() + "找到" + productlist.size() + "个产品");
 		GetExtraProductIds getExtraProductIds = new GetExtraProductIds();
-		getExtraProductIds.geT(url);
-		productlist.addAll(getExtraProductIds.productlist);
+
+		productlist.addAll(getExtraProductIds.geT(url));
 		// System.out.println(productlist.size()+"2");
 		productset.addAll(productlist);
 		productlist.clear();
 		productlist.addAll(productset);
 		System.out.println(Thread.currentThread().getName() + "共找到" + productlist.size() + "个产品@" + url);
+		return productlist;
+
 	}
 
 	public static void main(String[] args) {

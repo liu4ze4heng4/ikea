@@ -1,9 +1,10 @@
 ﻿package com.fec.ikea;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class GetExtraProductIds extends GetProductIds {
-	void geT(String url) {
+	ArrayList<String> geT(String url) {
 		HtmlCatch(url);
 		int index = 10;
 		String result;
@@ -32,6 +33,7 @@ public class GetExtraProductIds extends GetProductIds {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return productlist;
 	}
 
 	public static void main(String[] args) {

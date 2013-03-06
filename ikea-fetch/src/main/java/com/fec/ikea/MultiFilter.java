@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class MultiFilter extends IkeaFilter {
 	ArrayList<String> tmps = new ArrayList<String>();
 
-	void go(String url) throws IOException {
+	public void go(String url) throws IOException {
 		GetProductIds getproductids = new GetProductIds();
 		getproductids.geT(url);
 		GetMulu getmulu = new GetMulu();

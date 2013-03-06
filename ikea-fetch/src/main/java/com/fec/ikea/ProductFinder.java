@@ -1,7 +1,9 @@
 ﻿package com.fec.ikea;
 
+import java.util.ArrayList;
+
 public class ProductFinder extends GetProductIds {
-	void geT(String url) {
+	ArrayList<String> geT(String url) {
 		HtmlCatch(url);
 		int index = 20000;
 		try {
@@ -31,6 +33,7 @@ public class ProductFinder extends GetProductIds {
 		productlist.addAll(productset);
 		System.out.println(productlist.get(152));
 		System.out.println("找到" + productlist.size() + "个产品目录");
+		return productlist;
 	}
 
 	public static void main(String[] args) {

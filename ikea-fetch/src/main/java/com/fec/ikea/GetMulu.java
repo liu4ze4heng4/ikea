@@ -14,7 +14,8 @@ public class GetMulu extends GetProductIds {
 		beginIxLength = beginstr.length();
 		endIx = html.indexOf("\" />", beginIx);
 		String category = html.substring(beginIx + beginIxLength, endIx);
-		String result = category + "\\" + mulu;
+//		String result = category + "\\" + mulu;
+		String result =  mulu;
 		System.out.println(Thread.currentThread().getName() + "创建" + result);
 		return result;
 	}

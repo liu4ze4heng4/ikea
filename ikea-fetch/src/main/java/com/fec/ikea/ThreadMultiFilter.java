@@ -1,25 +1,16 @@
 ﻿package com.fec.ikea;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ThreadMultiFilter extends IkeaFilter implements Runnable {
+public class ThreadMultiFilter implements Runnable {
 	public static ArrayList<String> urls = new ArrayList<String>();
 	public static int index = 0;
 
-	public void go(String url) throws IOException {
-		GetProductIds getproductids = new GetProductIds();
-		getproductids.geT(url);
-		GetMulu getmulu = new GetMulu();
-		String name = getmulu.getmus(url);
-		ArrayList<String> tmps = new ArrayList<String>();
-		tmps = getproductids.productlist;
-		
-//=========================在下面方法中选择执行的操作====================
-		saveMaster(tmps, new File("E:\\IKEAss\\" + name + "\\products.csv"), "E:\\IKEAss\\" + name + "\\products\\");
-//====================================================================
-	}
+	
+//	public void duoSave() implements Runnable{
+//		
+//	}
 
 	public void run() {
 
@@ -28,7 +19,8 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 			if (i != 9999) {
 				String url = urls.get(i);
 				try {
-					go(url);
+					MainDrive md=new MainDrive();
+					md.go(url);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -51,7 +43,7 @@ public class ThreadMultiFilter extends IkeaFilter implements Runnable {
 		finder.geT("http://www.ikea.com/cn/zh/catalog/allproducts/");
 		urls = finder.productlist;
 
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= 5; i++) {
 			ThreadMultiFilter a1 = new ThreadMultiFilter();
 			Thread t1 = new Thread(a1);
 			t1.setName("t" + i + ":");
