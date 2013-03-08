@@ -9,17 +9,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CaptureHtml {
+	static String buf = new String();
+
 
 	public static String captureHtml(String url0) {
-		String content = null;
 		String strURL = url0;
 		URL url;
 		try {
 			url = new URL(strURL);
-			HttpURLConnection httpConn = (HttpURLConnection) url
-					.openConnection();
-			InputStreamReader input = new InputStreamReader(
-					httpConn.getInputStream(), "utf-8");
+			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+			InputStreamReader input = new InputStreamReader(httpConn.getInputStream(), "utf-8");
 			BufferedReader bufReader = new BufferedReader(input);
 			String line = "";
 			StringBuilder contentBuf = new StringBuilder();
@@ -27,19 +26,20 @@ public class CaptureHtml {
 				contentBuf.append(line);
 			}
 
-			content = contentBuf.toString();
+			buf = contentBuf.toString();
 
 		} catch (ConnectException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			 e.printStackTrace();
+			captureHtml(url0);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			 e.printStackTrace();
 		}
-		return content;
+		return buf;
 	}
 }

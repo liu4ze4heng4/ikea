@@ -21,7 +21,7 @@ public class MainDriver implements Runnable {
 				String[] piNc=pis.get(i).split("!");
 					Product pd = new Product(piNc[0],piNc[1]);
 					pd.toCSV("e:\\ikea234\\91\\");
-				
+//				pd.toSQL(); 
 			}
 			else break;
 		}
