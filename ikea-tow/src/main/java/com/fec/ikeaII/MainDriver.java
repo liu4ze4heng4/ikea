@@ -20,8 +20,8 @@ public class MainDriver implements Runnable {
 			if (i != 9999) {
 				String[] piNc=pis.get(i).split("!");
 					Product pd = new Product(piNc[0],piNc[1]);
-					pd.toCSV("e:\\ikea234\\91\\");
-//				pd.toSQL(); 
+//					pd.toCSV("e:\\ikea234\\91\\");
+				pd.toSQL(); 
 			}
 			else break;
 		}
@@ -41,7 +41,7 @@ public class MainDriver implements Runnable {
 		
 		System.out.println(pis.size());
 
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= 20; i++) {
 			MainDriver md = new MainDriver();
 			Thread t1 = new Thread(md);
 			t1.setName("t" + i + ":");
