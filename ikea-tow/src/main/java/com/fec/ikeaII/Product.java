@@ -289,7 +289,7 @@ if(csvfile.exists()==false){
 
 	}
 
-	public Product(String id) {
+	public Product(String id,String cate) {
 		buf = CaptureHtml.captureHtml("http://www.ikea.com/cn/zh/catalog/products/" + id + "/");
 		GetAnything something = new GetAnything();
 		title = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
@@ -310,6 +310,7 @@ if(csvfile.exists()==false){
 		product_id = id;
 		product_dian_id = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
 		pic_id = something.getPicUrl(buf, product_id);
+		category=cate;
 
 	}
 
@@ -318,7 +319,7 @@ if(csvfile.exists()==false){
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("90222474");
+		Product p = new Product("90222474","");
 		p.toSQL();
 		p.toFile("E:\\IKEA123\\");
 		p.toCSV("E:\\IKEA123\\");

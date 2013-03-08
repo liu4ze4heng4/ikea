@@ -44,8 +44,7 @@ public class ProductList {
 		return categoryUrls;
 	}
 
-	public String getCategoryName(String categoryUrl) {
-		String html = CaptureHtml.captureHtml(categoryUrl);
+	private String getCategoryName(String html) {
 		int beginIx = html.indexOf("IRWStats.subCategoryLocal\" content=\"");
 		String beginstr = "IRWStats.subCategoryLocal\" content=\"";
 		int beginIxLength = beginstr.length();
@@ -63,6 +62,7 @@ public class ProductList {
 
 	public ArrayList<String> getProductIds(String categoryUrl) {
 		String html = CaptureHtml.captureHtml(categoryUrl);
+		String cn=getCategoryName(html);
 		int index = 0;
 		int x = 1;
 		try {
@@ -74,7 +74,7 @@ public class ProductList {
 				int beginIxLength = beginstr.length();
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String result = html.substring(beginIx + beginIxLength, endIx);
-				// System.out.println(result);
+				result=result+"!"+cn;
 				productIds.add(result);
 				index = endIx;
 				x++;
@@ -83,19 +83,21 @@ public class ProductList {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		productIds.addAll(getExtraProductUrls(categoryUrl));
-		// System.out.println(productlist.size()+"2");
+		productIds.addAll(getExtraProductUrls(html));
 		HashSet<String> productUrlSet = new HashSet<String>();
 		productUrlSet.addAll(productIds);
 		productIds.clear();
 		productIds.addAll(productUrlSet);
-		System.out.println(Thread.currentThread().getName() + "共找到" + productIds.size() + "个产品@" + getCategoryName(categoryUrl));
+		System.out.println(Thread.currentThread().getName() + "共找到" + productIds.size() + "个产品@" + cn);
 		return productIds;
 	}
 
-	private ArrayList<String> getExtraProductUrls(String categoryUrl) {
-		String html = CaptureHtml.captureHtml(categoryUrl);
+	private ArrayList<String> getExtraProductUrls(String html) {
+		
 		ArrayList<String> extraProductUrls = new ArrayList<String>();
+		ArrayList<String> extraProductUrlsNcate=new ArrayList<String>();
+		String cn=getCategoryName(html);
+
 		int index = 10;
 		String result;
 		String[] results;
@@ -111,7 +113,12 @@ public class ProductList {
 				if (tmp.length() != 0) {
 					result = tmp.replace("\"", "");
 					results = result.split(",");
+
 					Collections.addAll(extraProductUrls, results);
+					String element=new String();
+					for(int i=0;i<extraProductUrls.size();i++)
+					{element=extraProductUrls.get(i)+"!"+cn;
+					extraProductUrlsNcate.add(element);}
 				}
 				index = endIx;
 			}
@@ -120,7 +127,16 @@ public class ProductList {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return extraProductUrls;
+		return extraProductUrlsNcate;
 	}
 
+	public static void main(String[] args) {
+		ProductList pl = new ProductList();
+		ArrayList<String> cu = pl.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		System.out.println(pl.getProductIds(cu.get(1)));
+		System.out.println(CaptureHtml.captureHtml(cu.get(1)));
+		
+
+			
 }
+	}

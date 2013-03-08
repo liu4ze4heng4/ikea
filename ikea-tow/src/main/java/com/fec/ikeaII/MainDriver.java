@@ -18,8 +18,9 @@ public class MainDriver implements Runnable {
 		while (true) {
 			int i = getindex();
 			if (i != 9999) {
-					Product pd = new Product(pis.get(i));
-					pd.toCSV("e:\\ikea234\\9\\");
+				String[] piNc=pis.get(i).split("!");
+					Product pd = new Product(piNc[0],piNc[1]);
+					pd.toCSV("e:\\ikea234\\91\\");
 				
 			}
 			else break;
@@ -30,11 +31,14 @@ public class MainDriver implements Runnable {
 		ProductList pl = new ProductList();
 		ArrayList<String> cu = pl.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
 		for(int j=0;j<cu.size();j++)
-		pis.addAll(pl.getProductIds(cu.get(j)));
+		{pis.addAll(pl.getProductIds(cu.get(j)));
+//		System.out.println(pis.get(0));
+		}
 		HashSet<String> piSet= new HashSet<String>();
 		piSet.addAll(pis);
 		pis.clear();
 		pis.addAll(piSet);
+		
 		System.out.println(pis.size());
 
 		for (int i = 0; i <= 10; i++) {
