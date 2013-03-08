@@ -88,6 +88,6 @@ public class GetProductIds {
 
 	public static void main(String[] args) {
 		GetProductIds get1 = new GetProductIds();
-		get1.geT("http://www.ikea.com/cn/zh/catalog/categories/departments/bathroom/20490/");
+		get1.geT("http://www.ikea.com/cn/zh/catalog/categories/departments/childrens_ikea/18723/");
 	}
 }

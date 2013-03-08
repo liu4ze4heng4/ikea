@@ -12,8 +12,8 @@ public class CaptureHtml {
 	static String buf = new String();
 
 
-	public static String captureHtml(String id) {
-		String strURL = "http://www.ikea.com/cn/zh/catalog/products/" + id + "/";
+	public static String captureHtml(String url0) {
+		String strURL = url0;
 		URL url;
 		try {
 			url = new URL(strURL);
@@ -30,19 +30,15 @@ public class CaptureHtml {
 
 		} catch (ConnectException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			System.out.println(Thread.currentThread().getName() + id + "³¬Ê±´íÎó");
-			captureHtml(id);
+			 e.printStackTrace();
+			captureHtml(url0);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			// captureHtml(id);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			System.out.println(Thread.currentThread().getName() + id + "IO´íÎó");
-			// captureHtml(id);
+			 e.printStackTrace();
 		}
 		return buf;
 	}
