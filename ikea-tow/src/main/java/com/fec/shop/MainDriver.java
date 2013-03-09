@@ -2,6 +2,7 @@ package com.fec.shop;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public class MainDriver implements Runnable {
 	public static ArrayList<String> pis = new ArrayList<String>();
 	public static int index = 0;
 	static Map<String, List<TaobaoProduct>> allTBPt;
+	
+	static List<String>  notInTB=new ArrayList<String>();
 
 	public static synchronized int getindex() {
 		if (index < pis.size()) {
@@ -30,12 +33,16 @@ public class MainDriver implements Runnable {
 				String[] piNc = pis.get(i).split("!");
 				List<TaobaoProduct> products = allTBPt.get(piNc[1]);
 				StringBuilder TBcode = new StringBuilder();
-				for (TaobaoProduct taobaoProduct : products) {
-					TBcode.append(taobaoProduct.getCid() + ",");
+				if(products==null){
+					notInTB.add(piNc[1]);
+				}else{
+					for (TaobaoProduct taobaoProduct : products) {
+						TBcode.append(taobaoProduct.getCid() + ",");
+					}
 				}
 				Product pd = new Product(piNc[0], TBcode.toString());
-				pd.toCSV("e:\\ikea234\\91\\");
-				// pd.toSQL();
+				pd.toCSV("e:\\ikea234\\912\\");
+//				 pd.toSQL();
 			} else
 				break;
 		}
@@ -43,8 +50,11 @@ public class MainDriver implements Runnable {
 
 	public static void main(String[] args) {
 		ProductList pl = new ProductList();
+		//获取类别信息
 		ArrayList<String> cu = CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		//获取淘宝类别信息
 		allTBPt = OurCats.getTaobaoCats();
+		//
 		for (int j = 0; j < cu.size(); j++) {
 			pis.addAll(pl.getProductIds(cu.get(j)));
 			// System.out.println(pis.get(0));
@@ -56,11 +66,27 @@ public class MainDriver implements Runnable {
 
 		System.out.println(pis.size());
 
-		for (int i = 0; i <= 10; i++) {
+		List<Thread> threads=new LinkedList<Thread>();
+		for (int i = 0; i <= 15; i++) {
 			MainDriver md = new MainDriver();
 			Thread t1 = new Thread(md);
+			threads.add(t1);
 			t1.setName("t" + i + ":");
 			t1.start();
+		}
+		
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("all thread finish!!!!");
+		
+		for (String productName : notInTB) {
+			System.out.println(productName);
 		}
 	}
 }
