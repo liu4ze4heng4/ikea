@@ -51,6 +51,7 @@ public class OurCats {
 				tbp.setParent_cid(product.getString("parent_cid"));
 				tbp.setSort_order(product.getString("sort_order"));
 				tbp.setType(product.getString("type"));
+				if("0".equals(tbp.getParent_cid()))continue;
 				tbpList = tbProducts.get(tbp.getName());
 				if (tbpList == null) {
 					tbpList = new ArrayList<TaobaoProduct>(1);
