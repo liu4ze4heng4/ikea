@@ -7,7 +7,7 @@ public class MainDriver implements Runnable {
 	public static ArrayList<String> pis = new ArrayList<String>();
 	public static int index = 0;
 
-	synchronized int getindex() {
+	public static synchronized int getindex() {
 		if (index < pis.size()) {
 			return index++;
 		} else
@@ -22,14 +22,17 @@ public class MainDriver implements Runnable {
 					Product pd = new Product(piNc[0],piNc[1]);
 //					pd.toCSV("e:\\ikea234\\91\\");
 				pd.toSQL(); 
+
 			}
 			else break;
 		}
 	}
 
 	public static void main(String[] args) {
-		ProductList pl = new ProductList();
-		ArrayList<String> cu = pl.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		
+		CategoryList cl = new CategoryList();
+		ProductList pl =new ProductList();
+		ArrayList<String> cu = cl.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
 		for(int j=0;j<cu.size();j++)
 		{pis.addAll(pl.getProductIds(cu.get(j)));
 //		System.out.println(pis.get(0));
