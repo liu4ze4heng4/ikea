@@ -1,4 +1,4 @@
-package com.fec.ikeaII;
+package com.fec.ikea;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -13,12 +13,14 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 
 public class Product {
 	String buf;
 	double price;
-	String title, productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment, goodToKnow, careInst,
-			lowestPrice, custMaterials, product_dian_id, category;
+	String title, productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages,
+			productInformation, environment, goodToKnow, careInst, lowestPrice, custMaterials, product_dian_id, category;
 	String[] pic_id;
 	String describtion;
 	String product_id;
@@ -75,7 +77,8 @@ public class Product {
 		if (path.exists() == false)
 			path.mkdirs();
 		try {
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(diypath + "products\\" + product_id + ".html"), "utf-8"));
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(diypath + "products\\" + product_id + ".html"),
+					"utf-8"));
 
 			writer.write("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">");
 			writer.write("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>");
@@ -149,47 +152,58 @@ public class Product {
 		describtion.append(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>");
 
 		describtion.append("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>");
-		describtion.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
+		describtion
+				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 		if (assembledSize.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 		}
 		if (keyFeatures.length() >= 15) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + keyFeatures + "</span>");
 		}
 		if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
 		}
 		if (designerThoughts.length() >= 1)
 			describtion.append("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />");
 		if (designer.length() >= 1)
 			describtion.append("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />");
-		describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
+		describtion
+				.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
 		describtion.append("<span style=\"font-size:14px;\">包装：" + numberOfPackages + "</span><br />");
 		if (numberOfPackages.equals("1"))
 			describtion.append("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />");
 		else
 			describtion.append("<span style=\"font-size:14px;\">尺寸和重量详见官网</span><br /><br />");
 		if (environment.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "</p>");
 		}
-		describtion.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
+		describtion
+				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 		if (goodToKnow.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />");
 		}
 		if (careInst.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />");
 		}
 		if (lowestPrice.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />");
 		}
 		if (custMaterials.length() >= 1) {
-			describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
+			describtion
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />");
 		}
 		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
@@ -246,33 +260,34 @@ public class Product {
 		pd.insert(this);
 	}
 
-	public void toCSV(String diypath) {
+	public void toCSV(String diypath, Map<String, List<TaobaoProduct>> allTBPt) {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
 			path.mkdirs();
 		toPic(4, diypath);
-		File csvfile = new File(diypath + "//" +  "products.csv");
-if(csvfile.exists()==false){
-	try {
-	Writer initWriter = new BufferedWriter(new FileWriter(csvfile, true));
-	
-		initWriter.write("version 1.00" + "\n");
-		initWriter.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
-				+ "\n");
-		initWriter.write("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
-				+ "\n");
-		initWriter.close();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	
-}
+		File csvfile = new File(diypath + "//" + "products.csv");
+		if (csvfile.exists() == false) {
+			try {
+				Writer initWriter = new BufferedWriter(new FileWriter(csvfile, true));
+
+				initWriter.write("version 1.00" + "\n");
+				initWriter
+						.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
+								+ "\n");
+				initWriter
+						.write("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
+								+ "\n");
+				initWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		try {
 			Writer writer = new BufferedWriter(new FileWriter(csvfile, true));
 
-			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"北京\"	\"北京\"	1	" + price
-					+ "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
+			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category
+					+ "\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
 			writer.append(getDescribtion().toString());
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
@@ -289,15 +304,17 @@ if(csvfile.exists()==false){
 
 	}
 
-	public Product(String id,String cate) {
+	public Product(String id, String cate) {
 		buf = CaptureHtml.captureHtml("http://www.ikea.com/cn/zh/catalog/products/" + id + "/");
 		GetAnything something = new GetAnything();
 		title = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 		price = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
 		productNameProdInfo = something.geT(buf, "id=\"productNameProdInfo\">", "</div>", "productNameProdInfo");
-		productTypeProdInfo = something.geT(buf, "<div class=\"prodInfoRow\"  id=\"productTypeProdInfo\">", "</div>", "productTypeProdInfo");
+		productTypeProdInfo = something
+				.geT(buf, "<div class=\"prodInfoRow\"  id=\"productTypeProdInfo\">", "</div>", "productTypeProdInfo");
 		assembledSize = something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize");
-		keyFeatures = something.geT(buf, "<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">", "<div id=\"dessection\" class=\"productInformation prodInfoSub\"", "keyFeatures");
+		keyFeatures = something.geT(buf, "<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">",
+				"<div id=\"dessection\" class=\"productInformation prodInfoSub\"", "keyFeatures");
 		designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
 		designer = something.geT(buf, "<div id=\"designer\" class=\"texts\">", "</div>", "designer");
 		numberOfPackages = something.geT(buf, "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
@@ -305,12 +322,13 @@ if(csvfile.exists()==false){
 		environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
 		goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
 		careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
-		lowestPrice = something.geT(buf, "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">", "</div>", "lowestPrice");
+		lowestPrice = something.geT(buf, "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">", "</div>",
+				"lowestPrice");
 		custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
 		product_id = id;
 		product_dian_id = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
 		pic_id = something.getPicUrl(buf, product_id);
-		category=cate;
+		category = cate;
 
 	}
 
@@ -319,11 +337,11 @@ if(csvfile.exists()==false){
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("90222474","");
+		Product p = new Product("90222474", "");
 		p.toSQL();
 		p.toFile("E:\\IKEA123\\");
-		p.toCSV("E:\\IKEA123\\");
+//		p.toCSV("E:\\IKEA123\\");
 		p.toPic(4, "E:\\IKEA123\\");
-		System.out.println("!");
+//		System.out.println("!");
 	}
 }

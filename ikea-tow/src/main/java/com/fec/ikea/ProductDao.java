@@ -1,4 +1,4 @@
-package com.fec.ikeaII;
+package com.fec.ikea;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
