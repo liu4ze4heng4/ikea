@@ -28,8 +28,13 @@ public class MainDriver implements Runnable {
 			int i = getindex();
 			if (i != 9999) {
 				String[] piNc = pis.get(i).split("!");
-				Product pd = new Product(piNc[0], piNc[1]);
-				pd.toCSV("e:\\ikea234\\91\\", allTBPt);
+				List<TaobaoProduct> products = allTBPt.get(piNc[1]);
+				StringBuilder TBcode = new StringBuilder();
+				for (TaobaoProduct taobaoProduct : products) {
+					TBcode.append(taobaoProduct.getCid() + ",");
+				}
+				Product pd = new Product(piNc[0], TBcode.toString());
+				pd.toCSV("e:\\ikea234\\91\\");
 				// pd.toSQL();
 			} else
 				break;

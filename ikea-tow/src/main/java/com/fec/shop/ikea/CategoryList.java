@@ -3,12 +3,14 @@ package com.fec.shop.ikea;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.fec.shop.util.HtmlUtil;
+
 
 public class CategoryList {
 
 	public static ArrayList<String> getAllCategoryUrls(String main_url) {
 		ArrayList<String> categoryUrls = new ArrayList<String>();
-		String html = CaptureHtml.captureHtml(main_url);
+		String html = HtmlUtil.getHtmlContent(main_url);
 		int index = 20000;
 		try {
 			while (true) {

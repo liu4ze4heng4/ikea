@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.fec.shop.dao.ProductDao;
-import com.fec.shop.ikea.CaptureHtml;
 import com.fec.shop.ikea.GetAnything;
+import com.fec.shop.util.HtmlUtil;
 
 public class Product {
 	String buf;
@@ -264,7 +264,7 @@ public class Product {
 		pd.insert(this);
 	}
 
-	public void toCSV(String diypath, Map<String, List<TaobaoProduct>> allTBPt) {
+	public void toCSV(String diypath) {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
 			path.mkdirs();
@@ -309,7 +309,7 @@ public class Product {
 	}
 
 	public Product(String id, String cate) {
-		buf = CaptureHtml.captureHtml("http://www.ikea.com/cn/zh/catalog/products/" + id + "/");
+		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + id + "/");
 		GetAnything something = new GetAnything();
 		title = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 		price = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");

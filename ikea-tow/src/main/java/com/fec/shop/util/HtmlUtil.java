@@ -1,4 +1,4 @@
-package com.fec.shop.ikea;
+package com.fec.shop.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CaptureHtml {
+public class HtmlUtil {
 
-	public static String captureHtml(String url0) {
+	public static String getHtmlContent(String url0) {
 		String content = null;
 		String strURL = url0;
 		URL url;

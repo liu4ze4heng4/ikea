@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fec.shop.util.HtmlUtil;
+
 
 public class ProductList {
 	ArrayList<String> productIds = new ArrayList<String>();
@@ -26,7 +28,7 @@ public class ProductList {
 	}
 
 	public ArrayList<String> getProductIds(String categoryUrl) {
-		String html = CaptureHtml.captureHtml(categoryUrl);
+		String html = HtmlUtil.getHtmlContent(categoryUrl);
 		String cn=getCategoryName(html);
 		int index = 0;
 		int x = 1;
