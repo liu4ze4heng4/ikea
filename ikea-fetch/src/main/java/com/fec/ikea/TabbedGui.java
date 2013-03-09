@@ -129,7 +129,7 @@ public class TabbedGui extends JFrame {
 				//
 				// }
 
-				demo.saveMaster(tmps, new File("E:\\IKEAa\\" + "\\products.csv"), "E:\\IKEAa\\" +  "\\products\\");
+				demo.saveMaster(tmps, new File("f:\\IKEAa\\" + "\\products.csv"), "f:\\IKEAa\\" +  "\\products\\");
 
 				// error.setText("成功获取！");
 				frame.repaint();

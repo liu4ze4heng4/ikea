@@ -5,7 +5,6 @@ import java.util.HashSet;
 
 import com.fec.shop.util.HtmlUtil;
 
-
 public class CategoryList {
 
 	public static ArrayList<String> getAllCategoryUrls(String main_url) {
@@ -42,5 +41,9 @@ public class CategoryList {
 		// System.out.println(categoryUrls.get(152));
 		System.out.println("找到" + categoryUrls.size() + "个产品目录");
 		return categoryUrls;
+	}
+
+	public static void main(String[] args) {
+		CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
 	}
 }

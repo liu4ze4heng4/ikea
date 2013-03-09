@@ -41,7 +41,7 @@ public class MainDriver implements Runnable {
 					}
 				}
 				Product pd = new Product(piNc[0], TBcode.toString());
-				pd.toCSV("e:\\ikea234\\912\\");
+				pd.toCSV("g:\\ikea\\");
 //				 pd.toSQL();
 			} else
 				break;
