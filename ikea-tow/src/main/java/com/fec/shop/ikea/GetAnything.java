@@ -1,13 +1,13 @@
-package com.fec.ikea;
+package com.fec.shop.ikea;
 
 import java.util.ArrayList;
 
-class GetAnything {
+public class GetAnything {
 	ArrayList<String> InfoList = new ArrayList<String>();
 	String Info = new String();
 	String[] PicUrl;
 
-	String geT(String buf, String beginstr, String endstr, String title) {
+	public String geT(String buf, String beginstr, String endstr, String title) {
 		int beginIx = buf.indexOf(beginstr);
 		String beginIndex = beginstr;
 		int beginIxLength = beginIndex.length();
@@ -28,7 +28,7 @@ class GetAnything {
 
 	}
 
-	String[] getPicUrl(String buf, String id) {
+	public String[] getPicUrl(String buf, String id) {
 
 		int beginIx = buf.indexOf("\"zoom\":[", buf.indexOf("availabilityUrl\":\"/cn/zh/catalog/availability/" + id) - 1500);
 		int endIx = buf.indexOf("]", beginIx);
@@ -42,7 +42,7 @@ class GetAnything {
 
 	}
 
-	double getPrice(String buf, String beginstr, String endstr, String title) {
+	public double getPrice(String buf, String beginstr, String endstr, String title) {
 		int beginIx = buf.indexOf(beginstr);
 		String beginIndex = beginstr;
 		int beginIxLength = beginIndex.length();
@@ -50,13 +50,14 @@ class GetAnything {
 		String tmp = buf.substring(beginIx + beginIxLength + 5, endIx);
 		String result = tmp.replace("</b>", "");
 		tmp = result.replace(",", "");
-		double price=(new Double(tmp));
+		double price = (new Double(tmp));
 		// System.out.println(result);
 		// InfoList.add(Info);
 		return price;
 
 	}
-	String getCategory(String buf){
+
+	public String getCategory(String buf) {
 		int beginIx = buf.indexOf("<meta name=\"category_name\" content=\"");
 		int endIx = buf.indexOf("\" />", beginIx);
 		String tmp = buf.substring(beginIx + "<meta name=\"category_name\" content=\"".length(), endIx);

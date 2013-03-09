@@ -1,4 +1,4 @@
-package com.fec.ikea;
+package com.fec.shop.ikea;
 
 import java.io.BufferedReader;
 import java.io.IOException;

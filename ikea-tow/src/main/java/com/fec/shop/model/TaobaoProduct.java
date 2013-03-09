@@ -1,4 +1,4 @@
-package com.fec.ikea;
+package com.fec.shop.model;
 
 public class TaobaoProduct {
 	String cid;

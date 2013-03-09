@@ -1,4 +1,4 @@
-package com.fec.ikea;
+package com.fec.shop.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.fec.shop.model.Product;
 
 public class ProductDao {
 	public Connection getConnection() throws SQLException, java.lang.ClassNotFoundException {

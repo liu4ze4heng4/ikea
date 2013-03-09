@@ -1,4 +1,4 @@
-package com.fec.ikea;
+package com.fec.shop.model;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -15,6 +15,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+
+import com.fec.shop.dao.ProductDao;
+import com.fec.shop.ikea.CaptureHtml;
+import com.fec.shop.ikea.GetAnything;
 
 public class Product {
 	String buf;

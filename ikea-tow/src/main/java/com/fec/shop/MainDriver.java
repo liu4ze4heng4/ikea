@@ -1,9 +1,15 @@
-package com.fec.ikea;
+package com.fec.shop;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import com.fec.shop.ikea.CategoryList;
+import com.fec.shop.ikea.ProductList;
+import com.fec.shop.model.Product;
+import com.fec.shop.model.TaobaoProduct;
+import com.fec.shop.taobao.OurCats;
 
 public class MainDriver implements Runnable {
 	public static ArrayList<String> pis = new ArrayList<String>();
@@ -23,7 +29,7 @@ public class MainDriver implements Runnable {
 			if (i != 9999) {
 				String[] piNc = pis.get(i).split("!");
 				Product pd = new Product(piNc[0], piNc[1]);
-				pd.toCSV("e:\\ikea234\\91\\",allTBPt);
+				pd.toCSV("e:\\ikea234\\91\\", allTBPt);
 				// pd.toSQL();
 			} else
 				break;
@@ -32,7 +38,7 @@ public class MainDriver implements Runnable {
 
 	public static void main(String[] args) {
 		ProductList pl = new ProductList();
-		ArrayList<String> cu = pl.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		ArrayList<String> cu = CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
 		allTBPt = OurCats.getTaobaoCats();
 		for (int j = 0; j < cu.size(); j++) {
 			pis.addAll(pl.getProductIds(cu.get(j)));
