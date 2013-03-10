@@ -32,6 +32,7 @@ public class MainDriver implements Runnable {
 			int i = getindex();
 			if (i != 9999) {
 				String[] piNc = pis.get(i).split("!");
+				System.out.println(Thread.currentThread().getName() + "-抓取" + i + "个产品：" + piNc[0]);
 				Product pd = new Product(piNc[0], piNc[1]);
 				pd.toCSV("g:\\ikea\\");
 				// pd.toSQL();
@@ -63,7 +64,7 @@ public class MainDriver implements Runnable {
 			pis.add(productId + "!" + productTBcat);
 		}
 
-		System.out.println(pis.size());
+		System.out.println("一共" + pis.size() + "产品");
 
 		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {
