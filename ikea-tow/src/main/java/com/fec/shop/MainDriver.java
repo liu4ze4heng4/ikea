@@ -60,7 +60,6 @@ public class MainDriver implements Runnable {
 			String productcat = productMap.get(productId);
 			Category cat = cats.get(productcat);
 			String productTBcat = cat == null ? " " : cat.getTBCode();
-			System.out.println(productId + "!" + productTBcat);
 			pis.add(productId + "!" + productTBcat);
 		}
 

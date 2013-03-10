@@ -290,9 +290,9 @@ public class Product {
 		try {
 			Writer writer = new BufferedWriter(new FileWriter(csvfile, true));
 
-			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category
-					+ "\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	0	2	0	0	0	0	1	2	0	\"\"	\"");
-			writer.append(getDescribtion().toString());
+			writer.append("\"宜家代购" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]宜家家居" + "\"	50006298	\"" + category
+					+ "\"	1	\"北京\"	\"北京\"	1	" + price + "	\"\"	1	52	2	0	0	0	0	1	2	0	\"\"	\"");
+			writer.append(getDescribtion().toString().replaceAll("\"", "'"));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
 			for (int j = 0; j < pic_id.length; j++)
