@@ -28,8 +28,7 @@ public class IkeaProductHelper {
 				int beginIxLength = beginstr.length();
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String productName = html.substring(beginIx + beginIxLength, endIx);
-				String result = productName + "!" + cn;
-				productMap.put(productName, result);
+				productMap.put(productName, cn);
 				index = endIx;
 				x++;
 			}

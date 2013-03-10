@@ -18,8 +18,6 @@ public class MainDriver implements Runnable {
 	public static ArrayList<String> pis = new ArrayList<String>();
 	public static int index = 0;
 
-	public static Map<String, Category> cats;
-
 	static List<String> notInTB = new ArrayList<String>();
 
 	public static synchronized int getindex() {
@@ -34,14 +32,7 @@ public class MainDriver implements Runnable {
 			int i = getindex();
 			if (i != 9999) {
 				String[] piNc = pis.get(i).split("!");
-				Category cat = cats.get(piNc[1]);
-				String tbCode = "";
-				if (cat == null) {
-					notInTB.add(piNc[1]);
-				} else {
-					tbCode = cat.getTBCode();
-				}
-				Product pd = new Product(piNc[0], tbCode);
+				Product pd = new Product(piNc[0], piNc[1]);
 				pd.toCSV("g:\\ikea\\");
 				// pd.toSQL();
 			} else
@@ -51,11 +42,11 @@ public class MainDriver implements Runnable {
 
 	public static void main(String[] args) {
 		ProductList pl = new ProductList();
-		// 获取类别信息
-		cats = IkeaCategoryHelper.getCategoryMap();
+		// [类别名字-类别对象]
+		Map<String, Category> cats = IkeaCategoryHelper.getCategoryMap();
 		TBCategoryHelper.fillCategoryWithTBCategory(cats);
 
-		// 获取指定类别下的产品
+		// [产品编号--产品类别]
 		Map<String, String> productMap = new HashMap<String, String>();
 
 		for (Iterator iterator = cats.values().iterator(); iterator.hasNext();) {
@@ -64,10 +55,12 @@ public class MainDriver implements Runnable {
 		}
 
 		for (Iterator iterator = productMap.keySet().iterator(); iterator.hasNext();) {
-			String key = (String) iterator.next();
-			String productUrl = productMap.get(key);
-			System.out.println(key + ":" + productUrl);
-			pis.add(productUrl);
+			String productId = (String) iterator.next();
+			String productcat = productMap.get(productId);
+			Category cat = cats.get(productcat);
+			String productTBcat = cat == null ? "" : cat.getTBCode();
+			System.out.println(productId + "!" + productcat + "!" + productTBcat);
+			pis.add(productId + "!" + productTBcat);
 		}
 
 		System.out.println(pis.size());
