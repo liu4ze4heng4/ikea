@@ -1,32 +1,32 @@
 package com.fec.shop.taobao;
 
-import java.util.ArrayList;
+import static com.fec.shop.taobao.TBConstant.appSecret;
+import static com.fec.shop.taobao.TBConstant.appkey;
+import static com.fec.shop.taobao.TBConstant.nick;
+import static com.fec.shop.taobao.TBConstant.url;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.fec.shop.model.TaobaoProduct;
+import com.fec.shop.model.Category;
+import com.fec.shop.model.TBCategroy;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.SellercatsListGetRequest;
 import com.taobao.api.response.SellercatsListGetResponse;
 
-public class OurCats {
-	protected static String url = "http://gw.api.taobao.com/router/rest";
-	protected static String appkey = "21402583";
-	protected static String appSecret = "b1e64744762fc12051465563b0a59724";
-
-	public static Map<String, List<TaobaoProduct>> getTaobaoCats() {
-		Map<String, List<TaobaoProduct>> tbProducts = new HashMap<String, List<TaobaoProduct>>();
-
+public class TBCategoryHelper {
+	public static void fillCategoryWithTBCategory(Map<String, Category> allCategory) {
+		if (allCategory == null)
+			allCategory = new HashMap<String, Category>();
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, appSecret);
 		SellercatsListGetRequest req = new SellercatsListGetRequest();
-		req.setNick("charick");
+		req.setNick(nick);
 		SellercatsListGetResponse response;
 		String tmp = null;
 		try {
@@ -42,35 +42,25 @@ public class OurCats {
 			JSONArray seller_cat_array = seller_cat.getJSONArray("seller_cat");
 			int i = 0;
 			JSONObject product;
-			List<TaobaoProduct> tbpList;
+			Category cat;
 			while (!seller_cat_array.isNull(i)) {
 				product = (JSONObject) seller_cat_array.get(i++);
-				TaobaoProduct tbp = new TaobaoProduct();
-				tbp.setCid(product.getString("cid"));
-				tbp.setName(product.getString("name"));
-				tbp.setParent_cid(product.getString("parent_cid"));
-				tbp.setSort_order(product.getString("sort_order"));
-				tbp.setType(product.getString("type"));
-				if("0".equals(tbp.getParent_cid()))continue;
-				tbpList = tbProducts.get(tbp.getName());
-				if (tbpList == null) {
-					tbpList = new ArrayList<TaobaoProduct>(1);
-					tbpList.add(tbp);
-					tbProducts.put(tbp.getName(), tbpList);
+				TBCategroy tbp = new TBCategroy();
+				tbp.setTb_cid(product.getString("cid"));
+				tbp.setTb_parent_cid(product.getString("parent_cid"));
+				if ("0".equals(tbp.getTb_parent_cid()))
+					continue;
+				String key = product.getString("name");
+				cat = allCategory.get(key);
+				if (cat == null) {
+					System.out.println("淘宝类目[" + key + "]在宜家类目列表中不存在");
 				} else {
-					tbpList.add(tbp);
+					cat.addTBCategory(tbp);
 				}
 			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println(tbProducts);
-		return tbProducts;
-	}
-
-	public static void main(String[] args) {
-		OurCats.getTaobaoCats();
 	}
 }

@@ -1,23 +1,26 @@
 package com.fec.shop;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.fec.shop.ikea.CategoryList;
+import com.fec.shop.ikea.IkeaCategoryHelper;
+import com.fec.shop.ikea.IkeaProductHelper;
 import com.fec.shop.ikea.ProductList;
+import com.fec.shop.model.Category;
 import com.fec.shop.model.Product;
-import com.fec.shop.model.TaobaoProduct;
-import com.fec.shop.taobao.OurCats;
+import com.fec.shop.taobao.TBCategoryHelper;
 
 public class MainDriver implements Runnable {
 	public static ArrayList<String> pis = new ArrayList<String>();
 	public static int index = 0;
-	static Map<String, List<TaobaoProduct>> allTBPt;
-	
-	static List<String>  notInTB=new ArrayList<String>();
+
+	public static Map<String, Category> cats;
+
+	static List<String> notInTB = new ArrayList<String>();
 
 	public static synchronized int getindex() {
 		if (index < pis.size()) {
@@ -31,18 +34,16 @@ public class MainDriver implements Runnable {
 			int i = getindex();
 			if (i != 9999) {
 				String[] piNc = pis.get(i).split("!");
-				List<TaobaoProduct> products = allTBPt.get(piNc[1]);
-				StringBuilder TBcode = new StringBuilder();
-				if(products==null){
+				Category cat = cats.get(piNc[1]);
+				String tbCode = "";
+				if (cat == null) {
 					notInTB.add(piNc[1]);
-				}else{
-					for (TaobaoProduct taobaoProduct : products) {
-						TBcode.append(taobaoProduct.getCid() + ",");
-					}
+				} else {
+					tbCode = cat.getTBCode();
 				}
-				Product pd = new Product(piNc[0], TBcode.toString());
+				Product pd = new Product(piNc[0], tbCode);
 				pd.toCSV("g:\\ikea\\");
-//				 pd.toSQL();
+				// pd.toSQL();
 			} else
 				break;
 		}
@@ -50,23 +51,28 @@ public class MainDriver implements Runnable {
 
 	public static void main(String[] args) {
 		ProductList pl = new ProductList();
-		//获取类别信息
-		ArrayList<String> cu = CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
-		//获取淘宝类别信息
-		allTBPt = OurCats.getTaobaoCats();
-		//
-		for (int j = 0; j < cu.size(); j++) {
-			pis.addAll(pl.getProductIds(cu.get(j)));
-			// System.out.println(pis.get(0));
+		// 获取类别信息
+		cats = IkeaCategoryHelper.getCategoryMap();
+		TBCategoryHelper.fillCategoryWithTBCategory(cats);
+
+		// 获取指定类别下的产品
+		Map<String, String> productMap = new HashMap<String, String>();
+
+		for (Iterator iterator = cats.values().iterator(); iterator.hasNext();) {
+			Category category = (Category) iterator.next();
+			IkeaProductHelper.fillProductFromCat(productMap, category);
 		}
-		HashSet<String> piSet = new HashSet<String>();
-		piSet.addAll(pis);
-		pis.clear();
-		pis.addAll(piSet);
+
+		for (Iterator iterator = productMap.keySet().iterator(); iterator.hasNext();) {
+			String key = (String) iterator.next();
+			String productUrl = productMap.get(key);
+			System.out.println(key + ":" + productUrl);
+			pis.add(productUrl);
+		}
 
 		System.out.println(pis.size());
 
-		List<Thread> threads=new LinkedList<Thread>();
+		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {
 			MainDriver md = new MainDriver();
 			Thread t1 = new Thread(md);
@@ -74,7 +80,7 @@ public class MainDriver implements Runnable {
 			t1.setName("t" + i + ":");
 			t1.start();
 		}
-		
+
 		for (Thread thread : threads) {
 			try {
 				thread.join();
@@ -82,9 +88,9 @@ public class MainDriver implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
+
 		System.out.println("all thread finish!!!!");
-		
+
 		for (String productName : notInTB) {
 			System.out.println(productName);
 		}
