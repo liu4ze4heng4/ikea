@@ -107,7 +107,7 @@ try {
 }
 public  String getcid(String name) {
 	System.out.println(name);
-	String sql = "select * from  tbl_tbcategories where name=" + name;
+	String sql = "select * from  tbl_tbcategories where name='" + name+"'";
 	StringBuilder cid = null;
 	ResultSet rs = null;
 	try {
