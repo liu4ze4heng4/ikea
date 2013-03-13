@@ -7,6 +7,7 @@ public class TBCategroy {
 	public String tb_parent_cid;
 	public String tb_sort_order;
 	public String tb_type;
+	public String tb_name;
 
 	public String getTb_cid() {
 		return tb_cid;
@@ -46,5 +47,12 @@ public class TBCategroy {
 
 	public void setTb_type(String tb_type) {
 		this.tb_type = tb_type;
+	}
+	public String getTb_name() {
+		return tb_name;
+	}
+
+	public void setTb_name(String tb_name) {
+		this.tb_name = tb_name;
 	}
 }

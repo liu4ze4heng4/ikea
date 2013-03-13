@@ -1,4 +1,4 @@
-package com.fec.shop.dao;
+package com.fec.shop.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -18,7 +18,7 @@ public class IkeaCategoryHelper {
 		return allCategory;
 	}
 
-	/**
+	/*
 	 * 从网页抓起一次全部 类别信息
 	 */
 	public static void initAllCategoryFromHtml() {

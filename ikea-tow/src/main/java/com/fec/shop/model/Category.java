@@ -3,32 +3,26 @@ package com.fec.shop.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fec.shop.util.SQLHelper;
+
 public class Category {
-	public List<TBCategroy> getTbCategorys() {
-		return tbCategorys;
-	}
 
-	public void setTbCategorys(List<TBCategroy> tbCategorys) {
-		this.tbCategorys = tbCategorys;
-	}
-
-	public void setIkeaUrl(String ikeaUrl) {
-		this.ikeaUrl = ikeaUrl;
-	}
-
-	public int id;
+	public String cid;
 	public String name;
 	// ikea 类目 属性
 	public String ikeaUrl;
-	// 淘宝 类目 ：一个类目在淘宝上可能对应多个
+	// 淘宝 类目 ：一个中文类目在淘宝上可能对应多个CID
 	public List<TBCategroy> tbCategorys;
-
-	public int getId() {
-		return id;
+	public List<String> pidlist;
+public List<String> getpidlist(){
+	return pidlist;
+}
+	public String getCid() {
+		return cid;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 
 	public String getName() {
@@ -49,13 +43,21 @@ public class Category {
 		}
 		tbCategorys.add(tb);
 	}
-
+public void setTBCategoryFromSQL(){
+	if (name==null){
+		setName("0");
+		System.out.println("no name category?");
+	};
+	
+	SQLHelper sqlhelper=new SQLHelper();
+	cid=(sqlhelper.getcid(name));
+} 
 	@Override
 	public String toString() {
 		return name;
 	}
 
-	public String getTBCode() {
+	public String getTBCid() {
 		if (tbCategorys != null) {
 			StringBuilder sb = new StringBuilder("");
 			for (TBCategroy tbcat : tbCategorys) {
@@ -64,6 +66,14 @@ public class Category {
 			return sb.toString();
 		}
 		return "";
+	}
+
+	public void setTbCategorys(List<TBCategroy> tbCategorys) {
+		this.tbCategorys = tbCategorys;
+	}
+
+	public void setIkeaUrl(String ikeaUrl) {
+		this.ikeaUrl = ikeaUrl;
 	}
 
 }

@@ -1,11 +1,13 @@
-package com.fec.shop.taobao;
+package com.fec.shop.util;
 
 import static com.fec.shop.taobao.TBConstant.appSecret;
 import static com.fec.shop.taobao.TBConstant.appkey;
 import static com.fec.shop.taobao.TBConstant.nick;
 import static com.fec.shop.taobao.TBConstant.url;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -20,10 +22,9 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.SellercatsListGetRequest;
 import com.taobao.api.response.SellercatsListGetResponse;
 
-public class TBCategoryHelper {
-	public static void fillCategoryWithTBCategory(Map<String, Category> allCategory) {
-		if (allCategory == null)
-			allCategory = new HashMap<String, Category>();
+public class TaobaoUtils {
+	public static ArrayList<TBCategroy> getTBcategories() {
+		ArrayList<TBCategroy> tbcategories=new ArrayList<TBCategroy>();
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, appSecret);
 		SellercatsListGetRequest req = new SellercatsListGetRequest();
 		req.setNick(nick);
@@ -43,25 +44,22 @@ public class TBCategoryHelper {
 			JSONArray seller_cat_array = seller_cat.getJSONArray("seller_cat");
 			int i = 0;
 			JSONObject product;
-			Category cat;
 			while (!seller_cat_array.isNull(i)) {
 				product = (JSONObject) seller_cat_array.get(i++);
 				TBCategroy tbp = new TBCategroy();
 				tbp.setTb_cid(product.getString("cid"));
 				tbp.setTb_parent_cid(product.getString("parent_cid"));
+				tbp.setTb_name(product.getString("name"));
 				if ("0".equals(tbp.getTb_parent_cid()))
 					continue;
-				String key = product.getString("name");
-				cat = allCategory.get(key);
-				if (cat == null) {
-					System.out.println("淘宝类目[" + key + "]在宜家类目列表中不存在");
-				} else {
-					cat.addTBCategory(tbp);
-				}
+				tbcategories.add(tbp);
+				
+			
 			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-	}
+		return tbcategories;
+}
 }

@@ -1,9 +1,9 @@
 package com.fec.shop.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Catelog {
-public ArrayList<Product> productlist;
+public List<String> pid;
 String name;
 String url;
 int cid;

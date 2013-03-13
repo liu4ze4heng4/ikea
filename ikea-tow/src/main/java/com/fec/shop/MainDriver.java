@@ -44,13 +44,13 @@ public class MainDriver implements Runnable {
 	public static void main(String[] args) {
 		ProductList pl = new ProductList();
 		// [类别名字-类别对象]
-		Map<String, Category> cats = IkeaCategoryHelper.getCategoryMap();
-		TBCategoryHelper.fillCategoryWithTBCategory(cats);
+		Map<String, Category> catsMap = IkeaCategoryHelper.getCategoryMap();
+		TBCategoryHelper.fillCategoryWithTBCategory(catsMap);
 
 		// [产品编号--产品类别]
 		Map<String, String> productMap = new HashMap<String, String>();
 
-		for (Iterator iterator = cats.values().iterator(); iterator.hasNext();) {
+		for (Iterator iterator = catsMap.values().iterator(); iterator.hasNext();) {
 			Category category = (Category) iterator.next();
 			IkeaProductHelper.fillProductFromCat(productMap, category);
 		}
@@ -58,8 +58,8 @@ public class MainDriver implements Runnable {
 		for (Iterator iterator = productMap.keySet().iterator(); iterator.hasNext();) {
 			String productId = (String) iterator.next();
 			String productcat = productMap.get(productId);
-			Category cat = cats.get(productcat);
-			String productTBcat = cat == null ? " " : cat.getTBCode();
+			Category cat = catsMap.get(productcat);
+			String productTBcat = cat == null ? " " : cat.getTBCid();
 			pis.add(productId + "!" + productTBcat);
 		}
 

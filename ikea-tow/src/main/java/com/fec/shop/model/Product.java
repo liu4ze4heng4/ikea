@@ -16,9 +16,9 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-import com.fec.shop.dao.ProductDao;
 import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.HtmlUtil;
+import com.fec.shop.util.ProductDao;
 
 public class Product {
 	String buf;
