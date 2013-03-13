@@ -1,25 +1,21 @@
 package com.fec.shop;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.fec.shop.ikea.IkeaCategoryHelper;
-import com.fec.shop.ikea.IkeaProductHelper;
-import com.fec.shop.ikea.ProductList;
-import com.fec.shop.model.Category;
+import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Product;
-import com.fec.shop.taobao.TBCategoryHelper;
+import com.fec.shop.util.IkeaUtils;
+import com.fec.shop.util.TaobaoUtils;
 
 public class MainDriver implements Runnable {
-	public static ArrayList<String> pis = new ArrayList<String>();
+	public static List<String> pis = IkeaUtils.getProductListFromFile(0);
+	
+	public static Map<String, String> taobaocid = TaobaoUtils.getCCMapFromFile();
+
 	public static int index = 0;
-
-	static List<String> notInTB = new ArrayList<String>();
-
 	public static synchronized int getindex() {
 		if (index < pis.size()) {
 			return index++;
@@ -31,9 +27,9 @@ public class MainDriver implements Runnable {
 		while (true) {
 			int i = getindex();
 			if (i != 9999) {
-				String[] piNc = pis.get(i).split("!");
-				System.out.println(Thread.currentThread().getName() + "抓取：第" + i + "个产品：" + piNc[0]);
-				Product pd = new Product(piNc[0], piNc[1]);
+				System.out.println(Thread.currentThread().getName() + "抓取：第" + i + "个产品：" + pis.get(i));
+				String[] tmp=pis.get(i).split(Constant.split);
+				Product pd = new Product(tmp[1], taobaocid.get(tmp[0]));
 				pd.toCSV("g:\\ikea\\");
 				// pd.toSQL();
 			} else
@@ -41,29 +37,7 @@ public class MainDriver implements Runnable {
 		}
 	}
 
-	public static void main(String[] args) {
-		ProductList pl = new ProductList();
-		// [类别名字-类别对象]
-		Map<String, Category> catsMap = IkeaCategoryHelper.getCategoryMap();
-		TBCategoryHelper.fillCategoryWithTBCategory(catsMap);
-
-		// [产品编号--产品类别]
-		Map<String, String> productMap = new HashMap<String, String>();
-
-		for (Iterator iterator = catsMap.values().iterator(); iterator.hasNext();) {
-			Category category = (Category) iterator.next();
-			IkeaProductHelper.fillProductFromCat(productMap, category);
-		}
-
-		for (Iterator iterator = productMap.keySet().iterator(); iterator.hasNext();) {
-			String productId = (String) iterator.next();
-			String productcat = productMap.get(productId);
-			Category cat = catsMap.get(productcat);
-			String productTBcat = cat == null ? " " : cat.getTBCid();
-			pis.add(productId + "!" + productTBcat);
-		}
-
-		System.out.println("一共" + pis.size() + "产品");
+	public static void main(String[] args) {	
 
 		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {
@@ -84,8 +58,5 @@ public class MainDriver implements Runnable {
 
 		System.out.println("all thread finish!!!!");
 
-		for (String productName : notInTB) {
-			System.out.println(productName);
-		}
 	}
 }

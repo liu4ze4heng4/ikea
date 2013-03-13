@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import com.fec.shop.model.Category;
 import com.fec.shop.model.Product;
-import com.fec.shop.model.TBCategroy;
 
 public class SQLHelper {
 	public Connection getConnection() throws SQLException, java.lang.ClassNotFoundException {

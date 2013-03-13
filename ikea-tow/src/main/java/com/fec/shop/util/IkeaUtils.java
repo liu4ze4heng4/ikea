@@ -1,29 +1,97 @@
 package com.fec.shop.util;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.fec.shop.model.Category;
+import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
-	public static Map<String, Category> allCategory = new HashMap<String, Category>();
+	public static void main(String[] args) {
+		List<Categroy> catList = getCategoryFromHtml();
+		IkeaUtils.saveCategory2File(catList);
+		IkeaUtils.saveProductList2File(catList);
+//		IkeaUtils.getProductListFromFile(0);
+	}
 
-	public static Map<String, Category> getCategoryMap() {
-
-		if (allCategory.size() < 1) {
-			initAllCategoryFromHtml();
+	public static List<String> getProductListFromFile(int index) {
+		List<String> pList = new ArrayList<String>();
+		String pid;
+		try {
+			DataInputStream dip = new DataInputStream(new FileInputStream(new File(Constant.ikea_product_file + index)));
+			while ((pid = dip.readLine()) != null) {
+				pList.add(pid);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return allCategory;
+		return pList;
+	}
+
+	public static void saveCategory2File(List<Categroy> catList) {
+		try {
+			FileWriter fw = new FileWriter(new File(Constant.ikea_category_file));
+			for (Categroy category : catList) {
+				fw.write(category + "\n");
+			}
+			fw.flush();
+			fw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("save ikea category to file finish ,number:" + catList.size());
+	}
+
+	public static void saveProductList2File(List<Categroy> catList) {
+		List<Product> pList = getAllProdutIds(catList);
+		int numPerFile = pList.size() / Constant.file_num_product;
+		for (int i = 0; i < Constant.file_num_product + 1; i++) {
+			try {
+				FileWriter fw = new FileWriter(new File(Constant.ikea_product_file + i));
+				for (int j = i * (numPerFile); j < (i + 1) * (numPerFile) && j < pList.size(); j++) {
+					fw.write(pList.get(j) + "\n");
+				}
+				fw.flush();
+				fw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		System.out.println("save ikea product id to file finish,number:" + pList.size());
+	}
+
+	public static List<Product> getAllProdutIds(List<Categroy> cats) {
+		List<Product> result = new ArrayList<Product>();
+		List<Product> tmp;
+		for (Categroy categroy : cats) {
+			tmp = getProductList(categroy);
+			for (Product p : tmp) {
+				if (result.contains(p)) {
+					System.out.println("剔除类别中重复产品：" + p.pid);
+				} else {
+					result.add(p);
+				}
+			}
+		}
+		return result;
 	}
 
 	/*
 	 * 从网页抓起一次全部 类别信息
 	 */
-	private static Map<String, Category> initAllCategoryFromHtml() {
+	private static List<Categroy> getCategoryFromHtml() {
 		String categoryListUrl = "http://www.ikea.com/cn/zh/catalog/allproducts/";
-		Map<String, Category> allCategory = new HashMap<String, Category>();
+		List<Categroy> allCategory = new ArrayList<Categroy>();
 		String html = HtmlUtil.getHtmlContent(categoryListUrl);
 		int index = 20000;
 		try {
@@ -37,14 +105,14 @@ public class IkeaUtils {
 					result = tmp.replace("\">", "!");
 					String[] results;
 					results = result.split("!");
-
-					if (allCategory.get(results[1]) != null) {
-						System.out.println("重复的类别出现：" + results[1]);
+					Categroy c = new Categroy();
+					c.name = results[1];
+					c.url = results[0];
+					if (allCategory.contains(c)) {
+						System.out.println("剔除重复的类别出现：" + results[1]);
 					} else {
-						Category c = new Category();
-						c.setIkeaUrl(results[0]);
-						c.setName(results[1]);
-						allCategory.put(results[1], c);
+
+						allCategory.add(c);
 					}
 					index = endIx;
 				} else
@@ -56,9 +124,9 @@ public class IkeaUtils {
 		return allCategory;
 	}
 
-	public static List<String> getProductList(Category c) {
-		String html = HtmlUtil.getHtmlContent(c.getIkeaUrl());
-		List<String> pidlist = new ArrayList<String>();
+	public static List<Product> getProductList(Categroy c) {
+		String html = HtmlUtil.getHtmlContent(c.url);
+		List<Product> pidlist = new ArrayList<Product>();
 		int index = 0;
 		int x = 1;
 		try {
@@ -70,7 +138,11 @@ public class IkeaUtils {
 				int beginIxLength = beginstr.length();
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String pid = html.substring(beginIx + beginIxLength, endIx);
-				pidlist.add(pid);
+				Product p=new Product();
+				p.category=c.name;
+				p.pid=pid;
+				pidlist.add(p);
+				
 				index = endIx;
 				x++;
 			}
@@ -93,11 +165,16 @@ public class IkeaUtils {
 				if (tmp.length() != 0) {
 					result = tmp.replace("\"", "");
 					results = result.split(",");
-						if (pidlist.contains(results[0]))
-						{	pidlist.remove(results[0]);
-						pidlist.add(result);}
+					for (String pid : results) {
+						Product p=new Product();
+						p.category=c.name;
+						p.pid=pid;
+						if(pidlist.contains(p)){
+						}else{
+							pidlist.add(p);
+						}
 					}
-			
+				}
 
 				index = endIx;
 			}
@@ -106,12 +183,48 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		c.pidlist=pidlist;
+		System.out.println("===================="+c.name + "：下共抓取到：" + pidlist.size() + "个产品id.");
 		return pidlist;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(IkeaUtils.getCategoryMap().size());
+}
+
+class Categroy {
+	public String name;
+	public String url;
+
+	@Override
+	public String toString() {
+		return name + Constant.split + url;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return ((Categroy) obj).name.equals(name);
+	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+}
+
+class Product{
+	public String pid;
+	public String category;
+
+	@Override
+	public String toString() {
+		return category + Constant.split + pid;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((Product) obj).pid.equals(pid);
+	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
 }

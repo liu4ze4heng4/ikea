@@ -138,6 +138,10 @@
 					<exclude>**/*.class</exclude>
 				</excludes>
 			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
 		</resources>
 	</build>
 
