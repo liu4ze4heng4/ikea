@@ -1,11 +1,13 @@
 package com.fec.shop.util;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,33 +26,27 @@ import com.taobao.api.response.SellercatsListGetResponse;
 public class TaobaoUtils {
 	public static void main(String[] args) {
 //		TaobaoUtils.saveTBcategory2File();
-		TaobaoUtils.getCCMapFromFile();
+		 TaobaoUtils.getCCMapFromFile();
 	}
 
-	/**
-	 * 从文件中获取 类别 和 cid 的 map
-	 * 
-	 * @return
-	 */
 	public static Map<String, String> getCCMapFromFile() {
 		Map<String, String> result = new HashMap<String, String>();
 		String temp;
 		String[] tempA;
 		try {
-			DataInputStream dip = new DataInputStream(new FileInputStream(new File(Constant.tb_category_file)));
-			while ((temp = dip.readLine()) != null) {
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.tb_category_file)),"utf-8");
+			BufferedReader bufReader = new BufferedReader(insReader);
+			while ((temp = bufReader.readLine()) != null) {
 				tempA = temp.split(Constant.split);
 				result.put(tempA[0], tempA[1]);
 			}
+			bufReader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	/**
-	 * 保持淘宝类目信息到文件
-	 */
 	public static void saveTBcategory2File() {
 		try {
 			ArrayList<TBCategory> tbclist = getTBcategories();
@@ -68,11 +64,6 @@ public class TaobaoUtils {
 		System.out.println("save taobao category to file finish!");
 	}
 
-	/**
-	 * 获取淘宝类目信息列表
-	 * 
-	 * @return
-	 */
 	private static ArrayList<TBCategory> getTBcategories() {
 		ArrayList<TBCategory> tbcategories = new ArrayList<TBCategory>();
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
@@ -90,7 +81,6 @@ public class TaobaoUtils {
 			JSONObject root = new JSONObject(tmp);
 			JSONObject seller_cats = (JSONObject) root.get("sellercats_list_get_response");
 			JSONObject seller_cat = (JSONObject) seller_cats.get("seller_cats");
-			// 全部店铺分类
 			JSONArray seller_cat_array = seller_cat.getJSONArray("seller_cat");
 			int i = 0;
 			JSONObject product;
@@ -121,7 +111,6 @@ public class TaobaoUtils {
 }
 
 class TBCategory {
-	// 淘宝 类目 属性
 	public String cid;
 	public String name;
 

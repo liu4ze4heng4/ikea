@@ -1,11 +1,13 @@
 package com.fec.shop.util;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +15,39 @@ import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		List<Categroy> catList = getCategoryFromHtml();
-		IkeaUtils.saveCategory2File(catList);
-		IkeaUtils.saveProductList2File(catList);
-//		IkeaUtils.getProductListFromFile(0);
+		List<Categroy> catList = getCatListFromFile();
+//		IkeaUtils.saveProductList2File(catList);
+//		 IkeaUtils.getProductListFromFile(0);
 	}
 
 	public static List<String> getProductListFromFile(int index) {
 		List<String> pList = new ArrayList<String>();
 		String pid;
 		try {
-			DataInputStream dip = new DataInputStream(new FileInputStream(new File(Constant.ikea_product_file + index)));
-			while ((pid = dip.readLine()) != null) {
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)),"utf-8");
+			BufferedReader bufReader = new BufferedReader(insReader);
+			while ((pid = bufReader.readLine()) != null) {
 				pList.add(pid);
 			}
+			bufReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return pList;
+	}
+
+	public static List<Categroy> getCatListFromFile() {
+		List<Categroy> pList = new ArrayList<Categroy>();
+		String pid;
+		String[] tempA;
+		try {
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_category_file)),"utf-8");
+			BufferedReader bufReader = new BufferedReader(insReader);
+			while ((pid = bufReader.readLine()) != null) {
+				tempA = pid.split(Constant.split);
+				pList.add(new Categroy(tempA[0], tempA[1]));
+			}
+			bufReader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +98,7 @@ public class IkeaUtils {
 			tmp = getProductList(categroy);
 			for (Product p : tmp) {
 				if (result.contains(p)) {
-					System.out.println("ÌŞ³ıÀà±ğÖĞÖØ¸´²úÆ·£º" + p.pid);
+					System.out.println("å‰”é™¤é‡å¤äº§å“ï¼š" + p.pid);
 				} else {
 					result.add(p);
 				}
@@ -86,9 +107,6 @@ public class IkeaUtils {
 		return result;
 	}
 
-	/*
-	 * ´ÓÍøÒ³×¥ÆğÒ»´ÎÈ«²¿ Àà±ğĞÅÏ¢
-	 */
 	private static List<Categroy> getCategoryFromHtml() {
 		String categoryListUrl = "http://www.ikea.com/cn/zh/catalog/allproducts/";
 		List<Categroy> allCategory = new ArrayList<Categroy>();
@@ -105,11 +123,9 @@ public class IkeaUtils {
 					result = tmp.replace("\">", "!");
 					String[] results;
 					results = result.split("!");
-					Categroy c = new Categroy();
-					c.name = results[1];
-					c.url = results[0];
+					Categroy c = new Categroy(results[1], results[0]);
 					if (allCategory.contains(c)) {
-						System.out.println("ÌŞ³ıÖØ¸´µÄÀà±ğ³öÏÖ£º" + results[1]);
+						System.out.println("å‰”é™¤é‡å¤ç±»åˆ«ï¼š" + results[1]);
 					} else {
 
 						allCategory.add(c);
@@ -138,11 +154,11 @@ public class IkeaUtils {
 				int beginIxLength = beginstr.length();
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String pid = html.substring(beginIx + beginIxLength, endIx);
-				Product p=new Product();
-				p.category=c.name;
-				p.pid=pid;
+				Product p = new Product();
+				p.category = c.name;
+				p.pid = pid;
 				pidlist.add(p);
-				
+
 				index = endIx;
 				x++;
 			}
@@ -166,11 +182,11 @@ public class IkeaUtils {
 					result = tmp.replace("\"", "");
 					results = result.split(",");
 					for (String pid : results) {
-						Product p=new Product();
-						p.category=c.name;
-						p.pid=pid;
-						if(pidlist.contains(p)){
-						}else{
+						Product p = new Product();
+						p.category = c.name;
+						p.pid = pid;
+						if (pidlist.contains(p)) {
+						} else {
 							pidlist.add(p);
 						}
 					}
@@ -183,7 +199,7 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("===================="+c.name + "£ºÏÂ¹²×¥È¡µ½£º" + pidlist.size() + "¸ö²úÆ·id.");
+		System.out.println("====================" + c.name + "æŠ“å–äº†ï¼š" + pidlist.size() + "ä¸ªäº§å“id");
 		return pidlist;
 	}
 
@@ -192,6 +208,11 @@ public class IkeaUtils {
 class Categroy {
 	public String name;
 	public String url;
+
+	public Categroy(String name, String url) {
+		this.name = name;
+		this.url = url;
+	}
 
 	@Override
 	public String toString() {
@@ -209,7 +230,7 @@ class Categroy {
 	}
 }
 
-class Product{
+class Product {
 	public String pid;
 	public String category;
 

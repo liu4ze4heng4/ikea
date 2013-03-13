@@ -55,7 +55,7 @@ public class ProductList {
 		productUrlSet.addAll(productIds);
 		productIds.clear();
 		productIds.addAll(productUrlSet);
-		System.out.println(Thread.currentThread().getName() + "共找到" + productIds.size() + "个产品@" + cn);
+		System.out.println(Thread.currentThread().getName() + "======" + productIds.size() + "==========" + cn);
 		return productIds;
 	}
 

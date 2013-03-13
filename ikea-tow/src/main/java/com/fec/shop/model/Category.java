@@ -5,9 +5,7 @@ import java.util.List;
 public class Category {
 
 	public String name;
-	// ikea 类目 属性
 	public String ikeaUrl;
-	// 淘宝 类目 ：一个中文类目在淘宝上可能对应多个CID
 	public List<String> cidList;
 
 	public String getName() {

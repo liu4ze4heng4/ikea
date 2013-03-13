@@ -39,7 +39,7 @@ public class CategoryList {
 		categoryUrls.clear();
 		categoryUrls.addAll(categoryUrlSet);
 		// System.out.println(categoryUrls.get(152));
-		System.out.println("找到" + categoryUrls.size() + "个产品目录");
+		System.out.println("鎶撳彇浜嗭細" + categoryUrls.size() + "绫诲埆");
 		return categoryUrls;
 	}
 

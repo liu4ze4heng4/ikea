@@ -18,9 +18,6 @@ public class IkeaCategoryHelper {
 		return allCategory;
 	}
 
-	/*
-	 * 从网页抓起一次全部 类别信息
-	 */
 	public static void initAllCategoryFromHtml() {
 		String html = HtmlUtil.getHtmlContent(categoryListUrl);
 		int index = 20000;
@@ -37,7 +34,7 @@ public class IkeaCategoryHelper {
 					results = result.split("!");
 
 					if (allCategory.get(results[1]) != null) {
-						System.out.println("重复的类别出现：" + results[1]);
+						System.out.println("" + results[1]);
 					} else {
 						Category c = new Category();
 						c.setIkeaUrl(results[0]);

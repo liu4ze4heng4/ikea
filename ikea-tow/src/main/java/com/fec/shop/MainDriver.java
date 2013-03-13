@@ -1,6 +1,5 @@
 package com.fec.shop;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class MainDriver implements Runnable {
 		while (true) {
 			int i = getindex();
 			if (i != 9999) {
-				System.out.println(Thread.currentThread().getName() + "抓取：第" + i + "个产品：" + pis.get(i));
+				System.out.println(Thread.currentThread().getName() + "锛氭姄鍙栫" + i + "涓骇鍝侊細" + pis.get(i));
 				String[] tmp=pis.get(i).split(Constant.split);
 				Product pd = new Product(tmp[1], taobaocid.get(tmp[0]));
 				pd.toCSV("g:\\ikea\\");

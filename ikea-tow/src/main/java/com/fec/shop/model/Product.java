@@ -13,8 +13,6 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 
 import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.HtmlUtil;
@@ -92,49 +90,49 @@ public class Product {
 			writer.write("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>");
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 			if (assembledSize.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°²×°ºó³ß´ç</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ï¿½ß´ï¿½</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 			}
 			if (keyFeatures.length() >= 15) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ÖØÒªÌØÕ÷</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + keyFeatures + "</span>");
 			}
 			if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Éè¼ÆÊ¦</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½Ê¦</span></span><br />");
 			}
 			if (designerThoughts.length() >= 1)
 				writer.write("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />");
 			if (designer.length() >= 1)
 				writer.write("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />");
-			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />");
-			writer.write("<span style=\"font-size:14px;\">°ü×°£º" + numberOfPackages + "</span><br />");
+			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />");
+			writer.write("<span style=\"font-size:14px;\">ï¿½ï¿½×°ï¿½ï¿½" + numberOfPackages + "</span><br />");
 			if (numberOfPackages.equals("1"))
 				writer.write("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />");
 			else
-				writer.write("<span style=\"font-size:14px;\">³ß´çºÍÖØÁ¿Ïê¼û¹ÙÍø</span><br /><br />");
+				writer.write("<span style=\"font-size:14px;\">ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span><br /><br />");
 			if (environment.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">»·±£ÐÅÏ¢</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "</p>");
 			}
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 			if (goodToKnow.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Ïà¹ØÌáÊ¾</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />");
 			}
 			if (careInst.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">±£ÑøËµÃ÷</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />");
 			}
 			if (lowestPrice.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">µÍ¼Û¸ñ´ÓÄÄÀïÀ´</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½Í¼Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />");
 			}
 			if (custMaterials.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">²úÆ·ÃèÊö</span></span><br />");
+				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />");
 			}
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />"+"\n");
 
 			// for(String Info:InfoList){
 			// writer.write(Info +"\n");
@@ -160,58 +158,58 @@ public class Product {
 				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 		if (assembledSize.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°²×°ºó³ß´ç</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ï¿½ß´ï¿½</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 		}
 		if (keyFeatures.length() >= 15) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ÖØÒªÌØÕ÷</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + keyFeatures + "</span>");
 		}
 		if (designer.length() >= 1 || designerThoughts.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Éè¼ÆÊ¦</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½Ê¦</span></span><br />");
 		}
 		if (designerThoughts.length() >= 1)
 			describtion.append("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />");
 		if (designer.length() >= 1)
 			describtion.append("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />");
 		describtion
-				.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />");
-		describtion.append("<span style=\"font-size:14px;\">°ü×°£º" + numberOfPackages + "</span><br />");
+				.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />");
+		describtion.append("<span style=\"font-size:14px;\">ï¿½ï¿½×°ï¿½ï¿½" + numberOfPackages + "</span><br />");
 		if (numberOfPackages.equals("1"))
 			describtion.append("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />");
 		else
-			describtion.append("<span style=\"font-size:14px;\">³ß´çºÍÖØÁ¿Ïê¼û¹ÙÍø</span><br /><br />");
+			describtion.append("<span style=\"font-size:14px;\">ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span><br /><br />");
 		if (environment.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">»·±£ÐÅÏ¢</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "</p>");
 		}
 		describtion
 				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 		if (goodToKnow.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">Ïà¹ØÌáÊ¾</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />");
 		}
 		if (careInst.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">±£ÑøËµÃ÷</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />");
 		}
 		if (lowestPrice.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">µÍ¼Û¸ñ´ÓÄÄÀïÀ´</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½Í¼Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />");
 		}
 		if (custMaterials.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">²úÆ·ÃèÊö</span></span><br />");
+					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />");
 		}
-		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
-		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
+		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />"+"\n");
+		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">ï¿½ï¿½×°ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span></span><br />"+"\n");
 
 		// for(String Info:InfoList){
 		// describtion.append(Info +"\n");
@@ -241,7 +239,7 @@ public class Product {
 				while ((read = bis.read()) != -1) {
 					bos.write(read);
 				}
-				bos.close();// ²»¹Ø±Õ£¬Êä³öÁ÷²»Ë¢ÐÂ£¬ÓÐ¿ÉÄÜµÃµ½ÎÞÐ§Í¼Æ¬
+				bos.close();// ï¿½ï¿½ï¿½Ø±Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â£ï¿½ï¿½Ð¿ï¿½ï¿½ÜµÃµï¿½ï¿½ï¿½Ð§Í¼Æ¬
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -279,7 +277,7 @@ public class Product {
 						.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
 								+ "\n");
 				initWriter
-						.write("±¦±´Ãû³Æ	±¦±´ÀàÄ¿	µêÆÌÀàÄ¿	ÐÂ¾É³Ì¶È	Ê¡	³ÇÊÐ	³öÊÛ·½Ê½	±¦±´¼Û¸ñ	¼Ó¼Û·ù¶È	±¦±´ÊýÁ¿	ÓÐÐ§ÆÚ	ÔË·Ñ³Ðµ£	Æ½ÓÊ	EMS	¿ìµÝ	·¢Æ±	±£ÐÞ	·ÅÈë²Ö¿â	³÷´°ÍÆ¼ö	¿ªÊ¼Ê±¼ä	±¦±´ÃèÊö	±¦±´ÊôÐÔ	ÓÊ·ÑÄ£°æID	»áÔ±´òÕÛ	ÐÞ¸ÄÊ±¼ä	ÉÏ´«×´Ì¬	Í¼Æ¬×´Ì¬	·µµã±ÈÀý	ÐÂÍ¼Æ¬	ÊÓÆµ	ÏúÊÛÊôÐÔ×éºÏ	ÓÃ»§ÊäÈëID´®	ÓÃ»§ÊäÈëÃû-Öµ¶Ô	ÉÌ¼Ò±àÂë	ÏúÊÛÊôÐÔ±ðÃû	´ú³äÀàÐÍ	Êý×ÖID	±¾µØID	±¦±´·ÖÀà	ÕË»§Ãû³Æ	±¦±´×´Ì¬	ÉÁµç·¢»õ	ÐÂÆ·	Ê³Æ·×¨Ïî	³ßÂë¿â	¿â´æÀàÐÍ	¿â´æ¼ÆÊý"
+						.write("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿	ï¿½Â¾É³Ì¶ï¿½	Ê¡	ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½Û·ï¿½Ê½	ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½	ï¿½Ó¼Û·ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½Ð§ï¿½ï¿½	ï¿½Ë·Ñ³Ðµï¿½	Æ½ï¿½ï¿½	EMS	ï¿½ï¿½ï¿½	ï¿½ï¿½Æ±	ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½Ö¿ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½	ï¿½ï¿½Ê¼Ê±ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Ê·ï¿½Ä£ï¿½ï¿½ID	ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½	ï¿½Þ¸ï¿½Ê±ï¿½ï¿½	ï¿½Ï´ï¿½×´Ì¬	Í¼Æ¬×´Ì¬	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½Í¼Æ¬	ï¿½ï¿½Æµ	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½	ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-Öµï¿½ï¿½	ï¿½Ì¼Ò±ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ID	ï¿½ï¿½ï¿½ï¿½ID	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½Ë»ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½×´Ì¬	ï¿½ï¿½ï¿½ç·¢ï¿½ï¿½	ï¿½ï¿½Æ·	Ê³Æ·×¨ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 								+ "\n");
 				initWriter.close();
 			} catch (IOException e) {
@@ -290,8 +288,8 @@ public class Product {
 		try {
 			Writer writer = new BufferedWriter(new FileWriter(csvfile, true));
 
-			writer.append("\"ÒË¼Ò´ú¹º" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]ÒË¼Ò¼Ò¾Ó" + "\"	50006298	\"" + category
-					+ "\"	1	\"±±¾©\"	\"±±¾©\"	1	" + price + "	\"\"	1	52	2	0	0	0	0	1	2	0	\"\"	\"");
+			writer.append("\"ï¿½Ë¼Ò´ï¿½" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]ï¿½Ë¼Ò¼Ò¾ï¿½" + "\"	50006298	\"" + category
+					+ "\"	1	\"ï¿½ï¿½ï¿½ï¿½\"	\"ï¿½ï¿½ï¿½ï¿½\"	1	" + price + "	\"\"	1	52	2	0	0	0	0	1	2	0	\"\"	\"");
 			writer.append(getDescribtion().toString().replaceAll("\"", "'"));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
