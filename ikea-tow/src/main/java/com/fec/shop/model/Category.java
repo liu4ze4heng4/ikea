@@ -3,6 +3,14 @@ package com.fec.shop.model;
 import java.util.List;
 
 public class Category {
+	public String cid;
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid;
+	}
 
 	public String name;
 	public String ikeaUrl;

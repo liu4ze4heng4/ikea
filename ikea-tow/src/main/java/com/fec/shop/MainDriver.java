@@ -10,7 +10,7 @@ import com.fec.shop.util.IkeaUtils;
 import com.fec.shop.util.TaobaoUtils;
 
 public class MainDriver implements Runnable {
-	public static List<String> pis = IkeaUtils.getProductListFromFile(0);
+	public static List<String> pis = IkeaUtils.getProductListFromFile(111111);
 	
 	public static Map<String, String> taobaocid = TaobaoUtils.getCCMapFromFile();
 

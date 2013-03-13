@@ -1,7 +1,6 @@
 package com.fec.shop.util;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,15 +15,15 @@ import com.fec.shop.constant.Constant;
 public class IkeaUtils {
 	public static void main(String[] args) {
 		List<Categroy> catList = getCatListFromFile();
-//		IkeaUtils.saveProductList2File(catList);
-//		 IkeaUtils.getProductListFromFile(0);
+		IkeaUtils.saveProductList2File(catList);
+		// IkeaUtils.getProductListFromFile(0);
 	}
 
 	public static List<String> getProductListFromFile(int index) {
 		List<String> pList = new ArrayList<String>();
 		String pid;
 		try {
-			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)),"utf-8");
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)), "utf-8");
 			BufferedReader bufReader = new BufferedReader(insReader);
 			while ((pid = bufReader.readLine()) != null) {
 				pList.add(pid);
@@ -41,7 +40,7 @@ public class IkeaUtils {
 		String pid;
 		String[] tempA;
 		try {
-			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_category_file)),"utf-8");
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_category_file)), "utf-8");
 			BufferedReader bufReader = new BufferedReader(insReader);
 			while ((pid = bufReader.readLine()) != null) {
 				tempA = pid.split(Constant.split);
@@ -142,6 +141,10 @@ public class IkeaUtils {
 
 	public static List<Product> getProductList(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
+		while (html == null) {
+			System.out.println("重新抓起："+c.url);
+			html = HtmlUtil.getHtmlContent(c.url);
+		}
 		List<Product> pidlist = new ArrayList<Product>();
 		int index = 0;
 		int x = 1;

@@ -70,7 +70,7 @@ public class SQLHelper {
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
 			String cid=category.getCid();
-			for(String pid:category.getpidlist())
+			for(String pid:category.getCidList())
 			{stmt.setString(1, pid);
 			stmt.setString(2, cid);
 			stmt.execute();
@@ -83,27 +83,27 @@ public class SQLHelper {
 			e.printStackTrace();
 		}
 	}
-public void insertTBcategories(ArrayList<TBCategroy> tbcategories)
-{
-String sql = "insert into tbl_TBcategories(name,cid) values(?,?)";
-try {
-	PreparedStatement stmt = getConnection().prepareStatement(sql);
-	for(TBCategroy tbp:tbcategories){
-	String cid=tbp.getTb_cid();
-	String name=tbp.getTb_name();
-	stmt.setString(1, name);
-	stmt.setString(2, cid);
-	stmt.execute();}
-	
-} catch (SQLException e) {
-	System.out.println("=========SQLException==========" + e.getMessage());
-	e.printStackTrace();
-} catch (ClassNotFoundException e) {
-	System.out.println("========ClassNotFoundException===========" + e.getMessage());
-	e.printStackTrace();
-
-}
-}
+//public void insertTBcategories(ArrayList<TBCategroy> tbcategories)
+//{
+//String sql = "insert into tbl_TBcategories(name,cid) values(?,?)";
+//try {
+//	PreparedStatement stmt = getConnection().prepareStatement(sql);
+//	for(TBCategroy tbp:tbcategories){
+//	String cid=tbp.getTb_cid();
+//	String name=tbp.getTb_name();
+//	stmt.setString(1, name);
+//	stmt.setString(2, cid);
+//	stmt.execute();}
+//	
+//} catch (SQLException e) {
+//	System.out.println("=========SQLException==========" + e.getMessage());
+//	e.printStackTrace();
+//} catch (ClassNotFoundException e) {
+//	System.out.println("========ClassNotFoundException===========" + e.getMessage());
+//	e.printStackTrace();
+//
+//}
+//}
 public  String getcid(String name) {
 	System.out.println(name);
 	String sql = "select * from  tbl_tbcategories where name='" + name+"'";
@@ -127,15 +127,15 @@ public  String getcid(String name) {
 	System.out.println(cid);
 	return cid.toString();
 }
-	public static void main(String[] Args){
-		ArrayList<TBCategroy>tbc=TaobaoUtils.getTBcategories();
-		SQLHelper sqlhelper=new SQLHelper();
-		sqlhelper.insertTBcategories(tbc);
-		Category c=new Category();
-		c.setIkeaUrl("http://www.ikea.com/cn/zh/catalog/categories/departments/living_room/10661/");
-		c.setName("Ó¤¶ù´²µæ");
-		IkeaUtils.getProductList(c);
-		c.setTBCategoryFromSQL();
-		sqlhelper.insertProductList(c);
-	}
+//	public static void main(String[] Args){
+//		ArrayList<TBCategroy>tbc=TaobaoUtils.getTBcategories();
+//		SQLHelper sqlhelper=new SQLHelper();
+//		sqlhelper.insertTBcategories(tbc);
+//		Category c=new Category();
+//		c.setIkeaUrl("http://www.ikea.com/cn/zh/catalog/categories/departments/living_room/10661/");
+//		c.setName("Ó¤ï¿½ï¿½ï¿½");
+//		IkeaUtils.getProductList(c);
+//		c.setTBCategoryFromSQL();
+//		sqlhelper.insertProductList(c);
+//	}
 }

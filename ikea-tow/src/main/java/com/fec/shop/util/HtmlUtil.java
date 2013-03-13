@@ -30,15 +30,14 @@ public class HtmlUtil {
 			content = contentBuf.toString();
 
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("抓取失败ConnectException："+url0);
+			return null;
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
+			System.err.println("抓取失败MalformedURLException："+url0);
+			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("抓取失败IOException："+url0);
+			return null;
 		}
 		return content;
 	}
