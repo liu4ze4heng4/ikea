@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
@@ -98,9 +97,11 @@ public class IkeaUtils {
 			tmp = getProductList(categroy);
 			for (Product p : tmp) {
 				if (result.contains(p)) {
-					System.out.println("剔除重复产品：" + p.pids);
-					result.remove(p);
-					result.add(p);
+					Product pInList = result.get(result.indexOf(p));
+					if (!pInList.category.equals(p.category)) {
+						System.out.println("该产品还属于其他目录：" + p.pid);
+						pInList.category = pInList.category + "," + p.category;
+					}
 				} else {
 					result.add(p);
 				}
@@ -145,7 +146,7 @@ public class IkeaUtils {
 	public static List<Product> getProductList(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
 		while (html == null) {
-			System.out.println("重新抓起："+c.url);
+			System.out.println("重新抓起：" + c.url);
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
@@ -162,7 +163,7 @@ public class IkeaUtils {
 				String pid = html.substring(beginIx + beginIxLength, endIx);
 				Product p = new Product();
 				p.category = c.name;
-				p.pids.add(pid);
+				p.pid = pid;
 				pidlist.add(p);
 
 				index = endIx;
@@ -174,7 +175,6 @@ public class IkeaUtils {
 		}
 		index = 10;
 		String result;
-		String[] results;
 		try {
 
 			while (true) {
@@ -186,16 +186,10 @@ public class IkeaUtils {
 				String tmp = html.substring(beginIx + beginIxLength, endIx);
 				if (tmp.length() != 0) {
 					result = tmp.replace("\"", "");
-					results = result.split(",");
-					for (String pid : results) {
-						Product p = new Product();
-						p.category = c.name;
-						p.addPid(pid);
-						if (pidlist.contains(p)) {
-						} else {
-							pidlist.add(p);
-						}
-					}
+					Product p = new Product();
+					p.category = c.name;
+					p.pid = result;
+					pidlist.add(p);
 				}
 
 				index = endIx;
@@ -237,20 +231,17 @@ class Categroy {
 }
 
 class Product {
-	public ArrayList<String> pids=new ArrayList<String>();
+	public String pid;
 	public String category;
-	public void addPid(String pid){
-		pids.add(pid);
-	}
 
 	@Override
 	public String toString() {
-		return category + Constant.split + pids.get(0);
+		return category + Constant.split + pid;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((Product) obj).pids.get(0).equals(pids.get(0));
+		return ((Product) obj).pid.equals(pid);
 	}
 
 	@Override
