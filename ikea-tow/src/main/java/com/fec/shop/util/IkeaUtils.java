@@ -14,7 +14,8 @@ import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		List<Categroy> catList = getCatListFromFile();
+		List<Categroy> catList = getCategoryFromHtml();//getCategoryFromHtml，getCatListFromFile
+		saveCategory2File(catList);
 		IkeaUtils.saveProductList2File(catList);
 		// IkeaUtils.getProductListFromFile(0);
 	}
