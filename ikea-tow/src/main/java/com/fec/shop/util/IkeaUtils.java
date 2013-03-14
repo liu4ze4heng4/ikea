@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
@@ -97,7 +98,9 @@ public class IkeaUtils {
 			tmp = getProductList(categroy);
 			for (Product p : tmp) {
 				if (result.contains(p)) {
-					System.out.println("剔除重复产品：" + p.pid);
+					System.out.println("剔除重复产品：" + p.pids);
+					result.remove(p);
+					result.add(p);
 				} else {
 					result.add(p);
 				}
@@ -159,7 +162,7 @@ public class IkeaUtils {
 				String pid = html.substring(beginIx + beginIxLength, endIx);
 				Product p = new Product();
 				p.category = c.name;
-				p.pid = pid;
+				p.pids.add(pid);
 				pidlist.add(p);
 
 				index = endIx;
@@ -187,7 +190,7 @@ public class IkeaUtils {
 					for (String pid : results) {
 						Product p = new Product();
 						p.category = c.name;
-						p.pid = pid;
+						p.addPid(pid);
 						if (pidlist.contains(p)) {
 						} else {
 							pidlist.add(p);
@@ -234,17 +237,20 @@ class Categroy {
 }
 
 class Product {
-	public String pid;
+	public ArrayList<String> pids=new ArrayList<String>();
 	public String category;
+	public void addPid(String pid){
+		pids.add(pid);
+	}
 
 	@Override
 	public String toString() {
-		return category + Constant.split + pid;
+		return category + Constant.split + pids.get(0);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((Product) obj).pid.equals(pid);
+		return ((Product) obj).pids.get(0).equals(pids.get(0));
 	}
 
 	@Override
