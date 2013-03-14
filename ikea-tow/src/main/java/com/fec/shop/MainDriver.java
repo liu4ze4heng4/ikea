@@ -28,7 +28,15 @@ public class MainDriver implements Runnable {
 			if (i != 9999) {
 				System.out.println(Thread.currentThread().getName() + "：抓取第" + i + "个产品：" + pis.get(i));
 				String[] tmp=pis.get(i).split(Constant.split);
-				Product pd = new Product(tmp[1], taobaocid.get(tmp[0]));
+				
+				//生产 该系列产品  对应的 淘宝类别
+				String[] catlogs=tmp[0].split(",");
+				StringBuilder taobaoCatLogs=new StringBuilder();
+				for (String cat : catlogs) {
+					taobaoCatLogs.append(taobaocid.get(cat)+",");
+				}
+				
+				Product pd = new Product(tmp[1],taobaoCatLogs.toString() );
 				pd.toCSV("g:\\ikea\\");
 				// pd.toSQL();
 			} else
