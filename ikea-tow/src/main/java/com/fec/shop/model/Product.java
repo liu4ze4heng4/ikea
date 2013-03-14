@@ -86,55 +86,59 @@ public class Product {
 
 			writer.write("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">");
 			writer.write("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>");
-			writer.write("<p style=\"width:200px;float:left;margin:30px 15px 0px 0px;\">");
+			writer.write("<p style=\"width:120px;float:left;margin:30px 15px 0px 0px;\">");
+			writer.write(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>");
+			writer.write("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">");
+			writer.write("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>");
+			writer.write("<p style=\"width:120px;float:left;margin:30px 15px 0px 0px;\">");
 			writer.write(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>");
 
 			writer.write("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>");
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 			if (assembledSize.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 			}
 			if (keyFeatures.length() >= 15) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + keyFeatures + "</span>");
 			}
 			if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
 			}
 			if (designerThoughts.length() >= 1)
 				writer.write("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />");
 			if (designer.length() >= 1)
 				writer.write("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />");
-			writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
+			writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
 			writer.write("<span style=\"font-size:14px;\">包装：" + numberOfPackages + "</span><br />");
 			if (numberOfPackages.equals("1"))
 				writer.write("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />");
 			else
 				writer.write("<span style=\"font-size:14px;\">尺寸和重量详见官网</span><br /><br />");
 			if (environment.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "</p>");
 			}
 			writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 			if (goodToKnow.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />");
 			}
 			if (careInst.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />");
 			}
 			if (lowestPrice.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />");
 			}
 			if (custMaterials.length() >= 1) {
-				writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
+				writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
 				writer.write("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />");
 			}
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
-			// writer.write("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
+			// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
 
 			// for(String Info:InfoList){
 			// writer.write(Info +"\n");
@@ -152,7 +156,11 @@ public class Product {
 		StringBuilder describtion = new StringBuilder();
 		describtion.append("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">");
 		describtion.append("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>");
-		describtion.append("<p style=\"width:200px;float:left;margin:30px 15px 0px 0px;\">");
+		describtion.append("<p style=\"width:100px;float:left;margin:30px 15px 0px 0px;\">");
+		describtion.append(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>");
+		describtion.append("<p style=\"width:120px;float:left;margin:0px 15px 0px 0px;\">");
+		describtion.append("<img src=\"http://www.ikea.com/PIAimages/" + pic_id[0] + "_S2.jpg\" /></p>");
+		describtion.append("<p style=\"width:100px;float:left;margin:30px 15px 0px 0px;\">");
 		describtion.append(productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" + price + "<br /></p>");
 
 		describtion.append("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>");
@@ -160,24 +168,24 @@ public class Product {
 				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 		if (assembledSize.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">安装后尺寸</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + assembledSize + "</span>");
 		}
 		if (keyFeatures.length() >= 15) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">重要特征</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + keyFeatures + "</span>");
 		}
 		if (designer.length() >= 1 || designerThoughts.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">设计师</span></span><br />");
 		}
 		if (designerThoughts.length() >= 1)
 			describtion.append("<span style=\"line-height:25px;\">" + designerThoughts + "</span><br /><br />");
 		if (designer.length() >= 1)
 			describtion.append("<span style=\"font-size:14px;\">" + designer + "</span><br /><br />");
 		describtion
-				.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
+				.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />");
 		describtion.append("<span style=\"font-size:14px;\">包装：" + numberOfPackages + "</span><br />");
 		if (numberOfPackages.equals("1"))
 			describtion.append("<span style=\"font-size:14px;\">" + productInformation + "</span><br /><br />");
@@ -185,33 +193,33 @@ public class Product {
 			describtion.append("<span style=\"font-size:14px;\">尺寸和重量详见官网</span><br /><br />");
 		if (environment.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">环保信息</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + environment + "</span><br /><br />" + "</p>");
 		}
 		describtion
 				.append("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 		if (goodToKnow.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">相关提示</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + goodToKnow + "</span><br /><br />");
 		}
 		if (careInst.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">保养说明</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + careInst + "</span><br /><br />");
 		}
 		if (lowestPrice.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">低价格从哪里来</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + lowestPrice + "</span><br /><br />");
 		}
 		if (custMaterials.length() >= 1) {
 			describtion
-					.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
+					.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">产品描述</span></span><br />");
 			describtion.append("<span style=\"font-size:14px;\">" + custMaterials + "</span><br /><br />");
 		}
-		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
-		// describtion.append("<span style=\"font-family:simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
+		// describtion.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
+		// describtion.append("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">包装尺寸和重量</span></span><br />"+"\n");
 
 		// for(String Info:InfoList){
 		// describtion.append(Info +"\n");
@@ -342,7 +350,7 @@ public class Product {
 
 	public static void main(String[] args) {
 		Product p = new Product("90222474", "");
-		p.toSQL();
+//		p.toSQL();
 		p.toFile("E:\\IKEA123\\");
 //		p.toCSV("E:\\IKEA123\\");
 		p.toPic(4, "E:\\IKEA123\\");
