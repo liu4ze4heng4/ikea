@@ -8,15 +8,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		List<Categroy> catList = getCatListFromFile();
+		List<Categroy> catList = getCategoryFromHtml();//getCategoryFromHtml，getCatListFromFile
+		saveCategory2File(catList);
 		IkeaUtils.saveProductList2File(catList);
 		// IkeaUtils.getProductListFromFile(0);
 	}
@@ -99,10 +98,11 @@ public class IkeaUtils {
 			tmp = getProductList(categroy);
 			for (Product p : tmp) {
 				if (result.contains(p)) {
-					result.remove(p);
-					System.out.println("剔除重复产品：" + p.pids.get(0));
-					result.add(p);
-					
+					Product pInList = result.get(result.indexOf(p));
+					if (!pInList.category.equals(p.category)) {
+						System.out.println("该产品还属于其他目录：" + p.pid);
+						pInList.category = pInList.category + "," + p.category;
+					}
 				} else {
 					result.add(p);
 				}
@@ -110,6 +110,7 @@ public class IkeaUtils {
 		}
 		return result;
 	}
+
 	private static List<Categroy> getCategoryFromHtml() {
 		String categoryListUrl = "http://www.ikea.com/cn/zh/catalog/allproducts/";
 		List<Categroy> allCategory = new ArrayList<Categroy>();
@@ -163,7 +164,7 @@ public class IkeaUtils {
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String pid = html.substring(beginIx + beginIxLength, endIx);
 				p.category = c.name;
-				p.pids.add(pid);
+				p.pid = pid;
 				pidlist.add(p);
 
 				index = endIx;
@@ -175,11 +176,9 @@ public class IkeaUtils {
 		}
 		index = 10;
 		String result;
-		String[] results;
 		try {
 
 			while (true) {
-				Product p = new Product();
 				int beginIx = html.indexOf("jsonPartNumbers.push([", index);
 				if (beginIx <= 10)
 					break;
@@ -188,13 +187,10 @@ public class IkeaUtils {
 				String tmp = html.substring(beginIx + beginIxLength, endIx);
 				if (tmp.length() != 0) {
 					result = tmp.replace("\"", "");
-					results = result.split(",");
-					for (String pid : results) {
-						p.category = c.name;
-						p.addPid(pid);
-					}
-						pidlist.add(p);
-					
+					Product p1 = new Product();
+					p1.category = c.name;
+					p1.pid = result;
+					pidlist.add(p1);
 				}
 
 				index = endIx;
@@ -236,21 +232,17 @@ class Categroy {
 }
 
 class Product {
-	public ArrayList<String> pids = new ArrayList<String>();
+	public String pid;
 	public String category;
-
-	public void addPid(String pid) {
-		pids.add(pid);
-	}
 
 	@Override
 	public String toString() {
-		return category + Constant.split + pids;
+		return category + Constant.split + pid;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((Product) obj).pids.get(0).equals(pids.get(0));
+		return ((Product) obj).pid.equals(pid);
 	}
 
 	@Override
