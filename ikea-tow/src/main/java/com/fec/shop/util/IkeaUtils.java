@@ -154,6 +154,7 @@ public class IkeaUtils {
 		int x = 1;
 		try {
 			while (true) {
+				Product p = new Product();
 				int beginIx = html.indexOf("<div id=\"item_", index);
 				if (beginIx <= 0)
 					break;
@@ -161,7 +162,6 @@ public class IkeaUtils {
 				int beginIxLength = beginstr.length();
 				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
 				String pid = html.substring(beginIx + beginIxLength, endIx);
-				Product p = new Product();
 				p.category = c.name;
 				p.pid = pid;
 				pidlist.add(p);
@@ -186,10 +186,10 @@ public class IkeaUtils {
 				String tmp = html.substring(beginIx + beginIxLength, endIx);
 				if (tmp.length() != 0) {
 					result = tmp.replace("\"", "");
-					Product p = new Product();
-					p.category = c.name;
-					p.pid = result;
-					pidlist.add(p);
+					Product p1 = new Product();
+					p1.category = c.name;
+					p1.pid = result;
+					pidlist.add(p1);
 				}
 
 				index = endIx;
