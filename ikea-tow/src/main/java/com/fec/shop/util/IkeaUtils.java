@@ -9,14 +9,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		List<Categroy> catList = getCategoryFromHtml();//getCategoryFromHtml，getCatListFromFile
-		saveCategory2File(catList);
-		IkeaUtils.saveProductList2File(catList);
+		Map<String, String> taobaocidMap = TaobaoUtils.getCCMapFromFile();
+		List<Categroy> ikeacatList = getCatListFromFile();// getCategoryFromHtml，getCatListFromFile
+		// saveCategory2File(catList);
+		IkeaUtils.saveProductList2File(ikeacatList, taobaocidMap);
 		// IkeaUtils.getProductListFromFile(0);
 	}
 
@@ -70,8 +72,8 @@ public class IkeaUtils {
 		System.out.println("save ikea category to file finish ,number:" + catList.size());
 	}
 
-	public static void saveProductList2File(List<Categroy> catList) {
-		List<Product> pList = getAllProdutIds(catList);
+	public static void saveProductList2File(List<Categroy> ikeaCatList, Map<String, String> taobaocidMap) {
+		List<Product> pList = getAllProdutIds(ikeaCatList, taobaocidMap);
 		int numPerFile = pList.size() / Constant.file_num_product;
 		for (int i = 0; i < Constant.file_num_product + 1; i++) {
 			try {
@@ -91,10 +93,10 @@ public class IkeaUtils {
 		System.out.println("save ikea product id to file finish,number:" + pList.size());
 	}
 
-	public static List<Product> getAllProdutIds(List<Categroy> cats) {
+	public static List<Product> getAllProdutIds(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
 		List<Product> result = new ArrayList<Product>();
 		List<Product> tmp;
-		for (Categroy categroy : cats) {
+		for (Categroy categroy : ikeacatList) {
 			tmp = getProductList(categroy);
 			for (Product p : tmp) {
 				if (result.contains(p)) {
@@ -102,8 +104,10 @@ public class IkeaUtils {
 					if (!pInList.category.equals(p.category)) {
 						System.out.println("该产品还属于其他目录：" + p.pid);
 						pInList.category = pInList.category + "," + p.category;
+						pInList.cid = pInList.cid + "," + taobaocidMap.get(p.category);
 					}
 				} else {
+					p.cid = taobaocidMap.get(p.category);
 					result.add(p);
 				}
 			}
@@ -151,30 +155,8 @@ public class IkeaUtils {
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
-		int index = 0;
-		int x = 1;
-		try {
-			while (true) {
-				Product p = new Product();
-				int beginIx = html.indexOf("<div id=\"item_", index);
-				if (beginIx <= 0)
-					break;
-				String beginstr = "<div id=\"item_";
-				int beginIxLength = beginstr.length();
-				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
-				String pid = html.substring(beginIx + beginIxLength, endIx);
-				p.category = c.name;
-				p.pid = pid;
-				pidlist.add(p);
-
-				index = endIx;
-				x++;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		index = 10;
+		// 先抓取json里面的
+		int index = 11000;
 		String result;
 		try {
 
@@ -200,6 +182,32 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		index = 11000;
+		int x = 1;
+		try {
+			while (true) {
+				int beginIx = html.indexOf("<div id=\"item_", index);
+				if (beginIx <= 0)
+					break;
+				String beginstr = "<div id=\"item_";
+				int beginIxLength = beginstr.length();
+				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
+				String pid = html.substring(beginIx + beginIxLength, endIx);
+				Product p = new Product();
+				p.category = c.name;
+				p.pid = pid;
+				if (!pidlist.contains(p)) {
+					pidlist.add(p);
+				}
+				index = endIx;
+				x++;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		System.out.println("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
 	}
@@ -234,15 +242,17 @@ class Categroy {
 class Product {
 	public String pid;
 	public String category;
+	public String cid;
 
 	@Override
 	public String toString() {
-		return category + Constant.split + pid;
+		return category + Constant.split + cid + Constant.split + pid;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((Product) obj).pid.equals(pid);
+		String otherPid = ((Product) obj).pid;
+		return otherPid.equals(pid) || otherPid.contains(pid) || pid.contains(otherPid);
 	}
 
 	@Override

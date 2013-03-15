@@ -2,18 +2,14 @@ package com.fec.shop;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Product;
 import com.fec.shop.util.IkeaUtils;
-import com.fec.shop.util.TaobaoUtils;
 
 public class MainDriver implements Runnable {
 	public static List<String> pis = IkeaUtils.getProductListFromFile(111111);
 	
-	public static Map<String, String> taobaocid = TaobaoUtils.getCCMapFromFile();
-
 	public static int index = 0;
 	public static synchronized int getindex() {
 		if (index < pis.size()) {
@@ -29,14 +25,7 @@ public class MainDriver implements Runnable {
 				System.out.println(Thread.currentThread().getName() + "：抓取第" + i + "个产品：" + pis.get(i));
 				String[] tmp=pis.get(i).split(Constant.split);
 				
-				//生产 该系列产品  对应的 淘宝类别
-				String[] catlogs=tmp[0].split(",");
-				StringBuilder taobaoCatLogs=new StringBuilder();
-				for (String cat : catlogs) {
-					taobaoCatLogs.append(taobaocid.get(cat)+",");
-				}
-				
-				Product pd = new Product(tmp[1],taobaoCatLogs.toString() );
+				Product pd = new Product(tmp[3],tmp[1]);
 				pd.toCSV("g:\\ikea\\");
 				// pd.toSQL();
 			} else

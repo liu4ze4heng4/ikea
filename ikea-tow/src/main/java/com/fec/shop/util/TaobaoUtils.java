@@ -20,13 +20,30 @@ import com.fec.shop.constant.Constant;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.SellercatsListAddRequest;
 import com.taobao.api.request.SellercatsListGetRequest;
+import com.taobao.api.response.SellercatsListAddResponse;
 import com.taobao.api.response.SellercatsListGetResponse;
 
 public class TaobaoUtils {
 	public static void main(String[] args) {
-//		TaobaoUtils.saveTBcategory2File();
-		 TaobaoUtils.getCCMapFromFile();
+		TaobaoUtils.saveTBcategory2File();
+//		 TaobaoUtils.getCCMapFromFile();
+//		SellercatsListAddRequest req=new SellercatsListAddRequest();
+//		req.setParentCid(0l);
+//		req.setName("testsets======");
+//		req.setPictUrl("http://www.ikea.com/cn/zh/images/products/fu-li-suo-yang-san__0103516_PE249675_S4.JPG");
+//		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
+//		try {
+//			SellercatsListAddResponse response=client.execute(req);
+//			response.getParams();
+//			response.getBody();
+//			response.getSellerCat();
+//			response.getMsg();
+//		} catch (ApiException e) {
+//			e.printStackTrace();
+//		}
+		System.out.println("ok!");
 	}
 
 	public static Map<String, String> getCCMapFromFile() {
@@ -62,6 +79,10 @@ public class TaobaoUtils {
 			e.printStackTrace();
 		}
 		System.out.println("save taobao category to file finish!");
+	}
+	
+	private static void addCategory(){
+		
 	}
 
 	private static ArrayList<TBCategory> getTBcategories() {
