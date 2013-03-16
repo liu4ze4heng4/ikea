@@ -21,23 +21,23 @@ public class SQLHelper {
 		return con;
 	}
 	public void insertProduct(Product product) {
-		String sql = "insert into tbl_product(product_dian_id,productNameProdInfo,productTypeProdInfo,price,category) values(?,?,?,?,?)";
-		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
-			stmt.setString(1, product.getProduct_dian_id());
-			stmt.setString(2, product.getProductNameProdInfo());
-			stmt.setString(3, product.getProductTypeProdInfo());
-			stmt.setDouble(4, product.getPrice());
-			stmt.setString(5, product.getCategory());
-
-			stmt.execute();
-		} catch (SQLException e) {
-			System.out.println("=========SQLException==========" + e.getMessage());
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println("========ClassNotFoundException===========" + e.getMessage());
-			e.printStackTrace();
-		}
+//		String sql = "insert into tbl_product(product_dian_id,productNameProdInfo,productTypeProdInfo,price,category) values(?,?,?,?,?)";
+//		try {
+//			PreparedStatement stmt = getConnection().prepareStatement(sql);
+//			stmt.setString(1, product.getProduct_dian_id());
+//			stmt.setString(2, product.getProductNameProdInfo());
+//			stmt.setString(3, product.getProductTypeProdInfo());
+//			stmt.setDouble(4, product.getPrice());
+//			stmt.setString(5, product.getCategory());
+//
+//			stmt.execute();
+//		} catch (SQLException e) {
+//			System.out.println("=========SQLException==========" + e.getMessage());
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			System.out.println("========ClassNotFoundException===========" + e.getMessage());
+//			e.printStackTrace();
+//		}
 	}
 
 	public Product getProduct(String code) {
@@ -52,7 +52,7 @@ public class SQLHelper {
 				pt.setProduct_dian_id(rs.getString("product_dian_id"));
 				pt.setProductNameProdInfo(rs.getString("productNameProdInfo"));
 				pt.setProductTypeProdInfo(rs.getString("productTypeProdInfo"));
-				pt.setPrice(rs.getDouble("price"));
+//				pt.setPrice(rs.getDouble("price"));
 				pt.setCategory(rs.getString("category"));
 
 			}
