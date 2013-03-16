@@ -57,7 +57,7 @@ public class GetAnything {
 		result = result.replace("	", "");
 		String[] temp=result.split(",");
 		if(temp==null||temp.length<=1){
-			return  "类别没有";
+			return  " ";
 		}else{
 			result=temp[1];
 		}
