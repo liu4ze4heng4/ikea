@@ -88,7 +88,7 @@ public class Product {
 		try {
 			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(diypath + "products\\" + product_id + ".html"), "utf-8"));
 
-			writer.write("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"e:\\bg.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"e:\\top.png\"></td></tr>");
+			writer.write("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2SBnwXgJXXXXXXXXX_!!42635718.png\"></td></tr>");
 			writer.write("<tr><td style=\"padding: 10.0px 0 0;\"><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" ><tr><td width=\"8\"></td><td width=\"120\" valign=\"top\" ><table width=\"120\"><tr><td><img src=\"http://www.ikea.com/PIAimages/"
 					+ pic_id.get(0)
 					+ "_S2.jpg\" /></td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td align=\"center\" width=\"120\";><div style=\"width: 120.0px;word-wrap:break-word;;\">"
@@ -116,13 +116,17 @@ public class Product {
 						+ assembledSize + "</td></tr> ");
 			}
 
-			if (designer.length() >= 1 || designerThoughts.length() >= 1) {
+			if (designer.length() > 1 || designerThoughts.length() >1) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>���ʦ</td></tr>");
 			}
 			if (designerThoughts.length() >= 1)
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designerThoughts + "</td></tr> ");
 			if (designer.length() >= 1)
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designer + "</td></tr> ");
+			if (goodToKnow.length() >= 1) {
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>�����ʾ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+								+ goodToKnow + "</td></tr> ");
+			}
 			if (environment.length() >= 1) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>������Ϣ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ environment + "</td></tr> ");
@@ -137,10 +141,6 @@ public class Product {
 			} else {
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>�ߴ���������IKEA����<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
 						+ product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>" + "</td></tr> ");
-			}
-			if (goodToKnow.length() >= 1) {
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>�����ʾ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-						+ goodToKnow + "</td></tr> ");
 			}
 
 			if (careInst.length() >= 1) {
@@ -169,7 +169,7 @@ public class Product {
 			}
 			writer.write("<tr><td width=\"10\"></td><td colspan=\"4\" height=\"1\" align=\"left\"><p style=\"width:700px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;\"></p></td></tr>");
 			for (int i = 0; i < pic_id.size(); i++)
-				writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i) + "_S4.jpg\" /> <img src=\"e:\\BAMBER1.png\"/></td></tr>");
+				writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i) + "_S4.jpg\" /> <img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png\"/></td></tr>");
 			writer.write("</table></td></tr><tr><td align=\"right\" style=\"padding: 0 20.0px 5.0px 0;color: #333;\">COPYRIGHT 2013 BESIDE IKEA</td></tr></table>");
 			writer.close();
 		} catch (IOException exp) {
@@ -275,7 +275,7 @@ public class Product {
 	public StringBuilder getDescribtion() {
 		StringBuilder describtion = new StringBuilder();
 		describtion
-				.append("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"e:\\bg.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"e:\\top.png\"></td></tr>");
+				.append("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2SBnwXgJXXXXXXXXX_!!42635718.png\"></td></tr>");
 		describtion
 				.append("<tr><td style=\"padding: 10.0px 0 0;\"><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" ><tr><td width=\"8\"></td><td width=\"120\" valign=\"top\" ><table width=\"120\"><tr><td><img src=\"http://www.ikea.com/PIAimages/"
 						+ pic_id.get(0)
@@ -307,7 +307,7 @@ public class Product {
 							+ assembledSize + "</td></tr> ");
 		}
 
-		if (designer.length() >= 1 || designerThoughts.length() >= 1) {
+		if (designer.length() > 1 || designerThoughts.length() > 1) {
 			describtion
 					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>���ʦ</td></tr>");
 		}
@@ -315,6 +315,11 @@ public class Product {
 			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designerThoughts + "</td></tr> ");
 		if (designer.length() >= 1)
 			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designer + "</td></tr> ");
+		if (goodToKnow.length() >= 1) {
+			describtion
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>�����ʾ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+							+ goodToKnow + "</td></tr> ");
+		}
 		if (environment.length() >= 1) {
 			describtion
 					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>������Ϣ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
@@ -332,11 +337,6 @@ public class Product {
 		} else {
 			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>�ߴ���������IKEA����<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
 					+ product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>" + "</td></tr> ");
-		}
-		if (goodToKnow.length() >= 1) {
-			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>�����ʾ</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-							+ goodToKnow + "</td></tr> ");
 		}
 
 		if (careInst.length() >= 1) {
@@ -370,7 +370,7 @@ public class Product {
 		describtion
 				.append("<tr><td width=\"10\"></td><td colspan=\"4\" height=\"1\" align=\"left\"><p style=\"width:700px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;\"></p></td></tr>");
 		for (int i = 0; i < pic_id.size(); i++)
-			describtion.append(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i) + "_S4.jpg\" /> <img src=\"e:\\BAMBER1.png\"/></td></tr>");
+			describtion.append(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i) + "_S4.jpg\" /> <img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png\"/></td></tr>");
 		describtion.append("</table></td></tr><tr><td align=\"right\" style=\"padding: 0 20.0px 5.0px 0;color: #333;\">COPYRIGHT 2013 BESIDE IKEA</td></tr></table>");
 
 		return describtion;
@@ -453,7 +453,7 @@ public class Product {
 			writer.append(getDescribtion().toString().replaceAll("\"", "'"));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
-			for (int j = 0; j < mainPics.size(); j++)
+			for (int j = 0; j < mainPics.size()&&j<5; j++)
 				writer.append(product_id+"_"+ mainPics.get(j) + "_S4" + ":1:" + j + ":|;");
 			writer.append("\"	\"\"	\"\"	\"\"	\"\"	\""+product_id+"\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
 			writer.close();
@@ -524,10 +524,10 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("20208532,60174219,S69875838,S39875401,S69897251,S29897253", "");
+		Product p = new Product("30181589,20208532,60174219,S69875838,S39875401,S69897251,S29897253", "");
 		// p.toSQL();
-		// p.toFile2("E:\\IKEA123\\");
-		p.toCSV("E:\\IKEA123\\");
+		 p.toFile2("E:\\IKEA123\\");
+//		p.toCSV("E:\\IKEA123\\");
 		// p.toPic(4, "E:\\IKEA123\\");
 		// System.out.println("!");
 	}
