@@ -506,6 +506,7 @@ public class Product {
 		category = cate;
 		ProductName = something.getProductName(buf);
 		ProductType = new String[10];
+		
 		ProductType[0] = something.getProductType(buf);
 
 		for (int i = 1; i < ids.length; i++) {
@@ -528,10 +529,10 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("30181589,20208532,60174219,S69875838,S39875401,S69897251,S29897253", "");
+		Product p = new Product("10236130", "");
 		// p.toSQL();
-		 p.toFile2("E:\\IKEA123\\");
-//		p.toCSV("E:\\IKEA123\\");
+//		 p.toFile2("E:\\IKEA123\\");
+		p.toCSV("E:\\IKEA123\\");
 		// p.toPic(4, "E:\\IKEA123\\");
 		// System.out.println("!");
 	}
