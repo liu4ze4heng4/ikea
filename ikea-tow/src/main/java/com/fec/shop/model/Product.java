@@ -106,7 +106,7 @@ public class Product {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ keyFeatures + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
-				System.out.println(keyFeatures + "!!!");
+//				System.out.println(keyFeatures + "!!!");
 				writer.write("</table> </td></tr>");
 			}
 
@@ -297,7 +297,7 @@ public class Product {
 			describtion
 					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ keyFeatures + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
-			System.out.println(keyFeatures + "!!!");
+//			System.out.println(keyFeatures + "!!!");
 			describtion.append("</table> </td></tr>");
 		}
 
@@ -379,7 +379,7 @@ public class Product {
 	}
 
 	public void toPic(int p, String diypath) {
-		System.out.println(Thread.currentThread().getName() + "is Saveing Pic" + product_id);
+//		System.out.println(Thread.currentThread().getName() + "is Saveing Pic" + product_id);
 		// try {
 		// captureHtml(id);
 		// // pic_id = something.getPicUrl(buf,id);
@@ -466,7 +466,7 @@ public class Product {
 			e.printStackTrace();
 			System.out.println(Thread.currentThread().getName() + product_id + " is not exist[csv]");
 		}
-		System.out.println(Thread.currentThread().getName() + diypath + "'s CRV is OK");
+//		System.out.println(Thread.currentThread().getName() + diypath + "'s CRV is OK");
 
 	}
 
@@ -476,7 +476,7 @@ public class Product {
 	}
 
 	public Product(String id, String cate) {
-		System.out.println(id);
+//		System.out.println(id);
 		String[] ids = id.split(",");
 		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
 		GetAnything something = new GetAnything();
@@ -510,17 +510,17 @@ public class Product {
 		ProductType[0] = something.getProductType(buf);
 
 		for (int i = 1; i < ids.length; i++) {
-			System.out.println(ids[i]);
+//			System.out.println(ids[i]);
 			buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[i] + "/");
 			title[i] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 			price[i] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
 			ProductType[i] = something.getProductType(buf);
-			System.out.println(something.getPicUrl(buf, product_id)[0]);
+//			System.out.println(something.getPicUrl(buf, product_id)[0]);
 			Collections.addAll(pic_id, something.getPicUrl(buf, ids[i]));
 			mainPics.add(something.getPicUrl(buf, ids[i])[0]);
 		}
-		System.out.println(pic_id);
-		System.out.println(ProductType[1] + ProductType[0]);
+//		System.out.println(pic_id);
+//		System.out.println(ProductType[1] + ProductType[0]);
 
 	}
 
