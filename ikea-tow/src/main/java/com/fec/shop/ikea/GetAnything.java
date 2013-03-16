@@ -41,6 +41,23 @@ public class GetAnything {
 		return PicUrl;
 
 	}
+	public String getProductName(String buf) {
+
+		int beginIx = buf.indexOf("<div id=\"name\" class=\"productName\">");
+		int endIx = buf.indexOf("</div>", beginIx);
+		String result = buf.substring(beginIx + "<div id=\"name\" class=\"productName\">".length(), endIx);
+		result = result.replace("	", "");
+		return result;
+
+	}
+	public String getProductType(String buf){
+		int beginIx = buf.indexOf("<div id=\"type\" class=\"productType\">");
+		int endIx = buf.indexOf("<strong>", beginIx);
+		String result = buf.substring(beginIx + "<div id=\"type\" class=\"productType\">".length(), endIx);
+		result = result.replace("	", "");
+		result=result.split(",")[1];
+		return result;
+	}
 
 	public double getPrice(String buf, String beginstr, String endstr, String title) {
 		int beginIx = buf.indexOf(beginstr);
@@ -63,5 +80,13 @@ public class GetAnything {
 		String tmp = buf.substring(beginIx + "<meta name=\"category_name\" content=\"".length(), endIx);
 		return tmp;
 	}
-
+	public String getDesigner(String buf){
+		int beginIx = buf.indexOf("<div id=\"designer\" class=\"texts\">");
+		int endIx = buf.indexOf("</div>", beginIx);
+		String tmp = buf.substring(beginIx + "<div id=\"designer\" class=\"texts\">".length(), endIx);
+		return tmp;
+	}
+public void main(String args){
+	
+}
 }
