@@ -432,16 +432,16 @@ public class Product {
 		File csvfile = new File(diypath + "//" + "products.csv");
 		if (csvfile.exists() == false) {
 			try {
-//				OutputStreamWriter osw=new OutputStreamWriter();
-				Writer initWriter = new BufferedWriter(new FileWriter(csvfile, true));
+				OutputStreamWriter initWriter=new OutputStreamWriter(new FileOutputStream(csvfile, true),"GBK");
 
-				initWriter.write("version 1.00" + "\n");
+				initWriter.append("version 1.00" + "\n");
 				initWriter
-						.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
+						.append("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
 								+ "\n");
 				initWriter
-						.write("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
+						.append("宝贝名称	宝贝类目	店铺类目	新旧程度	省	城市	出售方式	宝贝价格	加价幅度	宝贝数量	有效期	运费承担	平邮	EMS	快递	发票	保修	放入仓库	橱窗推荐	开始时间	宝贝描述	宝贝属性	邮费模版ID	会员打折	修改时间	上传状态	图片状态	返点比例	新图片	视频	销售属性组合	用户输入ID串	用户输入名-值对	商家编码	销售属性别名	代充类型	数字ID	本地ID	宝贝分类	账户名称	宝贝状态	闪电发货	新品	食品专项	尺码库	库存类型	库存计数"
 								+ "\n");
+				initWriter.flush();
 				initWriter.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -449,7 +449,7 @@ public class Product {
 			}
 		}
 		try {
-			Writer writer = new BufferedWriter(new FileWriter(csvfile, true));
+			OutputStreamWriter writer=new OutputStreamWriter(new FileOutputStream(csvfile, true),"GBK");
 
 			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
@@ -459,6 +459,7 @@ public class Product {
 			for (int j = 0; j < mainPics.size()&&j<5; j++)
 				writer.append(product_id+"_"+ mainPics.get(j) + "_S4" + ":1:" + j + ":|;");
 			writer.append("\"	\"\"	\"\"	\"\"	\"\"	\""+product_id+"\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
+			writer.flush();
 			writer.close();
 
 		} catch (IOException e) {
