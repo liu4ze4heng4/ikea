@@ -55,7 +55,12 @@ public class GetAnything {
 		int endIx = buf.indexOf("<strong>", beginIx);
 		String result = buf.substring(beginIx + "<div id=\"type\" class=\"productType\">".length(), endIx);
 		result = result.replace("	", "");
-		result=result.split(",")[1];
+		String[] temp=result.split(",");
+		if(temp==null||temp.length<=1){
+			return  "类别没有";
+		}else{
+			result=temp[1];
+		}
 		return result;
 	}
 
