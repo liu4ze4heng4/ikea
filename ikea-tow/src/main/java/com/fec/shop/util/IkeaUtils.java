@@ -9,33 +9,44 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		List<Categroy> catList = getCategoryFromHtml();//getCategoryFromHtml，getCatListFromFile
-		saveCategory2File(catList);
-		IkeaUtils.saveProductList2File(catList);
-		// IkeaUtils.getProductListFromFile(0);
+		IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile()),
+				Constant.ikea_product_file);
 	}
 
-	public static List<String> getProductListFromFile(int index) {
-		List<String> pList = new ArrayList<String>();
-		String pid;
-		try {
-			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)), "utf-8");
-			BufferedReader bufReader = new BufferedReader(insReader);
-			while ((pid = bufReader.readLine()) != null) {
-				pList.add(pid);
-			}
-			bufReader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+	/**
+	 * 生成新增加的产品列表
+	 */
+	public void generateNewProductList() {
+		List<Product> listInFile = new ArrayList<Product>();
+		for (int i = 0; new File(Constant.ikea_product_file + i).exists(); i++) {
+			listInFile.addAll(getProductListFromFile(i));
 		}
-		return pList;
+		List<Product> listInHtml = getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile());
+		List<Product> newAddProduct = new ArrayList<Product>();
+		for (Product product : listInHtml) {
+			if (!listInFile.contains(product)) {
+				System.out.println("新增加产品：" + product);
+				newAddProduct.add(product);
+			}
+		}
+		if (newAddProduct.size() > 0) {
+			saveProductList2File(listInHtml, Constant.ikea_product_file);
+			saveProductList2File(newAddProduct, Constant.ikea_product_file_new_add);
+		}
+
 	}
 
+	/**
+	 * 从文件获取类别
+	 * 
+	 * @return
+	 */
 	public static List<Categroy> getCatListFromFile() {
 		List<Categroy> pList = new ArrayList<Categroy>();
 		String pid;
@@ -54,64 +65,12 @@ public class IkeaUtils {
 		return pList;
 	}
 
-	public static void saveCategory2File(List<Categroy> catList) {
-		try {
-			FileWriter fw = new FileWriter(new File(Constant.ikea_category_file));
-			for (Categroy category : catList) {
-				fw.write(category + "\n");
-			}
-			fw.flush();
-			fw.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("save ikea category to file finish ,number:" + catList.size());
-	}
-
-	public static void saveProductList2File(List<Categroy> catList) {
-		List<Product> pList = getAllProdutIds(catList);
-		int numPerFile = pList.size() / Constant.file_num_product;
-		for (int i = 0; i < Constant.file_num_product + 1; i++) {
-			try {
-				FileWriter fw = new FileWriter(new File(Constant.ikea_product_file + i));
-				for (int j = i * (numPerFile); j < (i + 1) * (numPerFile) && j < pList.size(); j++) {
-					fw.write(pList.get(j) + "\n");
-				}
-				fw.flush();
-				fw.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-		System.out.println("save ikea product id to file finish,number:" + pList.size());
-	}
-
-	public static List<Product> getAllProdutIds(List<Categroy> cats) {
-		List<Product> result = new ArrayList<Product>();
-		List<Product> tmp;
-		for (Categroy categroy : cats) {
-			tmp = getProductList(categroy);
-			for (Product p : tmp) {
-				if (result.contains(p)) {
-					Product pInList = result.get(result.indexOf(p));
-					if (!pInList.category.equals(p.category)) {
-						System.out.println("该产品还属于其他目录：" + p.pid);
-						pInList.category = pInList.category + "," + p.category;
-					}
-				} else {
-					result.add(p);
-				}
-			}
-		}
-		return result;
-	}
-
-	private static List<Categroy> getCategoryFromHtml() {
+	/**
+	 * 从网页获取类别列表
+	 * 
+	 * @return
+	 */
+	public static List<Categroy> getCategoryFromHtml() {
 		String categoryListUrl = "http://www.ikea.com/cn/zh/catalog/allproducts/";
 		List<Categroy> allCategory = new ArrayList<Categroy>();
 		String html = HtmlUtil.getHtmlContent(categoryListUrl);
@@ -144,37 +103,137 @@ public class IkeaUtils {
 		return allCategory;
 	}
 
-	public static List<Product> getProductList(Categroy c) {
+	/**
+	 * 保存类别到文件
+	 * 
+	 * @param catList
+	 */
+	private static void saveCategory2File(List<Categroy> catList, String filePath) {
+		try {
+			FileWriter fw = new FileWriter(new File(filePath));
+			for (Categroy category : catList) {
+				fw.write(category + "\n");
+			}
+			fw.flush();
+			fw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("save ikea category to file finish ,number:" + catList.size());
+	}
+
+	public static List<String> getProductStrListFromFile(int index) {
+		List<String> pList = new ArrayList<String>();
+		String pid;
+		try {
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)), "utf-8");
+			BufferedReader bufReader = new BufferedReader(insReader);
+			while ((pid = bufReader.readLine()) != null) {
+				pList.add(pid);
+			}
+			bufReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return pList;
+	}
+
+	/**
+	 * 从指定文件获取产品列表
+	 * 
+	 * @param index
+	 * @return
+	 */
+	private static List<Product> getProductListFromFile(int index) {
+		List<Product> pList = new ArrayList<Product>();
+		String pid;
+		try {
+			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)), "utf-8");
+			BufferedReader bufReader = new BufferedReader(insReader);
+			String temp[];
+			while ((pid = bufReader.readLine()) != null) {
+				temp = pid.split(Constant.split);
+				Product p = new Product(temp[0], temp[1], temp[2]);
+				pList.add(p);
+			}
+			bufReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return pList;
+	}
+
+	/**
+	 * 保存产品到文件
+	 * 
+	 * @param pList
+	 * @param filePath
+	 */
+	public static void saveProductList2File(List<Product> pList, String filePath) {
+		for (int i = 0; i * (Constant.num_product_per_file) < pList.size() + 1; i++) {
+			try {
+				FileWriter fw = new FileWriter(new File(filePath + i));
+				for (int j = i * (Constant.num_product_per_file); j < (i + 1) * (Constant.num_product_per_file) && j < pList.size(); j++) {
+					fw.write(pList.get(j) + "\n");
+				}
+				fw.flush();
+				fw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		System.out.println("save ikea product id to file finish,number:" + pList.size());
+	}
+
+	/**
+	 * 从网页获取产品列表
+	 * 
+	 * @param ikeacatList
+	 * @param taobaocidMap
+	 * @return
+	 */
+	public static List<Product> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
+		List<Product> result = new ArrayList<Product>();
+		List<Product> tmp;
+		for (Categroy categroy : ikeacatList) {
+			tmp = getProductListFromHtml(categroy);
+			for (Product p : tmp) {
+				if (result.contains(p)) {
+					Product pInList = result.get(result.indexOf(p));
+					if (!pInList.category.equals(p.category)) {
+						System.out.println("该产品还属于其他目录：" + p.pid);
+						pInList.category = pInList.category + "," + p.category;
+						pInList.cid = pInList.cid + "," + taobaocidMap.get(p.category);
+					}
+				} else {
+					p.cid = taobaocidMap.get(p.category);
+					result.add(p);
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * 从网页获取单个类别下的全部产品
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private static List<Product> getProductListFromHtml(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
 		while (html == null) {
 			System.out.println("重新抓起：" + c.url);
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
-		int index = 0;
-		int x = 1;
-		try {
-			while (true) {
-				Product p = new Product();
-				int beginIx = html.indexOf("<div id=\"item_", index);
-				if (beginIx <= 0)
-					break;
-				String beginstr = "<div id=\"item_";
-				int beginIxLength = beginstr.length();
-				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
-				String pid = html.substring(beginIx + beginIxLength, endIx);
-				p.category = c.name;
-				p.pid = pid;
-				pidlist.add(p);
-
-				index = endIx;
-				x++;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		index = 10;
+		// 先抓取json里面的
+		int index = 11000;
 		String result;
 		try {
 
@@ -200,6 +259,32 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		index = 11000;
+		int x = 1;
+		try {
+			while (true) {
+				int beginIx = html.indexOf("<div id=\"item_", index);
+				if (beginIx <= 0)
+					break;
+				String beginstr = "<div id=\"item_";
+				int beginIxLength = beginstr.length();
+				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
+				String pid = html.substring(beginIx + beginIxLength, endIx);
+				Product p = new Product();
+				p.category = c.name;
+				p.pid = pid;
+				if (!pidlist.contains(p)) {
+					pidlist.add(p);
+				}
+				index = endIx;
+				x++;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		System.out.println("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
 	}
@@ -234,15 +319,26 @@ class Categroy {
 class Product {
 	public String pid;
 	public String category;
+	public String cid;
+
+	public Product() {
+	}
+
+	public Product(String cat, String cd, String pd) {
+		this.category = cat;
+		this.cid = cd;
+		this.pid = pd;
+	}
 
 	@Override
 	public String toString() {
-		return category + Constant.split + pid;
+		return category + Constant.split + cid + Constant.split + pid;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((Product) obj).pid.equals(pid);
+		String otherPid = ((Product) obj).pid;
+		return otherPid.equals(pid) || otherPid.contains(pid) || pid.contains(otherPid);
 	}
 
 	@Override

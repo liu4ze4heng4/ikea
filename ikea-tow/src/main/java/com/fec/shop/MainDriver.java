@@ -2,19 +2,16 @@ package com.fec.shop;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Product;
 import com.fec.shop.util.IkeaUtils;
-import com.fec.shop.util.TaobaoUtils;
 
 public class MainDriver implements Runnable {
-	public static List<String> pis = IkeaUtils.getProductListFromFile(111111);
-	
-	public static Map<String, String> taobaocid = TaobaoUtils.getCCMapFromFile();
+	public static List<String> pis = IkeaUtils.getProductStrListFromFile(111111);
 
 	public static int index = 0;
+
 	public static synchronized int getindex() {
 		if (index < pis.size()) {
 			return index++;
@@ -27,16 +24,17 @@ public class MainDriver implements Runnable {
 			int i = getindex();
 			if (i != 9999) {
 				System.out.println(Thread.currentThread().getName() + "：抓取第" + i + "个产品：" + pis.get(i));
-				String[] tmp=pis.get(i).split(Constant.split);
-				Product pd = new Product(tmp[1], taobaocid.get(tmp[0]));
-				pd.toCSV("g:\\ikea\\");
+				String[] tmp = pis.get(i).split(Constant.split);
+
+				Product pd = new Product(tmp[2], tmp[1]);
+				pd.toCSV(Constant.product_cvs_file);
 				// pd.toSQL();
 			} else
 				break;
 		}
 	}
 
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
 
 		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {

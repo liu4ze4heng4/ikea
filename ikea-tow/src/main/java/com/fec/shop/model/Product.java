@@ -97,14 +97,14 @@ public class Product {
 
 			if (custMaterials.length() >= 1) {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
-				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>²úÆ·ÃèÊö</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>äº§å“æè¿°</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ custMaterials + "</td></tr><tr><td width=\"300\"><p style=\"width:560px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 				writer.write("</table> </td></tr>");
 			}
 
 			if (keyFeatures.length() >= 15) {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
-				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ÖØÒªÌØÕ÷</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>é‡è¦ç‰¹å¾</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ keyFeatures + "</td></tr><tr><td width=\"300\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 				System.out.println(keyFeatures + "!!!");
 				writer.write("</table> </td></tr>");
@@ -112,49 +112,49 @@ public class Product {
 
 			writer.write("<tr><td width=\"300\"valign=\"top\"><table>");
 			if (assembledSize.length() >= 1) {
-				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>°²×°ºó³ß´ç</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>å®‰è£…åå°ºå¯¸</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ assembledSize + "</td></tr> ");
 			}
 
 			if (designer.length() > 1 || designerThoughts.length() >1) {
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>Éè¼ÆÊ¦</td></tr>");
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>è®¾è®¡å¸ˆ</td></tr>");
 			}
 			if (designerThoughts.length() >= 1)
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designerThoughts + "</td></tr> ");
 			if (designer.length() >= 1)
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designer + "</td></tr> ");
 			if (goodToKnow.length() >= 1) {
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>Ïà¹ØÌáÊ¾</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ç›¸å…³æç¤º</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 								+ goodToKnow + "</td></tr> ");
 			}
 			if (environment.length() >= 1) {
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>»·±£ĞÅÏ¢</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ç¯ä¿ä¿¡æ¯</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ environment + "</td></tr> ");
 			}
 
 			writer.write("</table> </td><td width=\"300\"valign=\"top\"><table>");
-			writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>°ü×°³ß´çºÍÖØÁ¿</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>°ü×°£º"
+			writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>åŒ…è£…å°ºå¯¸å’Œé‡é‡</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>åŒ…è£…ï¼š"
 					+ numberOfPackages + "</td></tr> ");
 			if (numberOfPackages.equals("1")) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ productInformation + "</td></tr> ");
 			} else {
-				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>³ß´çºÍÖØÁ¿Ïê¼ûIKEA¹ÙÍø<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
+				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>å°ºå¯¸å’Œé‡é‡è¯¦è§IKEAå®˜ç½‘<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
 						+ product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>" + "</td></tr> ");
 			}
 			
 
 			if (careInst.length() >= 1) {
 
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>±£ÑøËµÃ÷</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ä¿å…»è¯´æ˜</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ careInst + "</td></tr> ");
 			}
 			if (lowestPrice.length() >= 1) {
-				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>µÍ¼Û¸ñ´ÓÄÄÀïÀ´</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ä½ä»·æ ¼ä»å“ªé‡Œæ¥</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ lowestPrice + "</td></tr> ");
 			}
 			// if (custMaterials.length() >= 1) {
-			// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>²úÆ·ÃèÊö</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"+custMaterials+"</td></tr> ");}
+			// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>äº§å“æè¿°</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"+custMaterials+"</td></tr> ");}
 
 			writer.write("</table> </td></tr></table></td><td width=\"2\"></td></tr>");
 			if (mainPics.size() > 1) {
@@ -204,17 +204,17 @@ public class Product {
 	// writer.write("<p style=\"width:750px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p>");
 	// writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 20px;background:#FFF;color:#000;width:300px;float:left;\">");
 	// if (assembledSize.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">°²×°ºó³ß´ç</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">å®‰è£…åå°ºå¯¸</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + assembledSize + "</span>");
 	// }
 	// if (keyFeatures.length() >= 15) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">ÖØÒªÌØÕ÷</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;line-height:40px;\">é‡è¦ç‰¹å¾</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + keyFeatures + "</span>");
 	// }
 	// if (designer.length() >= 1 || designerThoughts.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">Éè¼ÆÊ¦</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">è®¾è®¡å¸ˆ</span></span><br />");
 	// }
 	// if (designerThoughts.length() >= 1)
 	// writer.write("<span style=\"line-height:25px;\">" + designerThoughts +
@@ -222,44 +222,44 @@ public class Product {
 	// if (designer.length() >= 1)
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + designer + "</span><br /><br />");
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />");
-	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">°ü×°£º"
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />");
+	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">åŒ…è£…ï¼š"
 	// + numberOfPackages + "</span><br />");
 	// if (numberOfPackages.equals("1"))
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + productInformation + "</span><br /><br />");
 	// else
-	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">³ß´çºÍÖØÁ¿Ïê¼û¹ÙÍø</span><br /><br />");
+	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">å°ºå¯¸å’Œé‡é‡è¯¦è§å®˜ç½‘</span><br /><br />");
 	// if (environment.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">»·±£ĞÅÏ¢</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">ç¯ä¿ä¿¡æ¯</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + environment + "</span><br /><br />" + "</p>");
 	// }
 	// writer.write("<p style=\"font:12px Simsun;line-height:20px;margin:0px 0px 0px 30px;background:#FFF;color:#000;width:250px;float:left;\">");
 	// if (goodToKnow.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">Ïà¹ØÌáÊ¾</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">ç›¸å…³æç¤º</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + goodToKnow + "</span><br /><br />");
 	// }
 	// if (careInst.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">±£ÑøËµÃ÷</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">ä¿å…»è¯´æ˜</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + careInst + "</span><br /><br />");
 	// }
 	// if (lowestPrice.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">µÍ¼Û¸ñ´ÓÄÄÀïÀ´</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">ä½ä»·æ ¼ä»å“ªé‡Œæ¥</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + lowestPrice + "</span><br /><br />");
 	// }
 	// if (custMaterials.length() >= 1) {
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">²úÆ·ÃèÊö</span></span><br />");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">äº§å“æè¿°</span></span><br />");
 	// writer.write("<span style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
 	// + custMaterials + "</span><br /><br />");
 	// }
 	// //
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />"+"\n");
 	// //
-	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">°ü×°³ß´çºÍÖØÁ¿</span></span><br />"+"\n");
+	// writer.write("<span style=\"font-family:Microsoft YaHei,simhei;\"><span style=\"font-size:24px;line-height:40px;\">åŒ…è£…å°ºå¯¸å’Œé‡é‡</span></span><br />"+"\n");
 	//
 	// // for(String Info:InfoList){
 	// // writer.write(Info +"\n");
@@ -287,7 +287,7 @@ public class Product {
 		if (custMaterials.length() >= 1) {
 			describtion.append("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 			describtion
-					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>²úÆ·ÃèÊö</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>äº§å“æè¿°</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ custMaterials + "</td></tr><tr><td width=\"300\"><p style=\"width:560px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 			describtion.append("</table> </td></tr>");
 		}
@@ -295,7 +295,7 @@ public class Product {
 		if (keyFeatures.length() >= 15) {
 			describtion.append("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 			describtion
-					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ÖØÒªÌØÕ÷</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>é‡è¦ç‰¹å¾</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ keyFeatures + "</td></tr><tr><td width=\"300\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 			System.out.println(keyFeatures + "!!!");
 			describtion.append("</table> </td></tr>");
@@ -304,13 +304,13 @@ public class Product {
 		describtion.append("<tr><td width=\"300\"valign=\"top\"><table>");
 		if (assembledSize.length() >= 1) {
 			describtion
-					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>°²×°ºó³ß´ç</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>å®‰è£…åå°ºå¯¸</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ assembledSize + "</td></tr> ");
 		}
 
 		if (designer.length() > 1 || designerThoughts.length() > 1) {
 			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>Éè¼ÆÊ¦</td></tr>");
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>è®¾è®¡å¸ˆ</td></tr>");
 		}
 		if (designerThoughts.length() >= 1)
 			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designerThoughts + "</td></tr> ");
@@ -318,25 +318,25 @@ public class Product {
 			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designer + "</td></tr> ");
 		if (goodToKnow.length() >= 1) {
 			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>Ïà¹ØÌáÊ¾</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ç›¸å…³æç¤º</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ goodToKnow + "</td></tr> ");
 		}
 		if (environment.length() >= 1) {
 			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>»·±£ĞÅÏ¢</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ç¯ä¿ä¿¡æ¯</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ environment + "</td></tr> ");
 		}
 
 		describtion.append("</table> </td><td width=\"300\"valign=\"top\"><table>");
 		describtion
-				.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>°ü×°³ß´çºÍÖØÁ¿</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>°ü×°£º"
+				.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>åŒ…è£…å°ºå¯¸å’Œé‡é‡</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>åŒ…è£…ï¼š"
 						+ numberOfPackages + "</td></tr> ");
 		if (numberOfPackages.equals("1")) {
 			describtion
 					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ productInformation + "</td></tr> ");
 		} else {
-			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>³ß´çºÍÖØÁ¿Ïê¼ûIKEA¹ÙÍø<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
+			describtion.append("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>å°ºå¯¸å’Œé‡é‡è¯¦è§IKEAå®˜ç½‘<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
 					+ product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>" + "</td></tr> ");
 		}
 		
@@ -344,16 +344,16 @@ public class Product {
 		if (careInst.length() >= 1) {
 
 			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>±£ÑøËµÃ÷</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ä¿å…»è¯´æ˜</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ careInst + "</td></tr> ");
 		}
 		if (lowestPrice.length() >= 1) {
 			describtion
-					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>µÍ¼Û¸ñ´ÓÄÄÀïÀ´</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
+					.append("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>ä½ä»·æ ¼ä»å“ªé‡Œæ¥</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 							+ lowestPrice + "</td></tr> ");
 		}
 		// if (custMaterials.length() >= 1) {
-		// describtion.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>²úÆ·ÃèÊö</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"+custMaterials+"</td></tr> ");}
+		// describtion.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>äº§å“æè¿°</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"+custMaterials+"</td></tr> ");}
 
 		describtion.append("</table> </td></tr></table></td><td width=\"2\"></td></tr>");
 		if (mainPics.size() > 1) {
@@ -400,7 +400,7 @@ public class Product {
 				while ((read = bis.read()) != -1) {
 					bos.write(read);
 				}
-				bos.close();// ²»¹Ø±Õ£¬Êä³öÁ÷²»Ë¢ĞÂ£¬ÓĞ¿ÉÄÜµÃµ½ÎŞĞ§Í¼Æ¬
+				bos.close();// ä¸å…³é—­ï¼Œè¾“å‡ºæµä¸åˆ·æ–°ï¼Œæœ‰å¯èƒ½å¾—åˆ°æ— æ•ˆå›¾ç‰‡
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -432,6 +432,7 @@ public class Product {
 		File csvfile = new File(diypath + "//" + "products.csv");
 		if (csvfile.exists() == false) {
 			try {
+//				OutputStreamWriter osw=new OutputStreamWriter();
 				Writer initWriter = new BufferedWriter(new FileWriter(csvfile, true));
 
 				initWriter.write("version 1.00" + "\n");
@@ -439,7 +440,7 @@ public class Product {
 						.write("title	cid	seller_cids	stuff_status	location_state	location_city	item_type	price	auction_increment	num	valid_thru	freight_payer	post_fee	ems_fee	express_fee	has_invoice	has_warranty	approve_status	has_showcase	list_time	description	cateProps	postage_id	has_discount	modified	upload_fail_msg	picture_status	auction_point	picture	video	skuProps	inputPids	inputValues	outer_id	propAlias	auto_fill	num_id	local_cid	navigation_type	user_name	syncStatus	is_lighting_consigment	is_xinpin	foodparame	features	global_stock_type	sub_stock_type"
 								+ "\n");
 				initWriter
-						.write("±¦±´Ãû³Æ	±¦±´ÀàÄ¿	µêÆÌÀàÄ¿	ĞÂ¾É³Ì¶È	Ê¡	³ÇÊĞ	³öÊÛ·½Ê½	±¦±´¼Û¸ñ	¼Ó¼Û·ù¶È	±¦±´ÊıÁ¿	ÓĞĞ§ÆÚ	ÔË·Ñ³Ğµ£	Æ½ÓÊ	EMS	¿ìµİ	·¢Æ±	±£ĞŞ	·ÅÈë²Ö¿â	³÷´°ÍÆ¼ö	¿ªÊ¼Ê±¼ä	±¦±´ÃèÊö	±¦±´ÊôĞÔ	ÓÊ·ÑÄ£°æID	»áÔ±´òÕÛ	ĞŞ¸ÄÊ±¼ä	ÉÏ´«×´Ì¬	Í¼Æ¬×´Ì¬	·µµã±ÈÀı	ĞÂÍ¼Æ¬	ÊÓÆµ	ÏúÊÛÊôĞÔ×éºÏ	ÓÃ»§ÊäÈëID´®	ÓÃ»§ÊäÈëÃû-Öµ¶Ô	ÉÌ¼Ò±àÂë	ÏúÊÛÊôĞÔ±ğÃû	´ú³äÀàĞÍ	Êı×ÖID	±¾µØID	±¦±´·ÖÀà	ÕË»§Ãû³Æ	±¦±´×´Ì¬	ÉÁµç·¢»õ	ĞÂÆ·	Ê³Æ·×¨Ïî	³ßÂë¿â	¿â´æÀàĞÍ	¿â´æ¼ÆÊı"
+						.write("å®è´åç§°	å®è´ç±»ç›®	åº—é“ºç±»ç›®	æ–°æ—§ç¨‹åº¦	çœ	åŸå¸‚	å‡ºå”®æ–¹å¼	å®è´ä»·æ ¼	åŠ ä»·å¹…åº¦	å®è´æ•°é‡	æœ‰æ•ˆæœŸ	è¿è´¹æ‰¿æ‹…	å¹³é‚®	EMS	å¿«é€’	å‘ç¥¨	ä¿ä¿®	æ”¾å…¥ä»“åº“	æ©±çª—æ¨è	å¼€å§‹æ—¶é—´	å®è´æè¿°	å®è´å±æ€§	é‚®è´¹æ¨¡ç‰ˆID	ä¼šå‘˜æ‰“æŠ˜	ä¿®æ”¹æ—¶é—´	ä¸Šä¼ çŠ¶æ€	å›¾ç‰‡çŠ¶æ€	è¿”ç‚¹æ¯”ä¾‹	æ–°å›¾ç‰‡	è§†é¢‘	é”€å”®å±æ€§ç»„åˆ	ç”¨æˆ·è¾“å…¥IDä¸²	ç”¨æˆ·è¾“å…¥å-å€¼å¯¹	å•†å®¶ç¼–ç 	é”€å”®å±æ€§åˆ«å	ä»£å……ç±»å‹	æ•°å­—ID	æœ¬åœ°ID	å®è´åˆ†ç±»	è´¦æˆ·åç§°	å®è´çŠ¶æ€	é—ªç”µå‘è´§	æ–°å“	é£Ÿå“ä¸“é¡¹	å°ºç åº“	åº“å­˜ç±»å‹	åº“å­˜è®¡æ•°"
 								+ "\n");
 				initWriter.close();
 			} catch (IOException e) {
@@ -450,7 +451,7 @@ public class Product {
 		try {
 			Writer writer = new BufferedWriter(new FileWriter(csvfile, true));
 
-			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"±±¾©\"	\"±±¾©\"	1	" + getMinumPrice()
+			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"åŒ—äº¬\"	\"åŒ—äº¬\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
 			writer.append(getDescribtion().toString().replaceAll("\"", "'"));
 
