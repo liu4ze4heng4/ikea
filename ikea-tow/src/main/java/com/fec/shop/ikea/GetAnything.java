@@ -56,6 +56,7 @@ public class GetAnything {
 		String result = buf.substring(beginIx + "<div id=\"type\" class=\"productType\">".length(), endIx);
 		result = result.replace("	", "");
 		result=result.split(",")[1];
+		System.out.println(result);
 		return result;
 	}
 
