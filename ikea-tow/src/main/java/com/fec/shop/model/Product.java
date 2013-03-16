@@ -86,7 +86,7 @@ public class Product {
 		if (path.exists() == false)
 			path.mkdirs();
 		try {
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(diypath + "products\\" + product_id + ".html"), "utf-8"));
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(diypath + "products\\" + product_id + ".html"), "gbk"));
 
 			writer.write("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2SBnwXgJXXXXXXXXX_!!42635718.png\"></td></tr>");
 			writer.write("<tr><td style=\"padding: 10.0px 0 0;\"><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" ><tr><td width=\"8\"></td><td width=\"120\" valign=\"top\" ><table width=\"120\"><tr><td><img src=\"http://www.ikea.com/PIAimages/"
@@ -98,14 +98,14 @@ public class Product {
 			if (custMaterials.length() >= 1) {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>产品描述</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-						+ custMaterials + "</td></tr><tr><td width=\"300\"><p style=\"width:560px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
+						+ custMaterials + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 				writer.write("</table> </td></tr>");
 			}
 
 			if (keyFeatures.length() >= 15) {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-						+ keyFeatures + "</td></tr><tr><td width=\"300\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
+						+ keyFeatures + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 				System.out.println(keyFeatures + "!!!");
 				writer.write("</table> </td></tr>");
 			}
@@ -288,7 +288,7 @@ public class Product {
 			describtion.append("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 			describtion
 					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>产品描述</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-							+ custMaterials + "</td></tr><tr><td width=\"300\"><p style=\"width:560px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
+							+ custMaterials + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 			describtion.append("</table> </td></tr>");
 		}
 
@@ -296,7 +296,7 @@ public class Product {
 			describtion.append("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 			describtion
 					.append("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-							+ keyFeatures + "</td></tr><tr><td width=\"300\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
+							+ keyFeatures + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
 			System.out.println(keyFeatures + "!!!");
 			describtion.append("</table> </td></tr>");
 		}
@@ -531,7 +531,7 @@ public class Product {
 	public static void main(String[] args) {
 		Product p = new Product("10236130", "");
 		// p.toSQL();
-//		 p.toFile2("E:\\IKEA123\\");
+		 p.toFile2("E:\\IKEA123\\");
 		p.toCSV("E:\\IKEA123\\");
 		// p.toPic(4, "E:\\IKEA123\\");
 		// System.out.println("!");
