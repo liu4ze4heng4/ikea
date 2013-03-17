@@ -9,7 +9,7 @@ public class Constant {
 
 	public static final String ikea_product_file = "resources/product/ikea_product";
 	public static final String ikea_product_file_new_add = "resources/ikea_product_new";
-	public static final String product_cvs_file="e:/ikea2013/";
+	public static final String product_cvs_file="g:/ikea2/";
 
 	public static String url = "http://gw.api.taobao.com/router/rest";
 	public static String appkey = "21402582";

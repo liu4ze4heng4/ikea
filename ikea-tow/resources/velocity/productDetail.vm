@@ -1,0 +1,213 @@
+	<?xml version="1.0" encoding="UTF-8"?>
+	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'>                                                                                                                                
+		<tr>                                                                                                                                                                                                     
+			<td>                                                                                                                                                                                                 
+				<img src='http://img02.taobaocdn.com/imgextra/i2/42635718/T2SBnwXgJXXXXXXXXX_!!42635718.png;'>                                                                                                   
+			</td>                                                                                                                                                                                                
+		</tr>                                                                                                                                                                                                    
+	</table>                                                                                                                                                                                                     
+	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center' background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png' text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td style='width:600; valign:top; align:left;'>                                                                                                                                                      
+				<table width='600' cellpadding='0' cellspacing='0' border='0'> 
+					#if(${product.custMaterials})
+					<tr>                                                                                                                                                                                         
+						<td width='580' valign='top' colspan='4'>                                                                                                                                                
+							<table>                                                                                                                                                                              
+								<tr>                                                                                                                                                                             
+									<td width='580' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										产品描述                                                                                                                                                                     
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										 ${product.custMaterials}                                                                                                                                                             
+										<br/>                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+							</table>                                                                                                                                                                             
+						</td>                                                                                                                                                                                    
+					</tr>  
+					#end
+					#if(${product.keyFeatures})
+					<tr>                                                                                                                                                                                         
+						<td width='580' valign='top' colspan='4'>                                                                                                                                                
+							<table>                                                                                                                                                                              
+								<tr>                                                                                                                                                                             
+									<td width='580' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										重要特征                                                                                                                                                                     
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										${product.keyFeatures}<br/>                                                                                                                                                                    
+										<br/>                                                                                                                                                                    
+										<br/>                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+							</table>                                                                                                                                                                             
+						</td>                                                                                                                                                                                    
+					</tr>
+					#end
+					<tr>                                                                                                                                                                                         
+						<td width='290' valign='top'>                                                                                                                                                            
+							<table>                                                                                                                                                                              
+								<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										设计师                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.designer                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+							</table>                                                                                                                                                                             
+						</td>                                                                                                                                                                                    
+						<td width='20'>                                                                                                                                                                          
+						</td>                                                                                                                                                                                    
+						<td width='290' valign='top'>                                                                                                                                                            
+							<table>                                                                                                                                                                              
+								<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										包装尺寸/重量                                                                                                                                                             
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										包装：$product.numberOfPackages                                                                                                                                                              
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.productInformation                                                                                                                                   
+										<br/>                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										保养说明                                                                                                                                                                     
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										 $product.careInst                                                                                                                                                        
+										<br/>                                                                                                                                                                    
+										<br/>                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr>                                                                                                                                                                            
+							</table>                                                                                                                                                                             
+						</td>                                                                                                                                                                                    
+					</tr>                                                                                                                                                                                        
+				</table>                                                                                                                                                                                         
+			</td>                                                                                                                                                                                                
+			<td width='120' valign='top'>                                                                                                                                                                        
+				<table width='120' style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                  
+					<tr>                                                                                                                                                                                         
+						<td>                                                                                                                                                                                     
+							<img src='http://www.ikea.com/PIAimages/0118678_PE257036_S2.jpg' />                                                                                                                  
+						</td>                                                                                                                                                                                    
+					</tr>                                                                                                                                                                                        
+					<tr>                                                                                                                                                                                         
+						<td align='center'>                                                                                                                                                                      
+							<div style='word-wrap:break-word;;'>                                                                                                                                                 
+								<br />                                                                                                                                                                           
+								$product.ProductName                                                                                                                                                                      
+								<br />                                                                                                                                                                           
+								RMB:$!product.getMinumPrice()                                                                                                                                                                         
+								<br />                                                                                                                                                                           
+							</div>                                                                                                                                                                               
+						</td>                                                                                                                                                                                    
+					</tr> 
+					<tr>                                                                                                                                                                                         
+						<td align="center" >                                                                                                                                                                                     
+							<font size='2px' color='red'>                                                                                                                                            
+								(<a href='http://www.ikea.com/cn/zh/catalog/products/${product.product_id}'  target='_Blank'>官网链接</a>)                                                                                                                                                                    
+							</font>                                                                                                                  
+						</td>                                                                                                                                                                                    
+					</tr>
+					
+				</table>                                                                                                                                                                                         
+			</td>                                                                                                                                                                                                
+			<td width='25'>                                                                                                                                                                                      
+			</td>                                                                                                                                                                                                
+		</tr>                                                                                                                                                                                                    
+	</table>                                                                                                                                                                                                     
+	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'                                                                                                                                 
+	background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png'                                                                                                               
+	text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td width='600' colspan='1' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                              
+				更多配色                                                                                                                                                                                             
+			</td>                                                                                                                                                                                                
+		</tr>                                                                                                                                                                                                    
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td align='left' style='width:750;'>  
+				#foreach( $picsmall in $product.pic_id)
+				<table align='left' style='width:120;'>         
+					<tr>                                                                                                                                                                                         
+						<td>                                                                                                                                                                                     
+							<img src='http://www.ikea.com/PIAimages/${picsmall}_S4.jpg' />                                                                                                                  
+						</td>                                                                                                                                                                                    
+					</tr>                                                                                                                                                                                        
+					<tr>                                                                                                                                                                                         
+						<td>                                                                                                                                                                                     
+							<div style='word-wrap:break-word;text-align: center;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                             
+								白色                                                                                                                                                                               
+								<br />                                                                                                                                                                           
+								RMB:1495.0                                                                                                                                                                       
+								<br />                                                                                                                                                                           
+							</div>                                                                                                                                                                               
+						</td>                                                                                                                                                                                    
+					</tr>                                                                                                                                                                                        
+				</table>        
+				#end
+			</td>                                                                                                                                                                                                
+			<td width='25'>                                                                                                                                                                                      
+		</tr>                                                                                                                                                                                                    
+	</table>                                                                                                                                                                                                     
+	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'                                                                                                                                 
+	background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png'                                                                                                               
+	text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td width='720' colspan='1' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em'>                               
+				细节大图                                                                                                                                                                                             
+			</td>                                                                                                                                                                                                
+		</tr>  
+		#foreach( $picBig in $product.mainPics)
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td width='730'>                                                                                                                                                                                     
+				<img src='http://www.ikea.com/PIAimages/${picBig}_S2.jpg\' />                                                                                                                              
+				<img src='http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png'                                                                                                     
+				/>                                                                                                                                                                                               
+			</td>                                                                                                                                                                                                
+			<td width='25'>                                                                                                                                                                                      
+			</td>                                                                                                                                                                                                
+		</tr> 
+		#end
+	</table>                                                                                                                                                                                                     
+	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'                                                                                                                                 
+	background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png'                                                                                                               
+	text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
+		<tr>                                                                                                                                                                                                     
+			<td width='5'>                                                                                                                                                                                       
+			</td>                                                                                                                                                                                                
+			<td>                                                                                                                                                                                                 
+				<div align='right' style='font-family:Microsoft YaHei;font-size: 12px;line-height: 18px;color: #333;'>                                                                                           
+					COPYRIGHT 2013 BESIDE IKEA                                                                                                                                                                   
+				</div>                                                                                                                                                                                           
+			</td>                                                                                                                                                                                                
+			<td width='25'>                                                                                                                                                                                      
+			</td>                                                                                                                                                                                                
+		</tr>                                                                                                                                                                                                    
+	</table>                                                                                                                                                                                                     
