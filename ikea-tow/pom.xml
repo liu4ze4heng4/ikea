@@ -13,8 +13,12 @@
 	<name>ikea-tow</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-	
 
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity-dep</artifactId>
+			<version>1.4</version>
+		</dependency>
 
 	</dependencies>
 
@@ -30,5 +34,5 @@
 		</resources>
 
 	</build>
-	
+
 </project>
