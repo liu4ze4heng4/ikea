@@ -23,6 +23,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.tools.generic.MathTool;
 
 import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.HtmlUtil;
@@ -313,7 +314,7 @@ public class Product {
 		productNameProdInfo = something.geT(buf, "id=\"productNameProdInfo\">", "</div>", "productNameProdInfo");
 		productTypeProdInfo = something.geT(buf, "<div class=\"prodInfoRow\"  id=\"productTypeProdInfo\">", "</div>", "productTypeProdInfo");
 		assembledSize = something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize");
-		keyFeatures = something.geT(buf, "<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">", "<div id=\"dessection\" class=\"productInformation prodInfoSub\"", "keyFeatures");
+		keyFeatures = something.getKeyFeatures(buf);
 		designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
 		designer = something.getDesigner(buf);
 		numberOfPackages = something.geT(buf, "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
@@ -367,7 +368,9 @@ public class Product {
 	public double[] getPrice() {
 		return price;
 	}
-
+	public double getaPrice(int i) {
+		return price[i];
+	}
 	public void setPrice(double[] price) {
 		this.price = price;
 	}
@@ -382,6 +385,9 @@ public class Product {
 
 	public String[] getProductType() {
 		return ProductType;
+	}
+	public String getaProductType(int i) {
+		return ProductType[i];
 	}
 
 	public void setProductType(String[] productType) {
@@ -521,7 +527,7 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("10236130", "");
+		Product p = new Product("10236130,70176642", "");
 		p.getDescribtion();
 		// p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");

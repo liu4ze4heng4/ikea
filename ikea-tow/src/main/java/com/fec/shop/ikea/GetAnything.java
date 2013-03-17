@@ -64,6 +64,14 @@ public class GetAnything {
 		}
 		return result;
 	}
+	public String getKeyFeatures(String buf){
+		int beginIx = buf.indexOf("<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">");
+		int endIx = buf.indexOf("<div id=\"dessection\" class=\"productInformation prodInfoSub\"", beginIx);
+		String result = buf.substring(beginIx + "<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">".length(), endIx-20);
+		result = result.replace("</div>", "<br/>");
+		return result;
+	}
+
 
 	public double getPrice(String buf, String beginstr, String endstr, String title) {
 		int beginIx = buf.indexOf(beginstr);
