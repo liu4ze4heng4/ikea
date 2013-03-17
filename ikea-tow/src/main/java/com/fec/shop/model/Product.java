@@ -26,6 +26,7 @@ import org.apache.velocity.app.VelocityEngine;
 
 import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.HtmlUtil;
+import com.fec.shop.util.VelocityUtil;
 
 public class Product {
 	String buf;
@@ -186,24 +187,12 @@ public class Product {
 	}
 
 
-	public StringBuilder getDescribtion() {
-		VelocityEngine engine = new VelocityEngine();
-		try {
-			Properties p = new Properties();
-			p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, "resources/velocity");
-			p.setProperty(Velocity.INPUT_ENCODING, "utf-8");
-	         p.setProperty(Velocity.OUTPUT_ENCODING, "utf-8");
-			engine.init(p);
-			Template template = engine.getTemplate( "productDetail.vm" );
-			VelocityContext context = new VelocityContext();
-			context.put("product", this);
-			StringWriter writer = new StringWriter();
-			template.merge(context, writer); /* 显示结果 */
-			System.out.println(writer.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	public String getDescribtion() {
+		VelocityContext context = new VelocityContext();
+		context.put("product", this);
+		String result=VelocityUtil.filterVM("productDetail.vm", context);
+		System.out.println(result);
+		return result;
 	}
 
 	public void toPic(int p, String diypath) {
