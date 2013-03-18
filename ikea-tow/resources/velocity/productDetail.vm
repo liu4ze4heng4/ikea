@@ -230,9 +230,7 @@
 			<td align='left' style='width:750;'>  
 				#foreach( $picsmall in $product.mainPics)
 					#set($i=$math.sub($velocityCount,1))
-				#if($i==0)
-					#break
-					#end
+					#if($i!=0)
 				<table align='left' style='width:120;'>         
 					<tr>                                                                                                                                                                                         
 						<td>                                                                                                                                                                                     
@@ -249,7 +247,8 @@
 							</div>                                                                                                                                                                               
 						</td>                                                                                                                                                                                    
 					</tr>                                                                                                                                                                                        
-				</table>        
+				</table> 
+					#end
 				#end
 			</td>                                                                                                                                                                                                
 			<td width='25'></td>

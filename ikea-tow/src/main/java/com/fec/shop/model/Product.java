@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,12 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Properties;
 
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.generic.MathTool;
 
 import com.fec.shop.ikea.GetAnything;
@@ -191,6 +186,7 @@ public class Product {
 	public String getDescribtion() {
 		VelocityContext context = new VelocityContext();
 		context.put("product", this);
+		context.put("math", new MathTool());
 		String result=VelocityUtil.filterVM("productDetail.vm", context);
 		System.out.println(result);
 		return result;
@@ -516,7 +512,7 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("10236130,70176642", "");
+		Product p = new Product("10153097,80153089,00153088", "");
 		p.getDescribtion();
 		// p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");
