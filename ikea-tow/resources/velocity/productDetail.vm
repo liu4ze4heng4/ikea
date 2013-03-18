@@ -12,7 +12,7 @@
 			</td>                                                                                                                                                                                                
 			<td style='width:600; valign:top; align:left;'>                                                                                                                                                      
 				<table width='600' cellpadding='0' cellspacing='0' border='0'> 
-					#if(${product.custMaterials})
+					#if($product.custMaterials.length()>= 1)
 					<tr>                                                                                                                                                                                         
 						<td width='580' valign='top' colspan='4'>                                                                                                                                                
 							<table>                                                                                                                                                                              
@@ -31,7 +31,7 @@
 						</td>                                                                                                                                                                                    
 					</tr>  
 					#end
-					#if(${product.keyFeatures})
+					#if($product.keyFeatures.length()>=15)
 					<tr>                                                                                                                                                                                         
 						<td width='580' valign='top' colspan='4'>                                                                                                                                                
 							<table>                                                                                                                                                                              
@@ -42,9 +42,8 @@
 								</tr>                                                                                                                                                                            
 								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
 									<td>                                                                                                                                                                         
-										${product.keyFeatures}<br/>                                                                                                                                                                    
-										<br/>                                                                                                                                                                    
-										<br/>                                                                                                                                                                    
+										${product.keyFeatures}                                                                                                                                                                   
+										                                                                                                                                                                   
 									</td>                                                                                                                                                                        
 								</tr>                                                                                                                                                                            
 							</table>                                                                                                                                                                             
@@ -52,20 +51,71 @@
 					</tr>
 					#end
 					<tr>                                                                                                                                                                                         
+			
 						<td width='290' valign='top'>                                                                                                                                                            
 							<table>                                                                                                                                                                              
+#if($product.designer.length() > 1 ||$product.designerThoughts.length() > 1)
+
 								<tr>                                                                                                                                                                             
 									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
 										设计师                                                                                                                                                                    
 									</td>                                                                                                                                                                        
-								</tr>                                                                                                                                                                            
+								</tr> 
+		#end
+			#if($product.designerThoughts.length() >1)
+								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.designerThoughts                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+			#end					
+			#if($product.designer.length() >1)
 								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
 									<td>                                                                                                                                                                         
 										$product.designer                                                                                                                                                   
 									</td>                                                                                                                                                                        
-								</tr>                                                                                                                                                                            
+								</tr>
+			#end	
+			#if($product.assembledSize.length() >1)
+					<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										安装后尺寸                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr> 
+					<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.assembledSize                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+				#end
+				#if($product.goodToKnow.length() >1)
+					<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										相关提示                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr> 
+					<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.goodToKnow                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+				#end
+				#if($product.environment.length() >1)
+					<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										环保信息                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr> 
+					<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.environment                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+				#end
+								
 							</table>                                                                                                                                                                             
-						</td>                                                                                                                                                                                    
+						</td>  
+			
 						<td width='20'>                                                                                                                                                                          
 						</td>                                                                                                                                                                                    
 						<td width='290' valign='top'>                                                                                                                                                            
@@ -80,24 +130,50 @@
 										包装：$product.numberOfPackages                                                                                                                                                              
 									</td>                                                                                                                                                                        
 								</tr>                                                                                                                                                                            
+			#if($product.numberOfPackages == 1)
+
 								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
 									<td>                                                                                                                                                                         
 										$product.productInformation                                                                                                                                   
 										<br/>                                                                                                                                                                    
 									</td>                                                                                                                                                                        
-								</tr>                                                                                                                                                                            
-								<tr>                                                                                                                                                                             
-									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
-										保养说明                                                                                                                                                                     
-									</td>                                                                                                                                                                        
-								</tr>                                                                                                                                                                            
-								<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+								</tr> 
+		 #else                 
+			              <tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
 									<td>                                                                                                                                                                         
-										 $product.careInst                                                                                                                                                        
-										<br/>                                                                                                                                                                    
+										尺寸和重量详见IKEA官网                                                                                                                                   
 										<br/>                                                                                                                                                                    
 									</td>                                                                                                                                                                        
-								</tr>                                                                                                                                                                            
+								</tr> 
+		 #end	
+	#if($product.careInst.length() >1)
+					<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										保养说明                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr> 
+					<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.careInst                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+	#end
+	#if($product.lowestPrice.length() >1)
+					<tr>                                                                                                                                                                             
+									<td width='290' style='border-bottom:1px solid #ddd;float:left;font-family:Microsoft YaHei;font-size: 20px;line-height: 24px;color: #333;padding-top:1em;'>                  
+										低价格从哪里来                                                                                                                                                                    
+									</td>                                                                                                                                                                        
+								</tr> 
+					<tr style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                 
+									<td>                                                                                                                                                                         
+										$product.lowestPrice                                                                                                                                                   
+									</td>                                                                                                                                                                        
+								</tr>
+	#end
+	
+	
+								                                                                                                                                                                            
+								                                                                                                                                                                            
 							</table>                                                                                                                                                                             
 						</td>                                                                                                                                                                                    
 					</tr>                                                                                                                                                                                        
@@ -107,7 +183,9 @@
 				<table width='120' style='text-align: left;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                                                  
 					<tr>                                                                                                                                                                                         
 						<td>                                                                                                                                                                                     
-							<img src='http://www.ikea.com/PIAimages/0118678_PE257036_S2.jpg' />                                                                                                                  
+							<img src='http://www.ikea.com/PIAimages/
+								$product.pic_id.get(0)
+								_S2.jpg' />                                                                                                                  
 						</td>                                                                                                                                                                                    
 					</tr>                                                                                                                                                                                        
 					<tr>                                                                                                                                                                                         
@@ -135,6 +213,7 @@
 			</td>                                                                                                                                                                                                
 		</tr>                                                                                                                                                                                                    
 	</table>                                                                                                                                                                                                     
+	#if ($product.mainPics.size() > 1)
 	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'                                                                                                                                 
 	background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png'                                                                                                               
 	text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
@@ -149,19 +228,23 @@
 			<td width='5'>                                                                                                                                                                                       
 			</td>                                                                                                                                                                                                
 			<td align='left' style='width:750;'>  
-				#foreach( $picsmall in $product.pic_id)
+				#foreach( $picsmall in $product.mainPics)
+					#set($i=$math.sub($velocityCount,1))
+				#if($i==0)
+					#break
+					#end
 				<table align='left' style='width:120;'>         
 					<tr>                                                                                                                                                                                         
 						<td>                                                                                                                                                                                     
-							<img src='http://www.ikea.com/PIAimages/${picsmall}_S4.jpg' />                                                                                                                  
+							<img src='http://www.ikea.com/PIAimages/${picsmall}_S2.jpg' />                                                                                                                  
 						</td>                                                                                                                                                                                    
 					</tr>                                                                                                                                                                                        
 					<tr>                                                                                                                                                                                         
 						<td>                                                                                                                                                                                     
 							<div style='word-wrap:break-word;text-align: center;font-size: 14.0px;line-height: 1.5;color: #6a6a6a;'>                                                                             
-								白色                                                                                                                                                                               
+								$product.getaProductType($i)                                                                                                                                                                                
 								<br />                                                                                                                                                                           
-								RMB:1495.0                                                                                                                                                                       
+								RMB:$product.getaPrice($i)                                                                                                                                                                       
 								<br />                                                                                                                                                                           
 							</div>                                                                                                                                                                               
 						</td>                                                                                                                                                                                    
@@ -169,9 +252,11 @@
 				</table>        
 				#end
 			</td>                                                                                                                                                                                                
-			<td width='25'>                                                                                                                                                                                      
+			<td width='25'></td>
+                                                                                                                                                                                      
 		</tr>                                                                                                                                                                                                    
-	</table>                                                                                                                                                                                                     
+	</table> 
+	#end
 	<table width='750' cellpadding='0' cellspacing='0' border='0' align='center'                                                                                                                                 
 	background='http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png'                                                                                                               
 	text-align='left' font-size='14.0px' line-height='1.5' color='#6a6a6a'>                                                                                                                                      
@@ -182,14 +267,13 @@
 				细节大图                                                                                                                                                                                             
 			</td>                                                                                                                                                                                                
 		</tr>  
-		#foreach( $picBig in $product.mainPics)
+		#foreach( $picBig in $product.pic_id)
 		<tr>                                                                                                                                                                                                     
 			<td width='5'>                                                                                                                                                                                       
 			</td>                                                                                                                                                                                                
 			<td width='730'>                                                                                                                                                                                     
-				<img src='http://www.ikea.com/PIAimages/${picBig}_S2.jpg\' />                                                                                                                              
-				<img src='http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png'                                                                                                     
-				/>                                                                                                                                                                                               
+				<img src='http://www.ikea.com/PIAimages/${picBig}_S4.jpg' />                                                                                                                              
+				<img src='http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png'/>                                                                                                                                                                                               
 			</td>                                                                                                                                                                                                
 			<td width='25'>                                                                                                                                                                                      
 			</td>                                                                                                                                                                                                
