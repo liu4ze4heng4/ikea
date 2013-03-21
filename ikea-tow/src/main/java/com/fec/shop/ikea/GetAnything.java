@@ -78,6 +78,9 @@ public class GetAnything {
 		String beginIndex = beginstr;
 		int beginIxLength = beginIndex.length();
 		int endIx = buf.indexOf(endstr, beginIx);
+		if(beginIx + beginIxLength + 5>endIx){
+			return 0;
+		}
 		String tmp = buf.substring(beginIx + beginIxLength + 5, endIx);
 		String result = tmp.replace("</b>", "");
 		tmp = result.replace(",", "");

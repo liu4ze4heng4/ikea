@@ -26,7 +26,8 @@ import com.fec.shop.util.VelocityUtil;
 
 public class Product {
 	String buf;
-	double[] price = { 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000 };
+	double[] price =new double[10];
+	double changedFamilyPrice=0;
 	String ProductName;
 	String[] ProductType;
 	String productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment, goodToKnow, careInst, lowestPrice,
@@ -188,6 +189,7 @@ public class Product {
 		context.put("product", this);
 		context.put("math", new MathTool());
 		String result=VelocityUtil.filterVM("productDetail.vm", context);
+		System.out.println(result);
 		return result;
 	}
 
@@ -290,10 +292,12 @@ public class Product {
 	}
 
 	public Product(String id, String cate) {
+		Arrays.fill(price, 200000);
 //		System.out.println(id);
 		String[] ids = id.split(",");
 		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
 		GetAnything something = new GetAnything();
+		changedFamilyPrice=something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice");
 		title[0] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 		price[0] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
 		productNameProdInfo = something.geT(buf, "id=\"productNameProdInfo\">", "</div>", "productNameProdInfo");
@@ -513,7 +517,7 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("10136512", "");
+		Product p = new Product("70190412", "");
 //		p.getDescribtion();
 //		 p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");
