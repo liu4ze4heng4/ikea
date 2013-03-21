@@ -26,7 +26,9 @@ import com.fec.shop.util.VelocityUtil;
 
 public class Product {
 	String buf;
-	double[] price = { 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000 };
+
+	double[] price = new double[100];
+	double changedFamilyPrice = 0;
 	String ProductName;
 	String[] ProductType;
 	String productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment, goodToKnow, careInst, lowestPrice,
@@ -109,7 +111,7 @@ public class Product {
 				writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
 				writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
 						+ keyFeatures + "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
-//				System.out.println(keyFeatures + "!!!");
+				// System.out.println(keyFeatures + "!!!");
 				writer.write("</table> </td></tr>");
 			}
 
@@ -119,7 +121,7 @@ public class Product {
 						+ assembledSize + "</td></tr> ");
 			}
 
-			if (designer.length() > 1 || designerThoughts.length() >1) {
+			if (designer.length() > 1 || designerThoughts.length() > 1) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>设计师</td></tr>");
 			}
 			if (designerThoughts.length() >= 1)
@@ -128,7 +130,7 @@ public class Product {
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>" + designer + "</td></tr> ");
 			if (goodToKnow.length() >= 1) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>相关提示</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-								+ goodToKnow + "</td></tr> ");
+						+ goodToKnow + "</td></tr> ");
 			}
 			if (environment.length() >= 1) {
 				writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>环保信息</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
@@ -145,7 +147,6 @@ public class Product {
 				writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>尺寸和重量详见IKEA官网<br/>" + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
 						+ product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>" + "</td></tr> ");
 			}
-			
 
 			if (careInst.length() >= 1) {
 
@@ -173,7 +174,8 @@ public class Product {
 			}
 			writer.write("<tr><td width=\"10\"></td><td colspan=\"4\" height=\"1\" align=\"left\"><p style=\"width:700px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;\"></p></td></tr>");
 			for (int i = 0; i < pic_id.size(); i++)
-				writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i) + "_S4.jpg\" /> <img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png\"/></td></tr>");
+				writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/" + pic_id.get(i)
+						+ "_S4.jpg\" /> <img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png\"/></td></tr>");
 			writer.write("</table></td></tr><tr><td align=\"right\" style=\"padding: 0 20.0px 5.0px 0;color: #333;\">COPYRIGHT 2013 BESIDE IKEA</td></tr></table>");
 			writer.close();
 		} catch (IOException exp) {
@@ -182,17 +184,17 @@ public class Product {
 		}
 	}
 
-
 	public String getDescribtion() {
 		VelocityContext context = new VelocityContext();
 		context.put("product", this);
 		context.put("math", new MathTool());
-		String result=VelocityUtil.filterVM("productDetail.vm", context);
+		String result = VelocityUtil.filterVM("productDetail.vm", context);
 		return result;
 	}
 
 	public void toPic(int p, String diypath) {
-//		System.out.println(Thread.currentThread().getName() + "is Saveing Pic" + product_id);
+		// System.out.println(Thread.currentThread().getName() +
+		// "is Saveing Pic" + product_id);
 		// try {
 		// captureHtml(id);
 		// // pic_id = something.getPicUrl(buf,id);
@@ -241,11 +243,11 @@ public class Product {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
 			path.mkdirs();
-		toPic(4, diypath);
+		// toPic(4, diypath);
 		File csvfile = new File(diypath + "//" + "products.csv");
 		if (csvfile.exists() == false) {
 			try {
-				OutputStreamWriter initWriter=new OutputStreamWriter(new FileOutputStream(csvfile, true),"GBK");
+				OutputStreamWriter initWriter = new OutputStreamWriter(new FileOutputStream(csvfile, true), "GBK");
 
 				initWriter.append("version 1.00" + "\n");
 				initWriter
@@ -262,16 +264,16 @@ public class Product {
 			}
 		}
 		try {
-			OutputStreamWriter writer=new OutputStreamWriter(new FileOutputStream(csvfile, true),"GBK");
+			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(csvfile, true), "GBK");
 
 			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
-			writer.append(getDescribtion().replace("	","").replace("\r\n", ""));
+			writer.append(getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
-			for (int j = 0; j < mainPics.size()&&j<5; j++)
-				writer.append(product_id+"_"+ mainPics.get(j) + "_S4" + ":1:" + j + ":|;");
-			writer.append("\"	\"\"	\"\"	\"\"	\"\"	\""+product_id+"\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
+			for (int j = 0; j < mainPics.size() && j < 5; j++)
+				writer.append(product_id + "_" + mainPics.get(j) + "_S4" + ":1:" + j + ":|;");
+			writer.append("\"	\"\"	\"\"	\"\"	\"\"	\"" + product_id + "\"	\"\"	0	0	0	1	charick	1	0	0		mysize_tp:-1	164702552	2" + "\n");
 			writer.flush();
 			writer.close();
 
@@ -279,20 +281,35 @@ public class Product {
 			e.printStackTrace();
 			System.out.println(Thread.currentThread().getName() + product_id + " is not exist[csv]");
 		}
-//		System.out.println(Thread.currentThread().getName() + diypath + "'s CRV is OK");
+		// System.out.println(Thread.currentThread().getName() + diypath +
+		// "'s CRV is OK");
 
 	}
 
 	public double getMinumPrice() {
-		Arrays.sort(price);
-		return price[0];
+		double[] temp = Arrays.copyOf(price, price.length);
+		Arrays.sort(temp);
+		return temp[0];
+	}
+
+	public boolean isChangedFamilyPrice() {
+		if (changedFamilyPrice == 0)
+			return false;
+		else
+			return true;
+	}
+
+	public double getChangedFamilyPrice() {
+		return changedFamilyPrice;
 	}
 
 	public Product(String id, String cate) {
-//		System.out.println(id);
+		Arrays.fill(price, 200000);
+		// System.out.println(id);
 		String[] ids = id.split(",");
 		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
 		GetAnything something = new GetAnything();
+		changedFamilyPrice = something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice");
 		title[0] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 		price[0] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
 		productNameProdInfo = something.geT(buf, "id=\"productNameProdInfo\">", "</div>", "productNameProdInfo");
@@ -320,27 +337,26 @@ public class Product {
 		category = cate;
 		ProductName = something.getProductName(buf);
 		ProductType = new String[100];
-		
+
 		ProductType[0] = something.getProductType(buf);
 
 		for (int i = 1; i < ids.length; i++) {
-//			System.out.println(ids[i]);
+			// System.out.println(ids[i]);
 			buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[i] + "/");
 			title[i] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
 			price[i] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
 			ProductType[i] = something.getProductType(buf);
-//			System.out.println(something.getPicUrl(buf, product_id)[0]);
+			// System.out.println(something.getPicUrl(buf, product_id)[0]);
 			Collections.addAll(pic_id, something.getPicUrl(buf, ids[i]));
 			mainPics.add(something.getPicUrl(buf, ids[i])[0]);
 		}
-//		System.out.println(pic_id);
-//		System.out.println(ProductType[1] + ProductType[0]);
+		// System.out.println(pic_id);
+		// System.out.println(ProductType[1] + ProductType[0]);
 
 	}
 
 	public Product() {
 	}
-	
 
 	public String getBuf() {
 		return buf;
@@ -353,9 +369,11 @@ public class Product {
 	public double[] getPrice() {
 		return price;
 	}
+
 	public double getaPrice(int i) {
 		return price[i];
 	}
+
 	public void setPrice(double[] price) {
 		this.price = price;
 	}
@@ -371,6 +389,7 @@ public class Product {
 	public String[] getProductType() {
 		return ProductType;
 	}
+
 	public String getaProductType(int i) {
 		return ProductType[i];
 	}
@@ -512,11 +531,11 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("10136512", "");
-//		p.getDescribtion();
-//		 p.toSQL();
-//		 p.toFile2("E:\\IKEA123\\");
-		p.toCSV("E:\\IKEA1234\\");
+		Product p = new Product("S09897838", "");
+//		System.out.println(p.getDescribtion());
+		// p.toSQL();
+		// p.toFile2("E:\\IKEA123\\");
+		 p.toCSV("E:\\IKEA1234\\");
 		// p.toPic(4, "E:\\IKEA123\\");
 		// System.out.println("!");
 	}
