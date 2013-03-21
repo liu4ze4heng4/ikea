@@ -188,7 +188,6 @@ public class Product {
 		context.put("product", this);
 		context.put("math", new MathTool());
 		String result=VelocityUtil.filterVM("productDetail.vm", context);
-		System.out.println(result);
 		return result;
 	}
 
@@ -267,7 +266,7 @@ public class Product {
 
 			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
-			writer.append(getDescribtion().toString());
+			writer.append(getDescribtion().replace("	","").replace("\r\n", ""));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
 			for (int j = 0; j < mainPics.size()&&j<5; j++)
@@ -304,6 +303,7 @@ public class Product {
 		designer = something.getDesigner(buf);
 		numberOfPackages = something.geT(buf, "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
 		productInformation = something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation");
+
 		environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
 		goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
 		careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
@@ -512,11 +512,11 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("10153097,80153089,00153088", "");
-		p.getDescribtion();
-		// p.toSQL();
+		Product p = new Product("10136512", "");
+//		p.getDescribtion();
+//		 p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");
-//		p.toCSV("E:\\IKEA123\\");
+		p.toCSV("E:\\IKEA1234\\");
 		// p.toPic(4, "E:\\IKEA123\\");
 		// System.out.println("!");
 	}
