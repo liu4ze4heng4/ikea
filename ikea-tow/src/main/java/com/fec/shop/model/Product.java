@@ -26,13 +26,13 @@ import com.fec.shop.util.VelocityUtil;
 
 public class Product {
 	String buf;
-	double[] price = { 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000 };
+	double[] price = { 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000, 200000, 200000, 200000,200000, 200000, 200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000,200000, 200000, 200000 };
 	String ProductName;
 	String[] ProductType;
 	String productNameProdInfo, productTypeProdInfo, assembledSize, keyFeatures, designerThoughts, designer, numberOfPackages, productInformation, environment, goodToKnow, careInst, lowestPrice,
 			custMaterials, product_dian_id, category;
 
-	String[] title = new String[10];
+	String[] title = new String[100];
 	ArrayList<String> pic_id;
 	LinkedList<String> mainPics;
 	String describtion;
@@ -311,7 +311,7 @@ public class Product {
 		custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
 		product_id = ids[0];
 		product_dian_id = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
-		String[] picurl = new String[10];
+		String[] picurl = new String[100];
 		picurl = something.getPicUrl(buf, product_id);
 		pic_id = new ArrayList<String>();
 		Collections.addAll(pic_id, picurl);
@@ -319,7 +319,7 @@ public class Product {
 		mainPics.add(pic_id.get(0));
 		category = cate;
 		ProductName = something.getProductName(buf);
-		ProductType = new String[10];
+		ProductType = new String[100];
 		
 		ProductType[0] = something.getProductType(buf);
 
