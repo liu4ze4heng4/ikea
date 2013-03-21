@@ -68,7 +68,7 @@ public class GetAnything {
 		int beginIx = buf.indexOf("<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">");
 		int endIx = buf.indexOf("<div id=\"dessection\" class=\"productInformation prodInfoSub\"", beginIx);
 		String result = buf.substring(beginIx + "<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">".length(), endIx-20);
-		result = result.replace("</div>", "<br/>");
+		result = result.replace("</div>", "<br/>").replace("<div>", "");
 		return result;
 	}
 

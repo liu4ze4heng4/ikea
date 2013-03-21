@@ -8,7 +8,7 @@ import com.fec.shop.model.Product;
 import com.fec.shop.util.IkeaUtils;
 
 public class MainDriver implements Runnable {
-	public static List<String> pis = IkeaUtils.getProductStrListFromFile(111111);
+	public static List<String> pis = IkeaUtils.getProductStrListFromFile(2);
 
 	public static int index = 0;
 
