@@ -243,7 +243,7 @@ public class Product {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
 			path.mkdirs();
-		// toPic(4, diypath);
+		 toPic(4, diypath);
 		File csvfile = new File(diypath + "//" + "products.csv");
 		if (csvfile.exists() == false) {
 			try {
