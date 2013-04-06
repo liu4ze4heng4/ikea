@@ -139,7 +139,7 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>${basedir}/src/main/resources</directory>
+				<directory>${basedir}/resources</directory>
 				<filtering>false</filtering>
 			</resource>
 		</resources>

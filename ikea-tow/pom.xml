@@ -37,6 +37,7 @@
 					<exclude>**/*.class</exclude>
 				</excludes>
 			</resource>
+			
 		</resources>
 
 	</build>

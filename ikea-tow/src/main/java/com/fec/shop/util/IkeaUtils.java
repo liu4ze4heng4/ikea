@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.fec.shop.constant.Constant;
 
@@ -210,7 +211,7 @@ public class IkeaUtils {
 				if (result.contains(p)) {
 					Product pInList = result.get(result.indexOf(p));
 					if (!pInList.category.equals(p.category)) {
-						System.out.println("该产品还属于其他目录：" + p.pid);
+						Constant.baseLoger.info("该产品还属于其他目录：" + p.pid);
 						pInList.category = pInList.category + "," + p.category;
 						pInList.cid = pInList.cid + "," + taobaocidMap.get(p.category);
 					}
@@ -231,8 +232,12 @@ public class IkeaUtils {
 	 */
 	private static List<Product> getProductListFromHtml(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
+		int count=0;
 		while (html == null) {
-			System.out.println("重新抓起：" + c.url);
+			if(count++>3){
+				Constant.baseLoger.info("[error]: 从类目["+c.url+"]获取产品信息为空，尝试重新抓取了3次仍然失败");
+				break;
+			}
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
@@ -252,6 +257,9 @@ public class IkeaUtils {
 				p.category = c.name;
 				p.pid = pid;
 				p.containPreviousPrice=date.contains("previousPrice")?1:0;
+				if(p.containPreviousPrice==1){
+					Constant.dailyCheepLoger.info("优惠产品：pid: "+p.pid+",category"+p.category);
+				}
 				if (!pidlist.contains(p)) {
 					pidlist.add(p);
 				}
@@ -285,8 +293,7 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
+		Constant.baseLoger.info("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
 	}
 
