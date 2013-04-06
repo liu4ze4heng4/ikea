@@ -93,8 +93,8 @@ ${product.custMaterials}
 		</div>			
 			
 			
-<div style=' clear: both;height:1px;margin-top:-1px;overflow:hidden;'></div>
-			<div style='width:300.0px;float:right;display:inline;text-align:right;line-hight:14px;margin-top:-40px;margin-right:25px;'>
+
+			<div style='width:300.0px;float:right;display:inline;text-align:right;line-hight:14px;margin-top:25px;margin-right:25px;'>
 				#if($product.designer.length() >1)
 
 				本产品设计师:$product.designer

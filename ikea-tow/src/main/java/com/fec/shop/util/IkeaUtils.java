@@ -10,6 +10,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.fec.shop.constant.Constant;
 
@@ -54,7 +59,7 @@ public class IkeaUtils {
 		try {
 			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_category_file)), "utf-8");
 			BufferedReader bufReader = new BufferedReader(insReader);
-			while ((pid = bufReader.readLine()) != null) {
+			while (StringUtils.isNotBlank(pid = bufReader.readLine())) {
 				tempA = pid.split(Constant.split);
 				pList.add(new Categroy(tempA[0], tempA[1]));
 			}
@@ -206,7 +211,7 @@ public class IkeaUtils {
 				if (result.contains(p)) {
 					Product pInList = result.get(result.indexOf(p));
 					if (!pInList.category.equals(p.category)) {
-						System.out.println("该产品还属于其他目录：" + p.pid);
+						Constant.baseLoger.info("该产品还属于其他目录：" + p.pid);
 						pInList.category = pInList.category + "," + p.category;
 						pInList.cid = pInList.cid + "," + taobaocidMap.get(p.category);
 					}
@@ -227,12 +232,41 @@ public class IkeaUtils {
 	 */
 	private static List<Product> getProductListFromHtml(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
+		int count=0;
 		while (html == null) {
-			System.out.println("重新抓起：" + c.url);
+			if(count++>3){
+				Constant.baseLoger.info("[error]: 从类目["+c.url+"]获取产品信息为空，尝试重新抓取了3次仍然失败");
+				break;
+			}
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
-		// 先抓取json里面的
+
+		String regexStr="<div class=\"productDetails\">[\\s\\S]*?</a>";
+		Pattern productCell = Pattern.compile(regexStr);
+    	Matcher m = productCell.matcher(html);
+    	while (m.find()) {
+    		if (!"".equals(m.group())) {
+    			String date = m.group();
+    			int beginIx = date.indexOf("/cn/zh/catalog/products/");
+				if (beginIx <= 0)
+					continue;
+				int endIx = date.indexOf("/\"", beginIx);
+				String pid = date.substring(beginIx + 24, endIx);
+    			Product p = new Product();
+				p.category = c.name;
+				p.pid = pid;
+				p.containPreviousPrice=date.contains("previousPrice")?1:0;
+				if(p.containPreviousPrice==1){
+					Constant.dailyCheepLoger.info("优惠产品：pid: "+p.pid+",category"+p.category);
+				}
+				if (!pidlist.contains(p)) {
+					pidlist.add(p);
+				}
+    		}
+    	}
+    	
+    	// 再抓取json里面的
 		int index = 11000;
 		String result;
 		try {
@@ -259,33 +293,7 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		index = 11000;
-		int x = 1;
-		try {
-			while (true) {
-				int beginIx = html.indexOf("<div id=\"item_", index);
-				if (beginIx <= 0)
-					break;
-				String beginstr = "<div id=\"item_";
-				int beginIxLength = beginstr.length();
-				int endIx = html.indexOf("_" + x + "\" class=\"threeColumn", beginIx);
-				String pid = html.substring(beginIx + beginIxLength, endIx);
-				Product p = new Product();
-				p.category = c.name;
-				p.pid = pid;
-				if (!pidlist.contains(p)) {
-					pidlist.add(p);
-				}
-				index = endIx;
-				x++;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
+		Constant.baseLoger.info("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
 	}
 
@@ -320,6 +328,7 @@ class Product {
 	public String pid;
 	public String category;
 	public String cid;
+	public int containPreviousPrice;
 
 	public Product() {
 	}
@@ -332,7 +341,7 @@ class Product {
 
 	@Override
 	public String toString() {
-		return category + Constant.split + cid + Constant.split + pid;
+		return category + Constant.split + cid + Constant.split + pid+ Constant.split + containPreviousPrice;
 	}
 
 	@Override

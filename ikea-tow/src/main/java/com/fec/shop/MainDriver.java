@@ -30,7 +30,7 @@ public class MainDriver implements Runnable {
 
 				Product pd = new Product(tmp[2], tmp[1]);
 				pd.toCSV(Constant.product_cvs_file);
-				 pd.toPic(5, "E:\\QuHoo\\9\\");
+				 pd.toPic(5, "E:\\QuHoo\\8\\");
 
 				// pd.toSQL();
 			} else
@@ -39,7 +39,7 @@ public class MainDriver implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		for(int i=9;i<10;i++)
+		for(int i=8;i<9;i++)
 		pis.addAll(IkeaUtils.getProductStrListFromFile(i));
 		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {

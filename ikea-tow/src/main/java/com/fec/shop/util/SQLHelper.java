@@ -25,7 +25,7 @@ public void insertWholeProductInfo(Product product){
 //	String sql = "insert into 1(宝贝名称,宝贝类目,店铺类目,宝贝价格,宝贝数量,运费承担,快递,放入仓库,宝贝描述," +
 //			"宝贝属性,邮费模版ID,会员打折,修改时间,上传状态,图片状态,新图片,用户输入ID串,用户输入名-值对," +
 //			"商家编码,数字ID,本地ID,宝贝分类,宝贝状态,新品,尺码库,库存类型,库存计数,物流体积,物流重量) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	String sql = "insert into 909(title,seller_cids,price,description,picture,outer_id) values(?,?,?,?,?,?)";
+	String sql = "insert into testtt(title,seller_cids,price,description,picture,outer_id) values(?,?,?,?,?,?)";
 
 	try {
 		PreparedStatement stmt = getConnection().prepareStatement(sql);

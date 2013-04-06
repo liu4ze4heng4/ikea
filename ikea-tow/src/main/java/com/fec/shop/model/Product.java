@@ -528,7 +528,7 @@ public class Product {
 	
 	
 	public static void main(String[] args) {
-		Product p = new Product("00182175", "");
+		Product p = new Product("60206324,70180941", "");
 		System.out.println(p.getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
 //		 p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");
