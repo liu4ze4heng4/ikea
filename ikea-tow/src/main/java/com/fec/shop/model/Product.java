@@ -21,7 +21,9 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.tools.generic.MathTool;
 
 import com.fec.shop.ikea.GetAnything;
+import com.fec.shop.util.Errors;
 import com.fec.shop.util.HtmlUtil;
+import com.fec.shop.util.SQLHelper;
 import com.fec.shop.util.VelocityUtil;
 
 public class Product {
@@ -39,40 +41,10 @@ public class Product {
 	LinkedList<String> mainPics;
 	String describtion;
 	String product_id;
+	String[] product_ids;
+
+
 	String path;
-
-	public String getProduct_dian_id() {
-		return product_dian_id;
-	}
-
-	public void setProduct_dian_id(String product_dian_id) {
-		this.product_dian_id = product_dian_id;
-	}
-
-	public String getProductNameProdInfo() {
-		return productNameProdInfo;
-	}
-
-	public void setProductNameProdInfo(String productNameProdInfo) {
-		this.productNameProdInfo = productNameProdInfo;
-	}
-
-	public String getProductTypeProdInfo() {
-		return productTypeProdInfo;
-	}
-
-	public void setProductTypeProdInfo(String productTypeProdInfo) {
-		this.productTypeProdInfo = productTypeProdInfo;
-	}
-
-	// public double getPrice() {
-	// return price;
-	// }
-	//
-	// public void setPrice(double price) {
-	// this.price = price;
-	// }
-
 	public String getCategory() {
 		return category;
 	}
@@ -81,11 +53,6 @@ public class Product {
 		this.category = category;
 	}
 
-	// public void getPicIds() {
-	// GetAnything something = new GetAnything();
-	// pic_id = something.getPicUrl(buf, product_id);
-	//
-	// }
 	public void toFile2(String diypath) {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
@@ -193,22 +160,13 @@ public class Product {
 	}
 
 	public void toPic(int p, String diypath) {
-		// System.out.println(Thread.currentThread().getName() +
-		// "is Saveing Pic" + product_id);
-		// try {
-		// captureHtml(id);
-		// // pic_id = something.getPicUrl(buf,id);
-		// } catch (Excepton e) {
-		// System.out.print(id + " is not exist[pic]\n");
-		// return false;
-		// }
 		try {
 			for (int i = 0; i < mainPics.size(); i++) {
 				URL url = new URL("http://www.ikea.com/PIAimages/" + mainPics.get(i) + "_S" + p + ".jpg");
 				URLConnection urlCon = url.openConnection();
 				InputStream is = urlCon.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(is);
-				FileOutputStream fos = new FileOutputStream(diypath + "\\products\\" + product_id + "_" + mainPics.get(i) + "_S" + p + ".tbi");
+				FileOutputStream fos = new FileOutputStream(diypath + "\\products\\" + product_id + "_" + mainPics.get(i) + "_S4" + ".jpg");
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 				int read;
@@ -220,6 +178,7 @@ public class Product {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			Errors.addtoPEL(product_id);
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -227,17 +186,11 @@ public class Product {
 
 	}
 
-	// public void toSQL() {
-	// ProductDao pd = new ProductDao();
-	// setProduct_dian_id(product_dian_id);
-	// setProductNameProdInfo(productNameProdInfo);
-	// setProductTypeProdInfo(productTypeProdInfo);
-	// setPrice(new Double(price));
-	// System.out.println("===============" + productNameProdInfo + "  " +
-	// productTypeProdInfo + "===============");
-	// setCategory(category);
-	// pd.insert(this);
-	// }
+	 public void toSQL() {
+	 SQLHelper sh = new SQLHelper();
+
+	 sh.insertWholeProductInfo(this);
+	 }
 
 	public void toCSV(String diypath) {
 		File path = new File(diypath + "products");
@@ -318,15 +271,16 @@ public class Product {
 		keyFeatures = something.getKeyFeatures(buf);
 		designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
 		designer = something.getDesigner(buf);
-		numberOfPackages = something.geT(buf, "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
+//		numberOfPackages = something.geT(buf, "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
 		productInformation = something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation");
 
 		environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
 		goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
 		careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
-		lowestPrice = something.geT(buf, "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">", "</div>", "lowestPrice");
+//		lowestPrice = something.geT(buf, "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">", "</div>", "lowestPrice");
 		custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
 		product_id = ids[0];
+		product_ids=ids;
 		product_dian_id = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
 		String[] picurl = new String[100];
 		picurl = something.getPicUrl(buf, product_id);
@@ -356,6 +310,29 @@ public class Product {
 	}
 
 	public Product() {
+	}
+	public String getProduct_dian_id() {
+		return product_dian_id;
+	}
+
+	public void setProduct_dian_id(String product_dian_id) {
+		this.product_dian_id = product_dian_id;
+	}
+
+	public String getProductNameProdInfo() {
+		return productNameProdInfo;
+	}
+
+	public void setProductNameProdInfo(String productNameProdInfo) {
+		this.productNameProdInfo = productNameProdInfo;
+	}
+
+	public String getProductTypeProdInfo() {
+		return productTypeProdInfo;
+	}
+
+	public void setProductTypeProdInfo(String productTypeProdInfo) {
+		this.productTypeProdInfo = productTypeProdInfo;
 	}
 
 	public String getBuf() {
@@ -529,14 +506,34 @@ public class Product {
 	public void setDescribtion(String describtion) {
 		this.describtion = describtion;
 	}
-
+	public String getaProductId(int i) {
+		return product_ids[i];
+	}
+	public String getColor(int i)
+	{String pt=getaProductType(i);
+		if(pt.contains("黄"))
+		return "#e5cd00";
+		if(pt.contains("红"))
+			return "#cc0000";
+		if(pt.contains("绿"))
+			return "#22cc00";
+		if(pt.contains("蓝"))
+			return "#1759a8";
+		if(pt.contains("橙"))
+		   return "#f27405";
+		else return "#000000";
+	}
+	
+	
+	
+	
 	public static void main(String[] args) {
-		Product p = new Product("S09897838", "");
-//		System.out.println(p.getDescribtion());
-		// p.toSQL();
-		// p.toFile2("E:\\IKEA123\\");
-		 p.toCSV("E:\\IKEA1234\\");
-		// p.toPic(4, "E:\\IKEA123\\");
+		Product p = new Product("00182175", "");
+		System.out.println(p.getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
+//		 p.toSQL();
+//		 p.toFile2("E:\\IKEA123\\");
+		 p.toCSV("E:\\IKEA临时项目\\");
+//		 p.toPic(4, "E:\\QuHoo\\9\\S4\\");
 		// System.out.println("!");
 	}
 }

@@ -1,14 +1,16 @@
 package com.fec.shop;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Product;
+import com.fec.shop.util.Errors;
 import com.fec.shop.util.IkeaUtils;
 
 public class MainDriver implements Runnable {
-	public static List<String> pis = IkeaUtils.getProductStrListFromFile(8);
+	public static List<String> pis = new ArrayList<String>();
 
 	public static int index = 0;
 
@@ -28,6 +30,8 @@ public class MainDriver implements Runnable {
 
 				Product pd = new Product(tmp[2], tmp[1]);
 				pd.toCSV(Constant.product_cvs_file);
+				 pd.toPic(5, "E:\\QuHoo\\9\\");
+
 				// pd.toSQL();
 			} else
 				break;
@@ -35,7 +39,8 @@ public class MainDriver implements Runnable {
 	}
 
 	public static void main(String[] args) {
-
+		for(int i=9;i<10;i++)
+		pis.addAll(IkeaUtils.getProductStrListFromFile(i));
 		List<Thread> threads = new LinkedList<Thread>();
 		for (int i = 0; i <= 15; i++) {
 			MainDriver md = new MainDriver();
@@ -54,6 +59,6 @@ public class MainDriver implements Runnable {
 		}
 
 		System.out.println("all thread finish!!!!");
-
+System.out.println(Errors.pic_error_list);
 	}
 }

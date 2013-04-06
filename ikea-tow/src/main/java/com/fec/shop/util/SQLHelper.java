@@ -20,6 +20,39 @@ public class SQLHelper {
 		Connection con = DriverManager.getConnection(url, userName, password);
 		return con;
 	}
+
+public void insertWholeProductInfo(Product product){
+//	String sql = "insert into 1(宝贝名称,宝贝类目,店铺类目,宝贝价格,宝贝数量,运费承担,快递,放入仓库,宝贝描述," +
+//			"宝贝属性,邮费模版ID,会员打折,修改时间,上传状态,图片状态,新图片,用户输入ID串,用户输入名-值对," +
+//			"商家编码,数字ID,本地ID,宝贝分类,宝贝状态,新品,尺码库,库存类型,库存计数,物流体积,物流重量) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	String sql = "insert into 909(title,seller_cids,price,description,picture,outer_id) values(?,?,?,?,?,?)";
+
+	try {
+		PreparedStatement stmt = getConnection().prepareStatement(sql);
+		stmt.setString(1, product.getProductNameProdInfo() + product.getProductTypeProdInfo() + product.getProduct_dian_id());
+		stmt.setString(2, product.getCategory());
+		stmt.setDouble(3, product.getMinumPrice());
+		stmt.setString(4, product.getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
+		StringBuilder pics =new StringBuilder();
+		int i=0;
+		for(String e:product.getMainPics())
+		{
+			pics.append(e+":1:"+i+":|;");
+			i++;
+		}
+		stmt.setString(5, pics.toString());
+		stmt.setString(6,product.getProduct_id());
+
+
+		stmt.execute();
+	} catch (SQLException e) {
+		System.out.println("=========SQLException==========" + e.getMessage());
+		e.printStackTrace();
+	} catch (ClassNotFoundException e) {
+		System.out.println("========ClassNotFoundException===========" + e.getMessage());
+		e.printStackTrace();
+	}
+}
 	public void insertProduct(Product product) {
 //		String sql = "insert into tbl_product(product_dian_id,productNameProdInfo,productTypeProdInfo,price,category) values(?,?,?,?,?)";
 //		try {
@@ -133,7 +166,7 @@ public  String getcid(String name) {
 //		sqlhelper.insertTBcategories(tbc);
 //		Category c=new Category();
 //		c.setIkeaUrl("http://www.ikea.com/cn/zh/catalog/categories/departments/living_room/10661/");
-//		c.setName("Ӥ���");
+//		c.setName("婴锟斤拷锟�);
 //		IkeaUtils.getProductList(c);
 //		c.setTBCategoryFromSQL();
 //		sqlhelper.insertProductList(c);
