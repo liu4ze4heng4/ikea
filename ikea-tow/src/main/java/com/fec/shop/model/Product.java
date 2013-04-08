@@ -166,7 +166,7 @@ public class Product {
 				URLConnection urlCon = url.openConnection();
 				InputStream is = urlCon.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(is);
-				FileOutputStream fos = new FileOutputStream(diypath + "\\products\\" + product_id + "_" + mainPics.get(i) + "_S4" + ".jpg");
+				FileOutputStream fos = new FileOutputStream(diypath + "\\products\\" + product_id + "_" + mainPics.get(i) + "_S4" + ".tbi");
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 				int read;
@@ -528,7 +528,7 @@ public class Product {
 	
 	
 	public static void main(String[] args) {
-		Product p = new Product("60206324,70180941", "");
+		Product p = new Product("90250443", "");
 		System.out.println(p.getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
 //		 p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");

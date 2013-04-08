@@ -8,7 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +22,26 @@ import org.json.JSONObject;
 import com.fec.shop.constant.Constant;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.FileItem;
 import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.ItemAddRequest;
 import com.taobao.api.request.SellercatsListAddRequest;
 import com.taobao.api.request.SellercatsListGetRequest;
+import com.taobao.api.response.ItemAddResponse;
 import com.taobao.api.response.SellercatsListAddResponse;
 import com.taobao.api.response.SellercatsListGetResponse;
 
 public class TaobaoUtils {
 	public static void main(String[] args) {
-		TaobaoUtils.saveTBcategory2File();
+		try {
+			TaobaoUtils.addTaobaoItem();
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		 TaobaoUtils.getCCMapFromFile();
 //		SellercatsListAddRequest req=new SellercatsListAddRequest();
 //		req.setParentCid(0l);
@@ -83,6 +97,63 @@ public class TaobaoUtils {
 	
 	private static void addCategory(){
 		
+	}
+	private static void addTaobaoItem() throws ApiException, ParseException{
+		TaobaoClient client=new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
+		ItemAddRequest req=new ItemAddRequest();
+		req.setNum(30L);
+		req.setPrice("200.07");
+		req.setType("fixed");
+		req.setStuffStatus("new");
+		req.setTitle("Nokia N97全新行货");
+		req.setDesc("这是一个好商品");
+		req.setLocationState("浙江");
+		req.setLocationCity("杭州");
+		req.setApproveStatus("onsale");
+		req.setCid(1512L);
+		req.setProps("20000:33564;21514:38489");
+		req.setFreightPayer("buyer");
+		req.setValidThru(7L);
+		req.setHasInvoice(true);
+		req.setHasWarranty(true);
+		req.setHasShowcase(true);
+		req.setSellerCids("1101,1102,1103");
+		req.setHasDiscount(true);
+		req.setPostFee("5.07");
+		req.setExpressFee("15.07");
+		req.setEmsFee("25.07");
+		Date dateTime = SimpleDateFormat.getDateTimeInstance().parse("2000-01-01 00:00:00");
+		req.setListTime(dateTime);
+		req.setIncrement("2.50");
+		FileItem fItem = new FileItem(new File("C:\\Users\\W.k\\Desktop\\新建文件夹\\0008860153429_PE156595_S4.jpg"));
+		req.setImage(fItem);
+		req.setPostageId(775752L);
+		req.setAuctionPoint(5L);
+		req.setPropertyAlias("pid:vid:别名;pid1:vid1:别名1");
+		req.setInputPids("pid1,pid2,pid3");
+		req.setSkuProperties("pid:vid;pid:vid");
+		req.setSkuQuantities("2,3,4");
+		req.setSkuPrices("200.07");
+		req.setSkuOuterIds("1234,1342");
+		req.setLang("zh_CN");
+		req.setOuterId("12345");
+		req.setProductId(123456789L);
+		req.setPicPath("i7/T1rfxpXcVhXXXH9QcZ_033150.jpg");
+		req.setAutoFill("time_card");
+		req.setInputStr("耐克;耐克系列;科比系列;科比系列;2K5,Nike乔丹鞋;乔丹系列;乔丹鞋系列;乔丹鞋系列;");
+		req.setIsTaobao(true);
+		req.setIsEx(true);
+		req.setIs3D(true);
+		req.setSellPromise(true);
+		req.setAfterSaleId(47758L);
+		req.setCodPostageId(53899L);
+		req.setIsLightningConsignment(true);
+		req.setWeight(100L);
+		req.setIsXinpin(false);
+		req.setSubStock(1L);
+
+		ItemAddResponse response = client.execute(req , "10e61e0b7f9e5313bf00e85abd159fc5e23e8bVW7i2eZMTAAkcr64YaiMLWw9wF");
+	System.out.println(response.getBody());
 	}
 
 	private static ArrayList<TBCategory> getTBcategories() {
