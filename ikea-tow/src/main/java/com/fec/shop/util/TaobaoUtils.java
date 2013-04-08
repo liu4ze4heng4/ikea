@@ -152,7 +152,7 @@ public class TaobaoUtils {
 		req.setIsXinpin(false);
 		req.setSubStock(1L);
 
-		ItemAddResponse response = client.execute(req , "10e61e0b7f9e5313bf00e85abd159fc5e23e8bVW7i2eZMTAAkcr64YaiMLWw9wF");
+		ItemAddResponse response = client.execute(req , "1039456cdaa5f067c8408ade357b26e9edCzbiFwiarfGEHqI5yi0ud4tulcRF1Q");
 	System.out.println(response.getBody());
 	}
 
