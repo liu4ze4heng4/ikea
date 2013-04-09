@@ -221,7 +221,8 @@ public class Product {
 
 			writer.append("\"" + productNameProdInfo + productTypeProdInfo + "[" + product_dian_id + "]" + "\"	50006298	\"" + category + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
-			writer.append(getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
+//			writer.append(getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
+			writer.append("1");
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
 			for (int j = 0; j < mainPics.size() && j < 5; j++)
@@ -528,7 +529,7 @@ public class Product {
 	
 	
 	public static void main(String[] args) {
-		Product p = new Product("90250443", "");
+		Product p = new Product("20233254", "680624500");
 		System.out.println(p.getDescribtion().replace("	", " ").replace("\r\n", "").replace("\"","'"));
 //		 p.toSQL();
 //		 p.toFile2("E:\\IKEA123\\");

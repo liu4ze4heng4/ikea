@@ -198,8 +198,8 @@ public class IkeaUtils {
 	/**
 	 * 从网页获取产品列表
 	 * 
-	 * @param ikeacatList
-	 * @param taobaocidMap
+	 * @param ikeacatList 宜家类目
+	 * @param taobaocidMap 淘宝sellerCid
 	 * @return
 	 */
 	public static List<Product> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {

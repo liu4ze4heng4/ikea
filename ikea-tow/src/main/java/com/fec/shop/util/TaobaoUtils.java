@@ -80,9 +80,9 @@ public class TaobaoUtils {
 
 	public static void saveTBcategory2File() {
 		try {
-			ArrayList<TBCategory> tbclist = getTBcategories();
+			ArrayList<SellerCid> tbclist = getSellerCid();
 			FileWriter fw = new FileWriter(new File(Constant.tb_category_file));
-			for (TBCategory tbCategory : tbclist) {
+			for (SellerCid tbCategory : tbclist) {
 				fw.write(tbCategory + "\n");
 			}
 			fw.flush();
@@ -107,57 +107,57 @@ public class TaobaoUtils {
 		req.setStuffStatus("new");
 		req.setTitle("Nokia N97全新行货");
 		req.setDesc("这是一个好商品");
-		req.setLocationState("浙江");
-		req.setLocationCity("杭州");
-		req.setApproveStatus("onsale");
-		req.setCid(1512L);
-		req.setProps("20000:33564;21514:38489");
+		req.setLocationState("北京");
+		req.setLocationCity("北京");
+		req.setApproveStatus("instock");
+		req.setCid(50006298L);
+//		req.setProps("20000:33564;21514:38489");
 		req.setFreightPayer("buyer");
 		req.setValidThru(7L);
-		req.setHasInvoice(true);
-		req.setHasWarranty(true);
-		req.setHasShowcase(true);
-		req.setSellerCids("1101,1102,1103");
-		req.setHasDiscount(true);
+//		req.setHasInvoice(true);
+//		req.setHasWarranty(true);
+//		req.setHasShowcase(true);
+//		req.setSellerCids("1101,1102,1103");
+//		req.setHasDiscount(true);
 		req.setPostFee("5.07");
 		req.setExpressFee("15.07");
 		req.setEmsFee("25.07");
-		Date dateTime = SimpleDateFormat.getDateTimeInstance().parse("2000-01-01 00:00:00");
-		req.setListTime(dateTime);
-		req.setIncrement("2.50");
+//		Date dateTime = SimpleDateFormat.getDateTimeInstance().parse("2000-01-01 00:00:00");
+//		req.setListTime(dateTime);
+//		req.setIncrement("2.50");
 		FileItem fItem = new FileItem(new File("C:\\Users\\W.k\\Desktop\\新建文件夹\\0008860153429_PE156595_S4.jpg"));
 		req.setImage(fItem);
-		req.setPostageId(775752L);
-		req.setAuctionPoint(5L);
-		req.setPropertyAlias("pid:vid:别名;pid1:vid1:别名1");
-		req.setInputPids("pid1,pid2,pid3");
-		req.setSkuProperties("pid:vid;pid:vid");
-		req.setSkuQuantities("2,3,4");
-		req.setSkuPrices("200.07");
-		req.setSkuOuterIds("1234,1342");
-		req.setLang("zh_CN");
-		req.setOuterId("12345");
-		req.setProductId(123456789L);
-		req.setPicPath("i7/T1rfxpXcVhXXXH9QcZ_033150.jpg");
-		req.setAutoFill("time_card");
-		req.setInputStr("耐克;耐克系列;科比系列;科比系列;2K5,Nike乔丹鞋;乔丹系列;乔丹鞋系列;乔丹鞋系列;");
-		req.setIsTaobao(true);
-		req.setIsEx(true);
-		req.setIs3D(true);
-		req.setSellPromise(true);
-		req.setAfterSaleId(47758L);
-		req.setCodPostageId(53899L);
-		req.setIsLightningConsignment(true);
-		req.setWeight(100L);
-		req.setIsXinpin(false);
-		req.setSubStock(1L);
+//		req.setPostageId(775752L);
+//		req.setAuctionPoint(5L);
+//		req.setPropertyAlias("pid:vid:别名;pid1:vid1:别名1");
+//		req.setInputPids("pid1,pid2,pid3");
+//		req.setSkuProperties("pid:vid;pid:vid");
+//		req.setSkuQuantities("2,3,4");
+//		req.setSkuPrices("200.07");
+//		req.setSkuOuterIds("1234,1342");
+//		req.setLang("zh_CN");
+//		req.setOuterId("12345");
+//		req.setProductId(123456789L);
+//		req.setPicPath("i7/T1rfxpXcVhXXXH9QcZ_033150.jpg");
+//		req.setAutoFill("time_card");
+//		req.setInputStr("耐克;耐克系列;科比系列;科比系列;2K5,Nike乔丹鞋;乔丹系列;乔丹鞋系列;乔丹鞋系列;");
+//		req.setIsTaobao(true);
+//		req.setIsEx(true);
+//		req.setIs3D(true);
+//		req.setSellPromise(true);
+//		req.setAfterSaleId(47758L);
+//		req.setCodPostageId(53899L);
+//		req.setIsLightningConsignment(true);
+//		req.setWeight(100L);
+//		req.setIsXinpin(false);
+//		req.setSubStock(1L);
 
-		ItemAddResponse response = client.execute(req , "1039456cdaa5f067c8408ade357b26e9edCzbiFwiarfGEHqI5yi0ud4tulcRF1Q");
+		ItemAddResponse response = client.execute(req , "6102317aace075904bf8deeeb1fb93f226b32eceb7837e142635718");
 	System.out.println(response.getBody());
 	}
 
-	private static ArrayList<TBCategory> getTBcategories() {
-		ArrayList<TBCategory> tbcategories = new ArrayList<TBCategory>();
+	private static ArrayList<SellerCid> getSellerCid() {
+		ArrayList<SellerCid> tbcategories = new ArrayList<SellerCid>();
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
 		SellercatsListGetRequest req = new SellercatsListGetRequest();
 		req.setNick(Constant.nick);
@@ -181,11 +181,11 @@ public class TaobaoUtils {
 				if ("0".equals(product.getString("parent_cid"))) {
 					continue;
 				} else {
-					TBCategory tbp = new TBCategory();
+					SellerCid tbp = new SellerCid();
 					tbp.cid = product.getString("cid");
 					tbp.name = product.getString("name");
 					if (tbcategories.contains(tbp)) {
-						TBCategory older = tbcategories.get(tbcategories.indexOf(tbp));
+						SellerCid older = tbcategories.get(tbcategories.indexOf(tbp));
 						older.cid = older.cid + "," + tbp.cid;
 					} else {
 						tbcategories.add(tbp);
@@ -200,15 +200,32 @@ public class TaobaoUtils {
 		return tbcategories;
 	}
 
+
 }
 
-class TBCategory {
+
+
+class SellerCid {
 	public String cid;
 	public String name;
 
 	@Override
 	public boolean equals(Object obj) {
-		return ((TBCategory) obj).name.equals(name);
+		return ((SellerCid) obj).name.equals(name);
+	}
+
+	@Override
+	public String toString() {
+		return name + Constant.split + cid;
+	}
+}
+class OfficialCid {
+	public String cid;
+	public String name;
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((SellerCid) obj).name.equals(name);
 	}
 
 	@Override

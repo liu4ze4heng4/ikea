@@ -1,17 +1,14 @@
 package com.fec.shop.util;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
+/**
+ * @auther wanghg
+ * @time 上午11:56:35
+ * @DEC 测试
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
@@ -21,18 +18,29 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
 /**
- * TopApiUtil Top API 辅助工具
- * 
- * @author <a href="mailto:gerald.chen.hz@gmail.com">Gerald Chen</a>
- * @version $Id: TopApiUtil.java 2012-3-12 14:51:35 Exp $
+ * @author wanghg
+ * @time 上午11:56:35
+ * @DEC 自动(或者叫半自动)获取淘宝API sessionkey -- 正式环境
+ *
  */
-public abstract class TopApiUtil {
-    
-    private static final String CONTAINER_URL = "http://container.api.taobao.com/container?appkey=${appkey}";
-    private static final String SESSION_PARAM_KEY = "top_session";
-    private static final String LOGIN_URL = "http://login.taobao.com/member/login.jhtml";
-
-    public static String getSessionKey(String appkey, String nick, String psw) {
+public class TopApiUtil {
+	
+	// 获取授权码的地址
+	private static final String CONTAINER_URL = "http://container.open.taobao.com/container?appkey=${appkey}";
+	// 新URL中sessionkey的参数名http://container.open.taobao.com/container?appkey=21402582
+	private static final String SESSION_PARAM_KEY = "top_session";
+	// 淘宝登录地址
+	private static final String LOGIN_URL = "http://login.taobao.com/member/login.jhtml";
+	
+	@SuppressWarnings("deprecation")
+	/**
+	 * 根据APPKEY,用户名,密码获取sessionkey
+	 * @param appkey
+	 * @param nick
+	 * @param psw
+	 * @return
+	 */
+	public static String getSessionKey(String appkey, String nick, String psw) {
         HttpClient httpClient = new HttpClient();
         String redirectURL = "";
         PostMethod postMethod = new PostMethod(LOGIN_URL);
@@ -50,39 +58,63 @@ public abstract class TopApiUtil {
         try {
             httpClient.executeMethod(postMethod);
             redirectURL = postMethod.getResponseHeader("Location").getValue();
-            System.out.println("redirectURL: 1 " + redirectURL);
         } catch (Exception e) {
-            System.out.println("Exception: " + e.toString());
+            e.printStackTrace();
             return null;
         } finally {
             postMethod.releaseConnection();
         }
         
         String newUrl = CONTAINER_URL.replace("${appkey}", appkey);
+        String agreementsign="";
+        
+        //登录到授权页面获取 agreementsign值
         try {
             URI uri = new URI(newUrl);
             postMethod.setURI(uri);
             httpClient.executeMethod(postMethod);
-            
-            redirectURL = postMethod.getResponseHeader("Location").getValue();
-            System.out.println("redirectURL: 2 " + redirectURL);
+            String body = new String(postMethod.getResponseBodyAsString());
+            System.out.println(body);
+            agreementsign = body.substring(body.indexOf("name='agreementsign' value=")+28, body.indexOf("' id='agreementsign'"));
         } catch (Exception e) {
-            System.out.println("Exception: " + e.toString());
+            e.printStackTrace();
             return null;
         } finally {
             postMethod.releaseConnection();
         }
+        
+        //提交agreementsign值,获取包含sessionkey的新URL
+        try {
+        	postMethod.setURI(new URI("http://container.api.taobao.com/container?appkey="+appkey+"&agreement=true&agreementsign="+agreementsign));
+        	httpClient.executeMethod(postMethod);
+        	redirectURL = postMethod.getResponseHeader("Location").getValue();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return null;
+        } finally {
+        	postMethod.releaseConnection();
+        }
+        
         GetMethod get = new GetMethod(redirectURL);
-        /*try {
+        try {
             httpClient.executeMethod(get);
         } catch (Exception e) {
+        	e.printStackTrace();
             return null;
         } finally {
             get.releaseConnection();
-        }*/
+        }
         return extractSessionKey(get.getQueryString(), SESSION_PARAM_KEY);
     }
     
+    
+    
+	/**
+	 * 截取新的URL地址,返回sessionkey
+	 * @param rsp
+	 * @param key
+	 * @return
+	 */
     private static String extractSessionKey(String rsp, String key) {
         if (rsp == null)
             return null;
@@ -99,9 +131,19 @@ public abstract class TopApiUtil {
         }
         return nameValuePair.get(key);
     }
+    
 
-    public static void main(String[] args) {
-        String sessionKey = TopApiUtil.getSessionKey("12887618", "11测试账号21", "taobao1234");
-        System.out.println(sessionKey);
-    }
+    /**
+     * sesssionkey 测试
+     * @param args
+     */
+	public static void main(String[] args) {
+		try{
+			String sessionKey = getSessionKey("21402582", "charick","52Zeheng");
+			System.out.println("sessionKey:"+sessionKey);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }
