@@ -20,10 +20,28 @@ import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile()),
-				Constant.ikea_product_file);
+		IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
+//		IkeaUtils.getStockInfo("00176457");
+//		SQLHelper sh=new SQLHelper();
+//		sh.getProductTids();
 	}
-
+	/**
+	 * 获取宜家库存信息
+	 */
+public static String getStockInfo(String id){
+	String buf=HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo="+id+"&change=true&_=1");
+	if( buf.contains("北京商场当前有库存")){
+	int beginIx = buf.indexOf("北京商场当前有库存");
+	int endIx = buf.indexOf("</b>", beginIx);
+	String quantity = buf.substring(beginIx +14, endIx);
+	System.out.println(quantity);
+	return quantity;
+	}
+	else if( buf.contains("北京商场当前无库存")){return "无库存";}
+	else if(buf.contains("北京商场不出售该产品")){return "商场不出售该产品";}
+	else
+		return "未知错误";
+}
 	/**
 	 * 生成新增加的产品列表
 	 */

@@ -77,6 +77,7 @@ public class IkeaProductHelper {
 					results = result.split(",");
 
 					Collections.addAll(extraProductUrls, results);
+					@SuppressWarnings("unused")
 					String element = null;
 					for (int i = 0; i < extraProductUrls.size(); i++) {
 						element = extraProductUrls.get(i) + "!" + cn;

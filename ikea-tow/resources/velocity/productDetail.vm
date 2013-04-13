@@ -51,16 +51,16 @@
 			<img src='http://img01.taobaocdn.com/imgextra/i1/42635718/T2PQ_DXeVaXXXXXXXX_!!42635718.gif' style='float:right;display:inline;margin-top:-76.0px;margin-right:25px'/>
 			<div style='width:250.0px;float:right;display:inline;margin-top:-70.0px;margin-right:0px;font-size:12.0px;color:white;text-align:left;'>
 			官网链接<br/>
-ikea.cn/catalog/products/${product.product_id}</div>
+ikea.cn/catalog/products/$product.getProduct_id()</div>
 			</div>
 			
 			<div style='width:150.0px;float:left;display:inline;text-align:left;margin-left:0.0px;'>
 			<div style='display:inline;float:left;width:150.0px;color:white;font-size:25.0px;text-align:center;background-color:#bf0404;line-height:28px;'>
 				安装后尺寸</div>
-#if($product.assembledSize.length() >1)
+#if($assembledSize.length() >1)
 				<div style='display:inline;float:left;width:150.0px;color:black;text-align:left;font-size:16.0px;line-height:27.0px;margin-left:5.0px'>
 				<br />
-				$product.assembledSize 
+				$assembledSize 
 				</div>
 #else
 				<div style='display:inline;float:left;width:150.0px;color:black;text-align:left;font-size:18.0px;line-height:27.0px;margin-left:5.0px'>
@@ -70,23 +70,23 @@ ikea.cn/catalog/products/${product.product_id}</div>
 #end				
 			</div>
 		<div style='display:inline;width:218.0px;float:left;margin-left:30.0px;;padding:6.0px;font-size:12.0px;overflow:hidden;border:1px dashed;border-bottom:0px;min-height:20.0px;max-height:250px;'>
-#if($product.designerThoughts.length() >1)		
+#if($designerThoughts.length() >1)		
 				
-					${product.designerThoughts}
+					${designerThoughts}
 <div style='display:inline;width:218.0px;height:1px;overflow:hidden;float:left;border-bottom:1px dashed;'><br/></div>	
 #end
 		
-#if($product.keyFeatures.length()>=15&&115>$product.keyFeatures.length())	
+#if($keyFeatures.length()>=15&&115>$keyFeatures.length())	
 <div style="display:inline;float:left;width:218.0px;color:black;font-size:13.0px;text-align:center;line-height:25px;">
 				功能&简介</div>
-${product.keyFeatures}
+${keyFeatures}
 <div style='display:inline;width:218.0px;height:1px;overflow:hidden;float:left;border-bottom:1px dashed;'><br/></div>	
 #end
 
-#if($product.custMaterials.length()>= 1&&400>$product.custMaterials.length())
+#if($custMaterials.length()>= 1&&400>$custMaterials.length())
 <div style="display:inline;float:left;width:218.0px;color:black;font-size:13.0px;text-align:center;line-height:25px;">
 				做工&用料</div>
-${product.custMaterials}
+${custMaterials}
 <div style='display:inline;width:218.0px;height:1px;overflow:hidden;float:left;border-bottom:1px dashed;'><br/></div>	
 #end
 	
@@ -95,9 +95,9 @@ ${product.custMaterials}
 			
 
 			<div style='width:300.0px;float:right;display:inline;text-align:right;line-hight:14px;margin-top:25px;margin-right:25px;'>
-				#if($product.designer.length() >1)
+				#if($designer.length() >1)
 
-				本产品设计师:$product.designer
+				本产品设计师:$designer
 #else
 				本产品设计师:IKEA of Sweden
 		#end
@@ -208,14 +208,14 @@ ${product.custMaterials}
 					<img src="http://www.ikea.com/PIAimages/${picBig}_S4.jpg" style="vertical-align:top;" />	</div>				
 			<img src="http://img01.taobaocdn.com/imgextra/i1/42635718/T2lmLDXkdaXXXXXXXX_!!42635718.gif" style="float:right;display:inline;margin-top:-500.0px;" />
 			</div>
-			#if($product.goodToKnow.length() >1&&$velocityCount==1)
+			#if($goodToKnow.length() >1&&$velocityCount==1)
 			<div style="width:150.0px;height:200.0px;overflow:hidden;float:left;display:inline;text-align:left;margin-left:20.0px;margin-top:80.0px;background-color:#038c8c;">	</div>
 			<div style="width:150.0px;height:200.0px;overflow:hidden;float:left;display:inline;text-align:left;margin-left:15.0px;margin-top:-195.0px;background-color:#ffffff;border:2px solid #038c8c;">
 				<div style="display:inline;float:left;width:150.0px;color:black;font-size:16.0px;text-align:center;line-height:18px;">
 				温馨提示</div>	
 			<div style="display:inline;float:left;width:145.0px;color:black;text-align:left;font-size:12.0px;line-height:14.0px;padding-left:5.0px">
 				<br />
-				$product.goodToKnow
+				$goodToKnow
 				</div>
 			</div>
 			#end
@@ -228,7 +228,7 @@ ${product.custMaterials}
 			<img src="http://img01.taobaocdn.com/imgextra/i1/42635718/T2lmLDXkdaXXXXXXXX_!!42635718.gif" style="float:right;display:inline;margin-top:-500.0px;" />
 			</div>
 	
-	#if($product.environment.length() >1&&$velocityCount==2)
+	#if($environment.length() >1&&$velocityCount==2)
 <div style="width:150.0px;height:200.0px;overflow:hidden;float:right;display:inline;text-align:left;margin-right:10.0px;margin-top:80.0px;background-color:#bf0404;">	</div>
 			<div style="width:150.0px;height:200.0px;overflow:hidden;float:right;display:inline;text-align:left;margin-right:-148.0px;margin-top:85.0px;background-color:#ffffff;border:2px solid #bf0404;">
 				<div style="display:inline;float:left;width:150.0px;color:black;font-size:16.0px;text-align:center;line-height:28px;">
@@ -236,7 +236,7 @@ ${product.custMaterials}
 				
 			<div style="display:inline;float:left;width:145.0px;color:black;text-align:left;font-size:14.0px;line-height:24.0px;padding-left:5.0px">
 				<br />
-				$product.environment
+				$environment
 				</div>
 			</div>
 	#end

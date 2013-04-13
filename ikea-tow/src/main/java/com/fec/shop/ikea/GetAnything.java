@@ -84,6 +84,7 @@ public class GetAnything {
 		String tmp = buf.substring(beginIx + beginIxLength + 5, endIx);
 		String result = tmp.replace("</b>", "");
 		tmp = result.replace(",", "");
+		System.out.println(tmp);
 		double price = (new Double(tmp));
 		// System.out.println(result);
 		// InfoList.add(Info);

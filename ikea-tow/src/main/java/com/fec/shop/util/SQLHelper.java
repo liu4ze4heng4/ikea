@@ -72,7 +72,79 @@ public void insertWholeProductInfo(Product product){
 //			e.printStackTrace();
 //		}
 	}
+/**
+ * 从数据库根据商品pid获取 产品的taobaoId
+ * @param code
+ * @return
+ */
+	public String getProductTid(String pid){
+		String sql = "select * from  main_table where outer_id=" + pid;
+		String tid=null;
+		try {
+			Statement stmt = getConnection().createStatement();
+			ResultSet rs = null;		
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				tid= rs.getString("num_id");
 
+			}
+		} catch (SQLException e) {
+			System.out.println("=========SQLException==========" + e.getMessage());
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("========ClassNotFoundException===========" + e.getMessage());
+			e.printStackTrace();
+		}
+		System.out.println(tid);
+	return tid;
+	}
+	/**
+	 * 从数据库获得所有产品的taobaoId
+	 * @param code
+	 * @return
+	 */
+		public ArrayList<String> getProductTids(){
+			String sql = "select * from  main_table ";
+			ArrayList<String> tids=new ArrayList<String>();
+			try {
+				Statement stmt = getConnection().createStatement();
+				ResultSet rs = null;		
+				rs = stmt.executeQuery(sql);
+				while (rs.next()) {
+//					tids.add(rs.getString("num_id")) ;
+					tids.add(rs.getString("title")) ;
+				}
+			} catch (SQLException e) {
+				System.out.println("=========SQLException==========" + e.getMessage());
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("========ClassNotFoundException===========" + e.getMessage());
+				e.printStackTrace();
+			}
+			System.out.println(tids);
+for(String e:tids){
+if (e.contains("["))
+				{int beginIx = e.indexOf("[");
+				int endIx = e.indexOf("]", beginIx);
+				String result = e.substring(beginIx + 1, endIx);
+				result = result.replace(".", "");
+				sql = "update main_table set outer_id='"+result+"' where title='"+e+"'";
+				try {
+					PreparedStatement stmt = getConnection().prepareStatement(sql);
+					stmt.execute();
+					}
+				catch (SQLException er) {
+					System.out.println("=========SQLException==========" + er.getMessage());
+					er.printStackTrace();
+				} catch (ClassNotFoundException er) {
+					System.out.println("========ClassNotFoundException===========" + er.getMessage());
+					er.printStackTrace();
+				}
+				}
+}
+			
+		return tids;
+		}
 	public Product getProduct(String code) {
 		String sql = "select * from  tbl_product where code=" + code;
 		Product pt = null;

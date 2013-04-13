@@ -30,7 +30,7 @@ public class MainDriver implements Runnable {
 
 				Product pd = new Product(tmp[2], tmp[1]);
 				pd.toCSV(Constant.product_cvs_file);
-				 pd.toPic(5, "E:\\QuHoo\\8\\");
+				 pd.toPic(5, "E:\\QuHoo\\8\\","jpg");
 
 				// pd.toSQL();
 			} else
