@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.tools.generic.MathTool;
@@ -25,18 +26,16 @@ import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.Errors;
 import com.fec.shop.util.HtmlUtil;
 import com.fec.shop.util.SQLHelper;
+import com.fec.shop.util.TaobaoUtils;
 import com.fec.shop.util.VelocityUtil;
 
 public class Product {
 	String buf;
-	String ProductName;
+	String ProductName,productTypeInfo;
 	String[] ProductType;
+	
 	String pid,dotted_pid;
-	String outer_cid;
-	public String getOuter_cid() {
-		return outer_cid;
-	}
-
+	String outer_cid ,inner_cid;
 	String[] product_ids;
 //	String[] title = new String[100];
 	double[] price = new double[100];
@@ -44,7 +43,9 @@ public class Product {
 	ArrayList<String> pic_id;
 	LinkedList<String> mainPics;
 	
-	
+	public String getOuter_cid() {
+		return outer_cid;
+	}
 	/**
 	 * 获取和生成宝贝描述
 	 * 
@@ -139,7 +140,7 @@ public class Product {
 		}
 		try {
 			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(csvfile, true), "GBK");
-			writer.append("\"" + ProductName + ProductType[0] + "[" + dotted_pid + "]" + "\"	50006298	\"" + outer_cid + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
+			writer.append("\"" + ProductName + productTypeInfo + "[" + dotted_pid + "]" + "\"	50006298	\"" + outer_cid + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
 			 writer.append(getDescribtion().replace("	", " ").replace("\n","").replace("\"","'"));
 
@@ -159,6 +160,14 @@ public class Product {
 
 	}
 
+	public String getProductTypeInfo() {
+		return productTypeInfo;
+	}
+
+	public String getDotted_pid() {
+		return dotted_pid;
+	}
+
 	public double getMinumPrice() {
 		double[] temp = Arrays.copyOf(price, price.length);
 		Arrays.sort(temp);
@@ -176,7 +185,7 @@ public class Product {
 		return changedFamilyPrice;
 	}
 
-	public Product(String id, String cate) {
+	public Product(String id, Map<String,String> cmap) {
 		Arrays.fill(price, 200000);
 		String[] ids = id.split(",");
 		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
@@ -193,10 +202,16 @@ public class Product {
 		Collections.addAll(pic_id, picurl);
 		mainPics = new LinkedList<String>();
 		mainPics.add(pic_id.get(0));
-		outer_cid = cate;
 		ProductName = something.getProductName(buf);
 		ProductType = new String[100];
 		ProductType[0] = something.getProductType(buf);
+		productTypeInfo=something.getProductTypeInfo(buf);
+		if(buf.contains("IRWStats.subCategoryLocal\" content=\""))
+		{
+			inner_cid=something.getInnerCid(buf,cmap);
+			
+			System.out.println(inner_cid);
+		}
 
 		for (int i = 1; i < ids.length; i++) {
 			// System.out.println(ids[i]);
@@ -210,7 +225,7 @@ public class Product {
 		}
 		// System.out.println(pic_id);
 		// System.out.println(ProductType[1] + ProductType[0]);
-
+		toPic(4,"E:\\IKEA临时项目\\","jpg");
 	}
 
 	public Product() {
@@ -316,7 +331,8 @@ public class Product {
 	}
 
 	public static void main(String[] args) {
-		Product p = new Product("S89869544", "680631254,680632361,680631260");
+		
+		Product p = new Product("S09909105", TaobaoUtils.getCCMapFromFile());
 		System.out.println(p.getDescribtion().replace("\n", " ").replace("\"", "'"));
 		// p.toSQL();
 		// p.toFile2("E:\\IKEA123\\");

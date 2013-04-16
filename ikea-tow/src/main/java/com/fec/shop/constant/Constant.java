@@ -7,7 +7,7 @@ public class Constant {
 	public static final String ikea_category_file = "resources/categroy/ikea_categroy";
 	public static final String split = "#######";
 
-	public static final int num_product_per_file = 500;
+	public static final int num_product_per_file = 5000;
 
 	public static final String ikea_product_file = "resources/product/ikea_product";
 	public static final String ikea_product_file_new_add = "resources/ikea_product_new";

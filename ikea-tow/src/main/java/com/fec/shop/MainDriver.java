@@ -8,6 +8,7 @@ import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Product;
 import com.fec.shop.util.Errors;
 import com.fec.shop.util.IkeaUtils;
+import com.fec.shop.util.TaobaoUtils;
 
 public class MainDriver implements Runnable {
 	public static List<String> pis = new ArrayList<String>();
@@ -28,7 +29,9 @@ public class MainDriver implements Runnable {
 				System.out.println(Thread.currentThread().getName() + "：抓取第" + i + "个产品：" + pis.get(i));
 				String[] tmp = pis.get(i).split(Constant.split);
 
-				Product pd = new Product(tmp[2], tmp[1]);
+//				Product pd = new Product(tmp[2], tmp[1]);
+				Product pd = new Product(tmp[2],TaobaoUtils.getCCMapFromFile());
+				
 				pd.toCSV(Constant.product_cvs_file);
 				 pd.toPic(5, "E:\\QuHoo\\8\\","jpg");
 

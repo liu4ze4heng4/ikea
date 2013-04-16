@@ -1,6 +1,7 @@
 package com.fec.shop.ikea;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GetAnything {
 	ArrayList<String> InfoList = new ArrayList<String>();
@@ -50,6 +51,21 @@ public class GetAnything {
 		return result;
 
 	}
+	public String getInnerCid(String buf,Map<String, String> cmap) {
+
+		int beginIx = buf.indexOf("IRWStats.subCategoryLocal\" content=\"");
+		int endIx = buf.indexOf("/>", beginIx);
+		String result = buf.substring(beginIx + "IRWStats.subCategoryLocal\" content=\"".length(), endIx);
+		result = result.replace("\"", "").replace(" ", "");
+if(cmap.containsKey(result))
+		{result=cmap.get(result);
+		return result;}
+		else 
+			System.out.println("未获得淘宝CID");
+			return null;
+
+	}
+	
 	public String getProductType(String buf){
 		int beginIx = buf.indexOf("<div id=\"type\" class=\"productType\">");
 		int endIx = buf.indexOf("<strong>", beginIx);
@@ -64,6 +80,15 @@ public class GetAnything {
 		}
 		return result;
 	}
+	public String getProductTypeInfo(String buf){
+		int beginIx = buf.indexOf("<div class=\"prodInfoRow\"  id=\"productTypeProdInfo\">");
+		int endIx = buf.indexOf("</div>", beginIx);
+		String result = buf.substring(beginIx + "<div class=\"prodInfoRow\"  id=\"productTypeProdInfo\">".length(), endIx);
+		result = result.replace("	", "");
+		return result;
+	}
+	
+	
 	public String getKeyFeatures(String buf){
 		int beginIx = buf.indexOf("<div id=\"custBenefit\" class=\"texts keyFeaturesmargin\">");
 		int endIx = buf.indexOf("<div id=\"dessection\" class=\"productInformation prodInfoSub\"", beginIx);

@@ -20,28 +20,128 @@ import com.fec.shop.constant.Constant;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
-//		IkeaUtils.getStockInfo("00176457");
-//		SQLHelper sh=new SQLHelper();
-//		sh.getProductTids();
+		// IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),
+		// TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
+		IkeaUtils.getStockInfo("60169835");
+		// SQLHelper sh=new SQLHelper();
+		// sh.getProductTids();
 	}
+	static String quantity;
+	static String info = "无发货时效信息";
+	static int isheavy=-1;
+	static double wholeweight=0;
+	static double wholesize=0;
+	public static String getQuantity() {
+		return quantity;
+	}
+
+	public static String getInfo() {
+		return info;
+	}
+
+	public static int getIsheavy() {
+		return isheavy;
+	}
+
+	public static double getWholeweight() {
+		return wholeweight;
+	}
+
+	public static double getWholesize() {
+		return wholesize;
+	}
+
+
 	/**
 	 * 获取宜家库存信息
 	 */
-public static String getStockInfo(String id){
-	String buf=HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo="+id+"&change=true&_=1");
-	if( buf.contains("北京商场当前有库存")){
-	int beginIx = buf.indexOf("北京商场当前有库存");
-	int endIx = buf.indexOf("</b>", beginIx);
-	String quantity = buf.substring(beginIx +14, endIx);
-	System.out.println(quantity);
-	return quantity;
+	public static String getStockInfo(String id) {
+		String buf = new String();
+		String buf2 = new String();
+		isheavy=-1;
+		wholeweight=0;
+		wholesize=0;
+		ArrayList<Double> weight=new ArrayList<Double>();
+		
+
+		ArrayList<Double> sizer=new ArrayList<Double>();
+		id = id.replace(".", "");
+
+		buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo=" + id + "&change=true&_=1");
+		if (buf == null)
+			buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=spr&itemNo=" + id + "&change=true&_=1");
+		if (buf == null)
+			return "链接超时,请重试";
+
+		if (buf.contains("北京商场当前有库存")) {
+			int beginIx = buf.indexOf("北京商场当前有库存");
+			int endIx = buf.indexOf("</b>", beginIx);
+			quantity = buf.substring(beginIx, endIx);
+			quantity = quantity.replace("<b>", "");
+
+					if (buf.contains("联系工作人员")) {
+						info = "本产品在外仓，不能及时发货";
+					} else {
+						info = "可以及时发货";
+					}
+
+				
+		} else if (buf.contains("北京商场当前无库存")) {
+			quantity = "无库存";
+		} else if (buf.contains("北京商场不出售该产品")) {
+			quantity = "商场不出售该产品";
+		} else
+
+			quantity = "未知错误2，请重试";
+		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/" + id);
+		if (buf2 == null)
+		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/S" + id);
+		String regexStr = "<div class=\"rowContainerPackage\">[\\s\\S]*?<div class=\"clear\"></div>";
+		Pattern productCell = Pattern.compile(regexStr);
+		Matcher m = productCell.matcher(buf2);
+		while (m.find()) {
+			if (!"".equals(m.group())) {
+				String content=m.group();
+				int beginIx = content.indexOf("<div class=\"colPack\">");
+				int endIx = content.indexOf("</div>", beginIx);
+				int count=new Integer(content.substring(beginIx+"<div class=\"colPack\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", ""));
+
+				beginIx = content.indexOf("<div class=\"colWidth\">");
+				endIx = content.indexOf("</div>", beginIx);
+				ArrayList<Double> size=new ArrayList<Double>();
+				size.add(new Double(content.substring(beginIx+"<div class=\"colWidth\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
+
+				 beginIx = content.indexOf("<div class=\"colHeight\">");
+				 endIx = content.indexOf("</div>", beginIx);
+				size.add(new Double(content.substring(beginIx+"<div class=\"colHeight\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
+				 beginIx = content.indexOf("<div class=\"colLength\">");
+				 endIx = content.indexOf("</div>", beginIx);
+				size.add(new Double(content.substring(beginIx+"<div class=\"colLength\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
+				if(!size.contains((double)0))
+				sizer.add(count*size.get(0)*size.get(1)*size.get(2)/1000000);
+				else
+					sizer.add((double) 9999);
+				beginIx = content.indexOf("<div class=\"colWeight\">");
+				 endIx = content.indexOf("</div>", beginIx);
+				weight.add(count*new Double(content.substring(beginIx+"<div class=\"colWeight\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", "0")));
+			} else {
+				info = "未知错误1";
+			}
+		}
+		for(int i=0;i<sizer.size();i++)
+		wholesize=wholesize+sizer.get(i);
+		for(int i=0;i<weight.size();i++)
+			wholeweight=wholeweight+weight.get(i);
+		if(wholesize<9999){
+		if(wholesize*210<wholeweight)
+		isheavy=1;
+		else
+			isheavy=0;}
+System.out.println(quantity+"\n"+wholesize+"\n"+wholeweight+"\n"+info+"\n"+isheavy);	
+		return null;
+	
 	}
-	else if( buf.contains("北京商场当前无库存")){return "无库存";}
-	else if(buf.contains("北京商场不出售该产品")){return "商场不出售该产品";}
-	else
-		return "未知错误";
-}
+
 	/**
 	 * 生成新增加的产品列表
 	 */
@@ -216,8 +316,10 @@ public static String getStockInfo(String id){
 	/**
 	 * 从网页获取产品列表
 	 * 
-	 * @param ikeacatList 宜家类目
-	 * @param taobaocidMap 淘宝sellerCid
+	 * @param ikeacatList
+	 *            宜家类目
+	 * @param taobaocidMap
+	 *            淘宝sellerCid
 	 * @return
 	 */
 	public static List<Product> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
@@ -250,66 +352,69 @@ public static String getStockInfo(String id){
 	 */
 	private static List<Product> getProductListFromHtml(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
-		int count=0;
+		int count = 0;
 		while (html == null) {
-			if(count++>3){
-				Constant.baseLoger.info("[error]: 从类目["+c.url+"]获取产品信息为空，尝试重新抓取了3次仍然失败");
+			if (count++ > 3) {
+				Constant.baseLoger.info("[error]: 从类目[" + c.url + "]获取产品信息为空，尝试重新抓取了3次仍然失败");
 				break;
 			}
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
 		List<Product> pidlist = new ArrayList<Product>();
 
-		String regexStr="<div class=\"productDetails\">[\\s\\S]*?</a>";
-		Pattern productCell = Pattern.compile(regexStr);
-    	Matcher m = productCell.matcher(html);
-    	while (m.find()) {
-    		if (!"".equals(m.group())) {
-    			String date = m.group();
-    			int beginIx = date.indexOf("/cn/zh/catalog/products/");
-				if (beginIx <= 0)
-					continue;
-				int endIx = date.indexOf("/\"", beginIx);
-				String pid = date.substring(beginIx + 24, endIx);
-    			Product p = new Product();
-				p.category = c.name;
-				p.pid = pid;
-				p.containPreviousPrice=date.contains("previousPrice")?1:0;
-				if(p.containPreviousPrice==1){
-					Constant.dailyCheepLoger.info("优惠产品：pid: "+p.pid+",category"+p.category);
-				}
-				if (!pidlist.contains(p)) {
-					pidlist.add(p);
-				}
-    		}
-    	}
-    	
-    	// 再抓取json里面的
-		int index = 11000;
-		String result;
-		try {
+		if (html != null) {
 
-			while (true) {
-				int beginIx = html.indexOf("jsonPartNumbers.push([", index);
-				if (beginIx <= 10)
-					break;
-				int beginIxLength = "jsonPartNumbers.push([".length();
-				int endIx = html.indexOf("]);", beginIx);
-				String tmp = html.substring(beginIx + beginIxLength, endIx);
-				if (tmp.length() != 0) {
-					result = tmp.replace("\"", "");
-					Product p1 = new Product();
-					p1.category = c.name;
-					p1.pid = result;
-					pidlist.add(p1);
+			String regexStr = "<div class=\"productDetails\">[\\s\\S]*?</a>";
+			Pattern productCell = Pattern.compile(regexStr);
+			Matcher m = productCell.matcher(html);
+			while (m.find()) {
+				if (!"".equals(m.group())) {
+					String date = m.group();
+					int beginIx = date.indexOf("/cn/zh/catalog/products/");
+					if (beginIx <= 0)
+						continue;
+					int endIx = date.indexOf("/\"", beginIx);
+					String pid = date.substring(beginIx + 24, endIx);
+					Product p = new Product();
+					p.category = c.name;
+					p.pid = pid;
+					p.containPreviousPrice = date.contains("previousPrice") ? 1 : 0;
+					if (p.containPreviousPrice == 1) {
+						Constant.dailyCheepLoger.info("优惠产品：pid: " + p.pid + ",category" + p.category);
+					}
+					if (!pidlist.contains(p)) {
+						pidlist.add(p);
+					}
 				}
-
-				index = endIx;
 			}
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// 再抓取json里面的
+			int index = 11000;
+			String result;
+			try {
+
+				while (true) {
+					int beginIx = html.indexOf("jsonPartNumbers.push([", index);
+					if (beginIx <= 10)
+						break;
+					int beginIxLength = "jsonPartNumbers.push([".length();
+					int endIx = html.indexOf("]);", beginIx);
+					String tmp = html.substring(beginIx + beginIxLength, endIx);
+					if (tmp.length() != 0) {
+						result = tmp.replace("\"", "");
+						Product p1 = new Product();
+						p1.category = c.name;
+						p1.pid = result;
+						pidlist.add(p1);
+					}
+
+					index = endIx;
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		Constant.baseLoger.info("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
@@ -359,7 +464,7 @@ class Product {
 
 	@Override
 	public String toString() {
-		return category + Constant.split + cid + Constant.split + pid+ Constant.split + containPreviousPrice;
+		return category + Constant.split + cid + Constant.split + pid + Constant.split + containPreviousPrice;
 	}
 
 	@Override

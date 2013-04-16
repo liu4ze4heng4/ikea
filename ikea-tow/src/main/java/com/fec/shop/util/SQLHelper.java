@@ -104,7 +104,7 @@ public void insertWholeProductInfo(Product product){
 	 * @return
 	 */
 		public ArrayList<String> getProductTids(){
-			String sql = "select * from  main_table ";
+			String sql = "select * from  main_table where postage_id='1516110'";
 			ArrayList<String> tids=new ArrayList<String>();
 			try {
 				Statement stmt = getConnection().createStatement();
@@ -123,12 +123,14 @@ public void insertWholeProductInfo(Product product){
 			}
 			System.out.println(tids);
 for(String e:tids){
-if (e.contains("["))
-				{int beginIx = e.indexOf("[");
-				int endIx = e.indexOf("]", beginIx);
-				String result = e.substring(beginIx + 1, endIx);
-				result = result.replace(".", "");
-				sql = "update main_table set outer_id='"+result+"' where title='"+e+"'";
+//if (e.contains("["))
+//				{int beginIx = e.indexOf("[",1);
+//				int endIx = e.indexOf("]", beginIx);
+//				String result = e.substring(beginIx + 1, endIx);
+//				result = result.replace(".", "");
+////				sql = "update main_table set outer_id='"+result+"' where title='"+e+"'";
+				sql = "update main_table set postage_id='755800881'";
+
 				try {
 					PreparedStatement stmt = getConnection().prepareStatement(sql);
 					stmt.execute();
@@ -141,9 +143,11 @@ if (e.contains("["))
 					er.printStackTrace();
 				}
 				}
-}
+//System.out.println(e);
+//}
 			
-		return tids;
+//		return tids;
+		return null;
 		}
 	public Product getProduct(String code) {
 		String sql = "select * from  tbl_product where code=" + code;
@@ -232,15 +236,8 @@ public  String getcid(String name) {
 	System.out.println(cid);
 	return cid.toString();
 }
-//	public static void main(String[] Args){
-//		ArrayList<TBCategroy>tbc=TaobaoUtils.getTBcategories();
-//		SQLHelper sqlhelper=new SQLHelper();
-//		sqlhelper.insertTBcategories(tbc);
-//		Category c=new Category();
-//		c.setIkeaUrl("http://www.ikea.com/cn/zh/catalog/categories/departments/living_room/10661/");
-//		c.setName("婴锟斤拷锟�);
-//		IkeaUtils.getProductList(c);
-//		c.setTBCategoryFromSQL();
-//		sqlhelper.insertProductList(c);
-//	}
+	public static void main(String[] Args){
+		SQLHelper sh=new SQLHelper();
+		sh.getProductTids();
+	}
 }
