@@ -33,9 +33,43 @@ public class Product {
 	String buf;
 	String ProductName,productTypeInfo;
 	String[] ProductType;
-	
+	int num;
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	String pid,dotted_pid;
-	String outer_cid ,inner_cid;
+	String outer_cid ,seller_cid;
+	public String getSeller_cid() {
+		return seller_cid;
+	}
+String seller_cate;
+	public String getSeller_cate() {
+	return seller_cate;
+}
+public void setSeller_cate(String seller_cate) {
+	this.seller_cate = seller_cate;
+}
+double weight;
+
+	public double getWeight() {
+	return weight;
+}
+public void setWeight(double weight) {
+	this.weight = weight;
+}
+String picpath;
+
+	public String getPicpath() {
+	return picpath;
+}
+public void setPicpath(String picpath) {
+	this.picpath = picpath;
+}
+
 	String[] product_ids;
 //	String[] title = new String[100];
 	double[] price = new double[100];
@@ -113,11 +147,11 @@ public class Product {
 
 	}
 
-	public void toSQL() {
-		SQLHelper sh = new SQLHelper();
-
-		sh.insertWholeProductInfo(this);
-	}
+//	public void toSQL() {
+//		SQLHelper sh = new SQLHelper();
+//
+//		sh.insertWholeProductInfo(this);
+//	}
 
 	public void toCSV(String diypath) {
 		File path = new File(diypath + "products");
@@ -140,7 +174,7 @@ public class Product {
 		}
 		try {
 			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(csvfile, true), "GBK");
-			writer.append("\"" + ProductName + productTypeInfo + "[" + dotted_pid + "]" + "\"	50006298	\"" + outer_cid + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
+			writer.append("\"" + ProductName + productTypeInfo + "[" + dotted_pid + "]" + "\"	50006298	\"" + seller_cid + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
 			 writer.append(getDescribtion().replace("	", " ").replace("\n","").replace("\"","'"));
 
@@ -185,10 +219,14 @@ public class Product {
 		return changedFamilyPrice;
 	}
 
+
 	public Product(String id, Map<String,String> cmap) {
 		Arrays.fill(price, 200000);
 		String[] ids = id.split(",");
 		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
+		if(buf==null)
+		return;
+		else{
 		GetAnything something = new GetAnything();
 		changedFamilyPrice = something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice");
 //		title[0] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
@@ -208,9 +246,10 @@ public class Product {
 		productTypeInfo=something.getProductTypeInfo(buf);
 		if(buf.contains("IRWStats.subCategoryLocal\" content=\""))
 		{
-			inner_cid=something.getInnerCid(buf,cmap);
+			seller_cate=something.getSeller_cates(buf,cmap);
+			seller_cid=something.getSeller_cids(buf,cmap);
 			
-			System.out.println(inner_cid);
+			System.out.println(seller_cate+" "+seller_cid);
 		}
 
 		for (int i = 1; i < ids.length; i++) {
@@ -226,7 +265,7 @@ public class Product {
 		// System.out.println(pic_id);
 		// System.out.println(ProductType[1] + ProductType[0]);
 		toPic(4,"E:\\IKEA临时项目\\","jpg");
-	}
+		}}
 
 	public Product() {
 	}

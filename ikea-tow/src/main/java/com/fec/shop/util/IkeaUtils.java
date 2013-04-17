@@ -22,7 +22,7 @@ public class IkeaUtils {
 	public static void main(String[] args) {
 		// IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),
 		// TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
-		IkeaUtils.getStockInfo("60169835");
+		IkeaUtils.getStockInfo("60169835",true,true,true);
 		// SQLHelper sh=new SQLHelper();
 		// sh.getProductTids();
 	}
@@ -55,7 +55,7 @@ public class IkeaUtils {
 	/**
 	 * 获取宜家库存信息
 	 */
-	public static String getStockInfo(String id) {
+	public static void getStockInfo(String id,boolean b_stockinfo,boolean b_weight,boolean b_size) {
 		String buf = new String();
 		String buf2 = new String();
 		isheavy=-1;
@@ -65,19 +65,18 @@ public class IkeaUtils {
 		
 
 		ArrayList<Double> sizer=new ArrayList<Double>();
-		id = id.replace(".", "");
-
-		buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo=" + id + "&change=true&_=1");
+		id = id.replace(".", "").replace("S", "");
+if(b_stockinfo==true)
+		{buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo=" + id + "&change=true&_=1");
 		if (buf == null)
 			buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=spr&itemNo=" + id + "&change=true&_=1");
-		if (buf == null)
-			return "链接超时,请重试";
+
 
 		if (buf.contains("北京商场当前有库存")) {
 			int beginIx = buf.indexOf("北京商场当前有库存");
 			int endIx = buf.indexOf("</b>", beginIx);
-			quantity = buf.substring(beginIx, endIx);
-			quantity = quantity.replace("<b>", "");
+			quantity = buf.substring(beginIx+"北京商场当前有库存：".length(), endIx);
+			quantity = quantity.replace("<b>", "").replace(" ", "");
 
 					if (buf.contains("联系工作人员")) {
 						info = "本产品在外仓，不能及时发货";
@@ -93,6 +92,9 @@ public class IkeaUtils {
 		} else
 
 			quantity = "未知错误2，请重试";
+		}
+if(b_weight==true||b_size==true)
+{
 		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/" + id);
 		if (buf2 == null)
 		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/S" + id);
@@ -105,7 +107,8 @@ public class IkeaUtils {
 				int beginIx = content.indexOf("<div class=\"colPack\">");
 				int endIx = content.indexOf("</div>", beginIx);
 				int count=new Integer(content.substring(beginIx+"<div class=\"colPack\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", ""));
-
+				if(b_size==true)
+				{
 				beginIx = content.indexOf("<div class=\"colWidth\">");
 				endIx = content.indexOf("</div>", beginIx);
 				ArrayList<Double> size=new ArrayList<Double>();
@@ -121,10 +124,14 @@ public class IkeaUtils {
 				sizer.add(count*size.get(0)*size.get(1)*size.get(2)/1000000);
 				else
 					sizer.add((double) 9999);
+				}
+				if(b_weight==true)
+				{
 				beginIx = content.indexOf("<div class=\"colWeight\">");
 				 endIx = content.indexOf("</div>", beginIx);
 				weight.add(count*new Double(content.substring(beginIx+"<div class=\"colWeight\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", "0")));
-			} else {
+				}
+				} else {
 				info = "未知错误1";
 			}
 		}
@@ -133,13 +140,13 @@ public class IkeaUtils {
 		for(int i=0;i<weight.size();i++)
 			wholeweight=wholeweight+weight.get(i);
 		if(wholesize<9999){
-		if(wholesize*210<wholeweight)
+			if(b_weight==true&&b_size==true)
+			{
+			if(wholesize*210<wholeweight)
 		isheavy=1;
 		else
-			isheavy=0;}
-System.out.println(quantity+"\n"+wholesize+"\n"+wholeweight+"\n"+info+"\n"+isheavy);	
-		return null;
-	
+			isheavy=0;}}
+}	
 	}
 
 	/**

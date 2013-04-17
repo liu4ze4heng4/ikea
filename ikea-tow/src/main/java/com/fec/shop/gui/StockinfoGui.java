@@ -85,8 +85,8 @@ public class StockinfoGui extends JFrame{
 		public void run() {
 			
 			Log1.setText("进行中……");
-			IkeaUtils.getStockInfo(ProductId.getText());
-			Log1.setText("产品信息：\n");
+			IkeaUtils.getStockInfo(ProductId.getText(),true,true,true);
+			Log1.setText("库存信息："+"产品信息：\n");
 			Log1.append(IkeaUtils.getQuantity()+"\n");
 			BigDecimal weight = new BigDecimal(IkeaUtils.getWholeweight());
 			Log1.append("货物总重："+weight.setScale(1,2)+"KG\n");

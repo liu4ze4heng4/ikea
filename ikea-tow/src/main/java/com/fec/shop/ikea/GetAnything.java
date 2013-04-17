@@ -51,7 +51,15 @@ public class GetAnything {
 		return result;
 
 	}
-	public String getInnerCid(String buf,Map<String, String> cmap) {
+	public String getSeller_cates(String buf,Map<String, String> cmap) {
+
+		int beginIx = buf.indexOf("IRWStats.subCategoryLocal\" content=\"");
+		int endIx = buf.indexOf("/>", beginIx);
+		String result = buf.substring(beginIx + "IRWStats.subCategoryLocal\" content=\"".length(), endIx);
+		result = result.replace("\"", "").replace(" ", "");
+		return result;
+	}
+	public String getSeller_cids(String buf,Map<String, String> cmap) {
 
 		int beginIx = buf.indexOf("IRWStats.subCategoryLocal\" content=\"");
 		int endIx = buf.indexOf("/>", beginIx);
