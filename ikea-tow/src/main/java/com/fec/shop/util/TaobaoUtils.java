@@ -44,9 +44,8 @@ public class TaobaoUtils {
 			BufferedReader bufReader = new BufferedReader(isr);
 			try {
 				while ((pid = bufReader.readLine()) != null) {
-					
-					Product p = new Product(pid, TaobaoUtils.getCCMapFromFile());
-					TaobaoUtils.addTaobaoItem(p);
+
+					TaobaoUtils.addTaobaoItem(pid);
 				}
 			
 				bufReader.close();
@@ -122,16 +121,19 @@ public class TaobaoUtils {
 
 
 
-	private static void addTaobaoItem(Product p)  {
+	private static void addTaobaoItem(String id)  {
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
+		SQLHelper sh=new SQLHelper();
+		Product p=sh.getProduct(id);
+
 		ItemAddRequest req = new ItemAddRequest();
 
 		req.setNum(30L);
 		req.setPrice(Double.toString(p.getaPrice(0)));
 		req.setType("fixed");
 		req.setStuffStatus("new");
-		req.setTitle(p.getProductName()+p.getProductTypeInfo() + "[" + p.getDotted_pid() + "]");
-		req.setDesc(p.getDescribtion());
+		req.setTitle(p.getTitle());
+		req.setDesc("12345667890");
 		req.setLocationState("北京");
 		req.setLocationCity("北京");
 		req.setApproveStatus("instock");
@@ -153,20 +155,20 @@ public class TaobaoUtils {
 		// req.setListTime(dateTime);
 		// req.setIncrement("2.50");
 		
-		File picpath=new File("E:\\IKEA临时项目\\处理后\\"+p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
-		if(picpath.exists())
-				{FileItem fItem = new FileItem(picpath);	
-				req.setImage(fItem);
-				System.out.println("从已处理更新了主图");}
-		else if(new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg").exists() )
-		{
-			picpath=new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
-			FileItem fItem = new FileItem(picpath);
+//		File picpath=new File("E:\\IKEA临时项目\\处理后\\"+p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
+//		if(picpath.exists())
+//				{FileItem fItem = new FileItem(picpath);	
+//				req.setImage(fItem);
+//				System.out.println("从已处理更新了主图");}
+//		else if(new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg").exists() )
+//		{
+//			picpath=new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
+			FileItem fItem = new FileItem(p.getPicpath());
 			req.setImage(fItem);
-			System.out.println("从网络更新了主图");}
-		else{
-			System.out.println("未更新主图");
-		}
+//			System.out.println("从网络更新了主图");}
+//		else{
+//			System.out.println("未更新主图");
+//		}
 		req.setPostageId(755800881L);
 		// req.setAuctionPoint(5L);
 		// req.setPropertyAlias("pid:vid:别名;pid1:vid1:别名1");
@@ -176,7 +178,7 @@ public class TaobaoUtils {
 		// req.setSkuPrices("200.07");
 		// req.setSkuOuterIds("1234,1342");
 		// req.setLang("zh_CN");
-		 req.setOuterId(p.getaProductId(0));
+		 req.setOuterId(p.getPid());
 		// req.setProductId(123456789L);
 		// req.setPicPath("i7/T1rfxpXcVhXXXH9QcZ_033150.jpg");
 		// req.setAutoFill("time_card");
@@ -193,8 +195,8 @@ public class TaobaoUtils {
 		// req.setSubStock(1L);
 		ItemAddResponse response;
 		try {
-			response = client.execute(req, "61001058026b2119455fff60e9e82e77f7e3df83be0f72842635718");
-			System.out.println(response.getBody());
+			response = client.execute(req, "6101508db5e3251c1508e4bd8a89da7c49d44f121b33dc642635718");
+			System.out.println(response.getBody()+"!");
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -204,10 +206,10 @@ public class TaobaoUtils {
 /**
  * 更新淘宝产品描述信息
  */
-	private static void updateItem(Product p,String tid) {
+	private static void updateItemFromWeb(String id,String tid) {
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
+Product p=IkeaUtils.initProduct(id);
 		ItemUpdateRequest req = new ItemUpdateRequest();
-
 		req.setNumIid(Long.parseLong(tid));
 //		req.setCid(1512L);
 //		req.setProps("20000:33564;21514:38489");

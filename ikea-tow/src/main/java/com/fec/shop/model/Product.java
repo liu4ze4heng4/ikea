@@ -25,109 +25,60 @@ import com.fec.shop.constant.Constant;
 import com.fec.shop.ikea.GetAnything;
 import com.fec.shop.util.Errors;
 import com.fec.shop.util.HtmlUtil;
+import com.fec.shop.util.IkeaUtils;
 import com.fec.shop.util.SQLHelper;
 import com.fec.shop.util.TaobaoUtils;
 import com.fec.shop.util.VelocityUtil;
 
 public class Product {
-	String buf;
-	String ProductName,productTypeInfo;
+	public static void main(String[] args) {
+		Product p = new Product();
+		p = IkeaUtils.initProduct("S09909105");
+		IkeaUtils.initProductdescribtion(p);
+		// p.toSQL();
+		// p.toFile2("E:\\IKEA123\\");
+		p.toCSV("E:\\IKEA临时项目\\");
+		// p.toPic(4, "E:\\QuHoo\\9\\S4\\");
+		// System.out.println("!");
+	}
+
+	String ProductName;
+	String productTypeInfo;
+	String title;
+	String describtion;
 	String[] ProductType;
-	int num;
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
-
-	String pid,dotted_pid;
-	String outer_cid ,seller_cid;
-	public String getSeller_cid() {
-		return seller_cid;
-	}
-String seller_cate;
-	public String getSeller_cate() {
-	return seller_cate;
-}
-public void setSeller_cate(String seller_cate) {
-	this.seller_cate = seller_cate;
-}
-double weight;
-
-	public double getWeight() {
-	return weight;
-}
-public void setWeight(double weight) {
-	this.weight = weight;
-}
-String picpath;
-
-	public String getPicpath() {
-	return picpath;
-}
-public void setPicpath(String picpath) {
-	this.picpath = picpath;
-}
-
 	String[] product_ids;
-//	String[] title = new String[100];
-	double[] price = new double[100];
-	double changedFamilyPrice = 0;
 	ArrayList<String> pic_id;
 	LinkedList<String> mainPics;
-	
-	public String getOuter_cid() {
-		return outer_cid;
+	double[] price = new double[100];
+	double changedFamilyPrice = 0;
+
+	int num;
+	String pid, dotted_pid;
+	String outer_cid, seller_cid;
+	String seller_cate;
+	double weight=1;
+	String picpath;
+	public String getPicpath() {
+		return picpath;
 	}
+
+	public String[] getProductType;
+
+	
 	/**
-	 * 获取和生成宝贝描述
+	 * 保存图片
 	 * 
 	 * @return
 	 */
-	public String getDescribtion() {
-		GetAnything something = new GetAnything();
-		String assembledSize = something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize");
-		String designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
-		String designer = something.getDesigner(buf);
-		// String numberOfPackages = something.geT(buf,
-		// "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
-		String productInformation = something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation");
-		String environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
-		String goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
-		String careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
-		// String lowestPrice = something.geT(buf,
-		// "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">",
-		// "</div>", "lowestPrice");
-		String custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
-		String keyFeatures = something.getKeyFeatures(buf);
-
-		VelocityContext context = new VelocityContext();
-		context.put("ProductName", ProductName);
-		context.put("ProductName", ProductType[0]);
-		context.put("assembledSize", assembledSize);
-		context.put("designerThoughts", designerThoughts);
-		context.put("designer", designer);
-		context.put("productInformation", productInformation);
-		context.put("environment", environment);
-		context.put("goodToKnow", goodToKnow);
-		context.put("careInst", careInst);
-		context.put("custMaterials", custMaterials);
-		context.put("keyFeatures", keyFeatures);
-		context.put("product", this);
-		context.put("math", new MathTool());
-		String result = VelocityUtil.filterVM("productDetail.vm", context);
-		return result;
-	}
-
-	public void toPic(int p, String diypath,String type) {
+	public void toPic(int p, String diypath, String type) {
 		try {
 			for (int i = 0; i < mainPics.size(); i++) {
 				URL url = new URL("http://www.ikea.com/PIAimages/" + mainPics.get(i) + "_S" + p + ".jpg");
 				URLConnection urlCon = url.openConnection();
 				InputStream is = urlCon.getInputStream();
 				BufferedInputStream bis = new BufferedInputStream(is);
-				FileOutputStream fos = new FileOutputStream(diypath + "\\products\\" + pid + "_" + mainPics.get(i) + "_S4." + type);
+				FileOutputStream fos = new FileOutputStream(diypath + "\\\\" + pid + "_" + mainPics.get(i) + "_S4." + type);
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 				int read;
@@ -147,17 +98,16 @@ public void setPicpath(String picpath) {
 
 	}
 
-//	public void toSQL() {
-//		SQLHelper sh = new SQLHelper();
-//
-//		sh.insertWholeProductInfo(this);
-//	}
-
+	/**
+	 * 保存CSV
+	 * 
+	 * @param diypath
+	 */
 	public void toCSV(String diypath) {
 		File path = new File(diypath + "products");
 		if (path.exists() == false)
 			path.mkdirs();
-		toPic(4, diypath,"tbi");
+		toPic(4, diypath, "tbi");
 		File csvfile = new File(diypath + "//" + "products.csv");
 		if (csvfile.exists() == false) {
 			try {
@@ -176,7 +126,7 @@ public void setPicpath(String picpath) {
 			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(csvfile, true), "GBK");
 			writer.append("\"" + ProductName + productTypeInfo + "[" + dotted_pid + "]" + "\"	50006298	\"" + seller_cid + "\"	1	\"北京\"	\"北京\"	1	" + getMinumPrice()
 					+ "	\"\"	58	52	2	0	0	0	0	1	2	0	\"\"	\"");
-			 writer.append(getDescribtion().replace("	", " ").replace("\n","").replace("\"","'"));
+			writer.append(getDescribtion().replace("	", " ").replace("\n", "").replace("\"", "'"));
 
 			writer.append("\"	\"\"	1516110	0	\"\"	\"200\"	\"\"	0	\"");
 			for (int j = 0; j < mainPics.size() && j < 5; j++)
@@ -192,6 +142,100 @@ public void setPicpath(String picpath) {
 		// System.out.println(Thread.currentThread().getName() + diypath +
 		// "'s CRV is OK");
 
+	}
+	/**
+	 * getter&setter
+	 * @param describtion
+	 */
+	
+	public void setDescribtion(String describtion) {
+		this.describtion = describtion;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public String getSeller_cid() {
+		return seller_cid;
+	}
+
+	public String getSeller_cate() {
+		return seller_cate;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public String getPicpathFromWeb() {
+		File betterPic = new File("E:\\QuHoo\\all\\" + getProduct_id() + "_" + getaMainPic(0) + "_S4.jpg");
+		if (betterPic.exists())
+			return "E:\\QuHoo\\all\\" + getProduct_id() + "_" + getaMainPic(0) + "_S4.jpg";
+		else if (new File("E:\\QuHoo\\tmp\\" + getProduct_id() + "_" + getaMainPic(0) + "_S4.jpg").exists()) {
+			return "E:\\QuHoo\\tmp\\" + getProduct_id() + "_" + getaMainPic(0) + "_S4.jpg";
+
+		} else {
+			toPic(4, "E:\\QuHoo\\tmp\\", "jpg");
+			return "E:\\QuHoo\\tmp\\" + getProduct_id() + "_" + getaMainPic(0) + "_S4.jpg";
+
+		}
+	}
+
+	public void setPicpath(String picpath) {
+		this.picpath = picpath;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String[] getProduct_ids() {
+		return product_ids;
+	}
+
+	public void setProduct_ids(String[] product_ids) {
+		this.product_ids = product_ids;
+	}
+
+	public void setProductTypeInfo(String productTypeInfo) {
+		this.productTypeInfo = productTypeInfo;
+	}
+
+	public void setDotted_pid(String dotted_pid) {
+		this.dotted_pid = dotted_pid;
+	}
+
+	public void setOuter_cid(String outer_cid) {
+		this.outer_cid = outer_cid;
+	}
+
+	public void setSeller_cid(String seller_cid) {
+		this.seller_cid = seller_cid;
+	}
+
+	public void setSeller_cate(String seller_cate) {
+		this.seller_cate = seller_cate;
+	}
+
+	public void setChangedFamilyPrice(double changedFamilyPrice) {
+		this.changedFamilyPrice = changedFamilyPrice;
+	}
+
+	public String getOuter_cid() {
+		return outer_cid;
 	}
 
 	public String getProductTypeInfo() {
@@ -219,55 +263,19 @@ public void setPicpath(String picpath) {
 		return changedFamilyPrice;
 	}
 
+	
 
-	public Product(String id, Map<String,String> cmap) {
-		Arrays.fill(price, 200000);
-		String[] ids = id.split(",");
-		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
-		if(buf==null)
-		return;
-		else{
-		GetAnything something = new GetAnything();
-		changedFamilyPrice = something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice");
-//		title[0] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
-		price[0] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
-		pid = ids[0];
-		product_ids = ids;
-		dotted_pid = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
-		String[] picurl = new String[100];
-		picurl = something.getPicUrl(buf, pid);
-		pic_id = new ArrayList<String>();
-		Collections.addAll(pic_id, picurl);
-		mainPics = new LinkedList<String>();
-		mainPics.add(pic_id.get(0));
-		ProductName = something.getProductName(buf);
-		ProductType = new String[100];
-		ProductType[0] = something.getProductType(buf);
-		productTypeInfo=something.getProductTypeInfo(buf);
-		if(buf.contains("IRWStats.subCategoryLocal\" content=\""))
-		{
-			seller_cate=something.getSeller_cates(buf,cmap);
-			seller_cid=something.getSeller_cids(buf,cmap);
-			
-			System.out.println(seller_cate+" "+seller_cid);
-		}
+	public String getDescribtion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		for (int i = 1; i < ids.length; i++) {
-			// System.out.println(ids[i]);
-			buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[i] + "/");
-//			title[i] = something.geT(buf, "<meta name=\"title\" content=", "- IKEA", "");
-			price[i] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
-			ProductType[i] = something.getProductType(buf);
-			// System.out.println(something.getPicUrl(buf, product_id)[0]);
-			Collections.addAll(pic_id, something.getPicUrl(buf, ids[i]));
-			mainPics.add(something.getPicUrl(buf, ids[i])[0]);
-		}
-		// System.out.println(pic_id);
-		// System.out.println(ProductType[1] + ProductType[0]);
-		toPic(4,"E:\\IKEA临时项目\\","jpg");
-		}}
+	public String getTitle() {
+		return title;
+	}
 
-	public Product() {
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getProduct_dian_id() {
@@ -276,14 +284,6 @@ public void setPicpath(String picpath) {
 
 	public void setProduct_dian_id(String product_dian_id) {
 		this.dotted_pid = product_dian_id;
-	}
-
-	public String getBuf() {
-		return buf;
-	}
-
-	public void setBuf(String buf) {
-		this.buf = buf;
 	}
 
 	public double[] getPrice() {
@@ -318,7 +318,6 @@ public void setPicpath(String picpath) {
 		ProductType = productType;
 	}
 
-	
 	public ArrayList<String> getPic_id() {
 		return pic_id;
 	}
@@ -330,6 +329,7 @@ public void setPicpath(String picpath) {
 	public LinkedList<String> getMainPics() {
 		return mainPics;
 	}
+
 	public String getaMainPic(int i) {
 		return mainPics.get(i);
 	}
@@ -346,152 +346,8 @@ public void setPicpath(String picpath) {
 		this.pid = product_id;
 	}
 
-
-
-	
 	public String getaProductId(int i) {
 		return product_ids[i];
 	}
 
-	public String getColor(int i) {
-		String pt = getaProductType(i);
-		if (pt.contains("黄"))
-			return "#e5cd00";
-		if (pt.contains("红"))
-			return "#cc0000";
-		if (pt.contains("绿"))
-			return "#22cc00";
-		if (pt.contains("蓝"))
-			return "#1759a8";
-		if (pt.contains("橙"))
-			return "#f27405";
-		else
-			return "#000000";
-	}
-
-	public static void main(String[] args) {
-		
-		Product p = new Product("S09909105", TaobaoUtils.getCCMapFromFile());
-		System.out.println(p.getDescribtion().replace("\n", " ").replace("\"", "'"));
-		// p.toSQL();
-		// p.toFile2("E:\\IKEA123\\");
-		p.toCSV("E:\\IKEA临时项目\\");
-		// p.toPic(4, "E:\\QuHoo\\9\\S4\\");
-		// System.out.println("!");
-	}
 }
-/**
- * 
- */
-
-// public void toFile2(String diypath) {
-// File path = new File(diypath + "products");
-// if (path.exists() == false)
-// path.mkdirs();
-// try {
-// Writer writer = new BufferedWriter(new OutputStreamWriter(new
-// FileOutputStream(diypath + "products\\" + product_id + ".html"), "gbk"));
-//
-// writer.write("<table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" background=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2c5zwXi4XXXXXXXXX_!!42635718.png\" text-align=\"left\" font-size=\"12.0px\" line-height=\"1.5\" color=\"#6a6a6a\"><tr><td style=\"font-size: 0;\"><img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2SBnwXgJXXXXXXXXX_!!42635718.png\"></td></tr>");
-// writer.write("<tr><td style=\"padding: 10.0px 0 0;\"><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" ><tr><td width=\"8\"></td><td width=\"120\" valign=\"top\" ><table width=\"120\"><tr><td><img src=\"http://www.ikea.com/PIAimages/"
-// + pic_id.get(0)
-// +
-// "_S2.jpg\" /></td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td align=\"center\" width=\"120\";><div style=\"width: 120.0px;word-wrap:break-word;;\">"
-// + productNameProdInfo + "<br />" + productTypeProdInfo + "<br />RMB:" +
-// price[0] + "<br />" + "<div></td></tr></table></td>");
-// writer.write("<td width=\"600\"valign=\"top\" background=\"\"><table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">");
-//
-// if (custMaterials.length() >= 1) {
-// writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
-// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>产品描述</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + custMaterials +
-// "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
-// writer.write("</table> </td></tr>");
-// }
-//
-// if (keyFeatures.length() >= 15) {
-// writer.write("<tr><td width=\"580\" valign=\"top\" colspan=\"4\"><table>");
-// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>重要特征</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + keyFeatures +
-// "</td></tr><tr><td width=\"580\"><p style=\"width:580px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr> ");
-// // System.out.println(keyFeatures + "!!!");
-// writer.write("</table> </td></tr>");
-// }
-//
-// writer.write("<tr><td width=\"300\"valign=\"top\"><table>");
-// if (assembledSize.length() >= 1) {
-// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>安装后尺寸</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + assembledSize + "</td></tr> ");
-// }
-//
-// if (designer.length() > 1 || designerThoughts.length() > 1) {
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>设计师</td></tr>");
-// }
-// if (designerThoughts.length() >= 1)
-// writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + designerThoughts + "</td></tr> ");
-// if (designer.length() >= 1)
-// writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + designer + "</td></tr> ");
-// if (goodToKnow.length() >= 1) {
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>相关提示</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + goodToKnow + "</td></tr> ");
-// }
-// if (environment.length() >= 1) {
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>环保信息</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + environment + "</td></tr> ");
-// }
-//
-// writer.write("</table> </td><td width=\"300\"valign=\"top\"><table>");
-// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>包装尺寸和重量</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>包装："
-// + numberOfPackages + "</td></tr> ");
-// if (numberOfPackages.equals("1")) {
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + productInformation + "</td></tr> ");
-// } else {
-// writer.write("<tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>尺寸和重量详见IKEA官网<br/>"
-// + "<a href=\"http://www.ikea.com/cn/zh/catalog/products/"
-// + product_id + "\">www.ikea.com/cn/zh/catalog/products" + product_id + "</a>"
-// + "</td></tr> ");
-// }
-//
-// if (careInst.length() >= 1) {
-//
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>保养说明</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + careInst + "</td></tr> ");
-// }
-// if (lowestPrice.length() >= 1) {
-// writer.write("<tr><td width=\"300\"><p style=\"width:280px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;float:left;\"></p></td></tr><tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>低价格从哪里来</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"
-// + lowestPrice + "</td></tr> ");
-// }
-// // if (custMaterials.length() >= 1) {
-// //
-// writer.write("<tr style=\"font-family:Microsoft YaHei,simhei;font-size: 14px;line-height: 18px;color: #333;margin-bottom: 0.20em;;\"><td>产品描述</td></tr><tr style=\"text-align: left;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\"><td>"+custMaterials+"</td></tr> ");}
-//
-// writer.write("</table> </td></tr></table></td><td width=\"2\"></td></tr>");
-// if (mainPics.size() > 1) {
-// writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" height=\"1\" align=\"left\"><p style=\"width:700px;height:1px;margin:0px 0px 0px 0px;border-top:1px solid #ddd;\"></p></td></tr></table><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"  ><tr ><td width=\"2\"></td><td  width=\"120\" align=\"left\">");
-// for (int i = 1; i < mainPics.size(); i++)
-//
-// writer.write("<table width=\"120\"  align=\"left\"><tr><td align=\"left\"><img src=\"http://www.ikea.com/PIAimages/"
-// + mainPics.get(i)
-// +
-// "_S2.jpg\" /></td></tr><tr><td align=\"center\" width=\"120\";><div style=\"width: 120.0px;word-wrap:break-word;text-align: center;font-size: 12.0px;line-height: 1.5;color: #6a6a6a;\">"
-// + ProductType[i] + "<br />RMB:" + price[i] + "<br />" +
-// "</div></td></tr></table>");
-//
-// writer.write("</td></tr></table><table width=\"750\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" >");
-// }
-// writer.write("<tr><td width=\"10\"></td><td colspan=\"4\" height=\"1\" align=\"left\"><p style=\"width:700px;height:1px;margin:0px 15px 0px 0px;border-top:1px solid #ddd;\"></p></td></tr>");
-// for (int i = 0; i < pic_id.size(); i++)
-// writer.write(" <tr><td width=\"10\"></td><td colspan=\"4\" ><img src=\"http://www.ikea.com/PIAimages/"
-// + pic_id.get(i)
-// +
-// "_S4.jpg\" /> <img src=\"http://img02.taobaocdn.com/imgextra/i2/42635718/T2ukzvXepaXXXXXXXX_!!42635718.png\"/></td></tr>");
-// writer.write("</table></td></tr><tr><td align=\"right\" style=\"padding: 0 20.0px 5.0px 0;color: #333;\">COPYRIGHT 2013 BESIDE IKEA</td></tr></table>");
-// writer.close();
-// } catch (IOException exp) {
-// System.out.println("wrong!");
-// exp.printStackTrace();
-// }
-// }

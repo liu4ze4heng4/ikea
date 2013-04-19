@@ -40,18 +40,18 @@
 			<a target=_blank href='http://www.taobao.com/webww/?spm=a1z10.1.0.66.6Y3eA0&ver=1&&touid=cntaobaocharick&siteid=cntaobao&status=2&portalId=&gid=&itemsId='>
 			<img src='http://img03.taobaocdn.com/imgextra/i3/42635718/T2t6YEXiFaXXXXXXXX_!!42635718.gif'  style='width:750.0px;height:65.0px;'/></a>
 				<div style='margin:-55.0px 0.0px 0.0px 20.0px;font-size:25.0px;line-height:40.0px;'>
-					关于$product.ProductName</div>
+					关于$productName</div>
 					
 				
 			</div>
 		<div style='width:260.0px;height:280px;overflow:hidden;float:left;display:inline;margin:0px 30.0px 0px 30.0px;'>
 		<div style='width:200.0px;height:200.0px;overflow:hidden;float:right;margin-right:35px;display:inline;'>
-					<img src='http://www.ikea.com/PIAimages/${product.pic_id.get(0)}_S3.jpg' height="200" width="200"style='vertical-align:top;' />	</div>			
+					<img src='http://www.ikea.com/PIAimages/${pic_id.get(0)}_S3.jpg' height="200" width="200"style='vertical-align:top;' />	</div>			
 			<img src='http://img01.taobaocdn.com/imgextra/i1/42635718/T2tv2FXoBXXXXXXXXX_!!42635718.gif' style='float:right;display:inline;margin-top:-200.0px;' />			
 			<img src='http://img01.taobaocdn.com/imgextra/i1/42635718/T2PQ_DXeVaXXXXXXXX_!!42635718.gif' style='float:right;display:inline;margin-top:-76.0px;margin-right:25px'/>
 			<div style='width:250.0px;float:right;display:inline;margin-top:-70.0px;margin-right:0px;font-size:12.0px;color:white;text-align:left;'>
 			官网链接<br/>
-ikea.cn/catalog/products/$product.getProduct_id()</div>
+ikea.cn/catalog/products/$product_id()</div>
 			</div>
 			
 			<div style='width:150.0px;float:left;display:inline;text-align:left;margin-left:0.0px;'>
@@ -105,7 +105,7 @@ ${custMaterials}
 			<div style=' clear: both;height:1px;margin-top:-1px;overflow:hidden;'></div>
 
 </div>
-#if ($product.mainPics.size() > 1)
+#if ($mainPics.size() > 1)
 <div style='float:left;padding-bottom:20.0px;overflow:hidden;background:#ffffff;margin:auto;'>
 			<div style='margin:10.0px 0.0px 15.0px;height:65.0px;color:white;'>
 			<a target=_blank href='http://www.taobao.com/webww/?spm=a1z10.1.0.66.6Y3eA0&ver=1&&touid=cntaobaocharick&siteid=cntaobao&status=2&portalId=&gid=&itemsId='>
@@ -113,7 +113,7 @@ ${custMaterials}
 				<div style='margin:-55.0px 0.0px 0.0px 20.0px;font-size:25.0px;line-height:40.0px;'>
 					更多颜色</div>
 			</div>
-	#foreach( $picsmall in $product.mainPics)
+	#foreach( $picsmall in $mainPics)
 		#set($i=$math.sub($velocityCount,1))
 		#if($i!=0&&$i%2==0)
 			
@@ -126,16 +126,16 @@ ${custMaterials}
 							</td>
 						</tr>
 						<tr>
-							<td style='width:120.0px;margin-left:10.0px;float:left;color:$product.getColor($i);text-align:center;border-style:solid;border-color:$product.getColor($i);border-width:1.0px;font-size:14.0px;'>
-								$product.getaProductType($i) </td>
-							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$product.getColor($i);font-size:15.0px;border-width:1.0px;'>
-								货号:$product.getaProductId($i)</td>
+							<td style='width:120.0px;margin-left:10.0px;float:left;color:$typecolorlist.get($i);text-align:center;border-style:solid;border-color:$typecolorlist.get($i);border-width:1.0px;font-size:14.0px;'>
+								$productType($i) </td>
+							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$typecolorlist.get($i);font-size:15.0px;border-width:1.0px;'>
+								货号:$productId($i)</td>
 						</tr>
 						<tr>
-							<td style='font-size:18.0px;width:120.0px;margin-left:10.0px;background:$product.getColor($i);color:white;text-align:center;float:left;border-style:solid;border-color:$product.getColor($i);border-width:1.0px;'>
+							<td style='font-size:18.0px;width:120.0px;margin-left:10.0px;background:$typecolorlist.get($i);color:white;text-align:center;float:left;border-style:solid;border-color:$typecolorlist.get($i);border-width:1.0px;'>
 								Color</td>
-								<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$product.getColor($i);font-size:15.0px;border-width:1.0px;'>
-								￥ $product.getaPrice($i)</td>
+								<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$typecolorlist.get($i);font-size:15.0px;border-width:1.0px;'>
+								￥ $price($i)</td>
 						</tr>
 						<tr>
 							<td colspan='2'>
@@ -164,16 +164,16 @@ ${custMaterials}
 							</td>
 						</tr>
 						<tr>
-							<td style='width:120.0px;margin-left:10.0px;float:left;color:$product.getColor($i);text-align:center;border-style:solid;border-color:$product.getColor($i);border-width:1.0px;font-size:14.0px;'>
-								$product.getaProductType($i)</td>
-							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$product.getColor($i);font-size:15.0px;border-width:1.0px;'>
-								货号:$product.getaProductId($i)</td>
+							<td style='width:120.0px;margin-left:10.0px;float:left;color:$typecolorlist[$i];text-align:center;border-style:solid;border-color:$typecolorlist.get($i);border-width:1.0px;font-size:14.0px;'>
+								$productType($i)</td>
+							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$typecolorlist.get($i);font-size:15.0px;border-width:1.0px;'>
+								货号:$productId($i)</td>
 						</tr>
 						<tr>
-							<td style='font-size:18.0px;width:120.0px;margin-left:10.0px;background:$product.getColor($i);color:white;text-align:center;float:left;border-style:solid;border-color:$product.getColor($i);border-width:1.0px;'>
+							<td style='font-size:18.0px;width:120.0px;margin-left:10.0px;background:$typecolorlist.get($i);color:white;text-align:center;float:left;border-style:solid;border-color:$typecolorlist.get($i);border-width:1.0px;'>
 								Color</td>
-							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$product.getColor($i);font-size:15.0px;border-width:1.0px;'>
-								￥$product.getaPrice($i)</td>
+							<td style='padding:3.0px;width:160.0px;border-bottom-style:dashed;border-color:$typecolorlist.get($i);font-size:15.0px;border-width:1.0px;'>
+								￥$price($i)</td>
 						</tr>
 						</tr>
 						
@@ -201,7 +201,7 @@ ${custMaterials}
 					细节大图</div>
 			</div>
 
-#foreach( $picBig in $product.pic_id)
+#foreach( $picBig in $pic_id)
 #if($velocityCount%2==1)
 			<div style="width:540.0px;height:530px;overflow:hidden;float:left;display:inline;margin:10px 20.0px 0px 10.0px;">
 				<div style="width:500.0px;height:500.0px;overflow:hidden;float:right;margin-right:20.0px;display:inline;min-width:50.0px;min-height:50.0px;">

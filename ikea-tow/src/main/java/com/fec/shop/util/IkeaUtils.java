@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,14 +18,19 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.tools.generic.MathTool;
 
 import com.fec.shop.constant.Constant;
+import com.fec.shop.ikea.GetAnything;
+import com.fec.shop.model.Product;
+import com.taobao.api.ApiException;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
 		// IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),
 		// TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
-		IkeaUtils.getStockInfo("60169835",true,true,true);
+		IkeaUtils.setStockInfo("60169835",true,true,true);
 		// SQLHelper sh=new SQLHelper();
 		// sh.getProductTids();
 	}
@@ -50,12 +58,137 @@ public class IkeaUtils {
 	public static double getWholesize() {
 		return wholesize;
 	}
+public static Product initProduct(String id)
+{Product p=new Product();
+String[] ids = id.split(",");
+String buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
+Map<String, String> cmap=TaobaoUtils.getCCMapFromFile();
+double[] price = new double[100];
+Arrays.fill(price, 200000);
+	
 
+try{
+	GetAnything something = new GetAnything();
+	double ChangedFamilyPrice=something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice"); 
+	price[0] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
+	String dotted_pid=something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
+	String[] picurl = new String[100];
+	picurl = something.getPicUrl(buf, ids[0]);
+	ArrayList<String> pic_id = new ArrayList<String>();
+	Collections.addAll(pic_id, picurl);
+	LinkedList<String> mainPics = new LinkedList<String>();
+	mainPics.add(pic_id.get(0));
+	String ProductName = something.getProductName(buf);
+	String[] ProductType = new String[100];
+	ProductType[0] = something.getProductType(buf);
+	String productTypeInfo = something.getProductTypeInfo(buf);
+	String title=ProductName+productTypeInfo + "[" + dotted_pid + "]";
+	for (int i = 1; i < ids.length; i++) {
+		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[i] + "/");
+
+		price[i] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
+		ProductType[i] = something.getProductType(buf);
+		Collections.addAll(pic_id, something.getPicUrl(buf, ids[i]));
+		mainPics.add(something.getPicUrl(buf, ids[i])[0]);
+	}
+	String seller_cid=null;
+	String seller_cate=null;
+	if (buf.contains("IRWStats.subCategoryLocal\" content=\"")) {
+		seller_cid = something.getSeller_cids(buf, cmap);
+		seller_cate = something.getSeller_cates(buf, cmap);
+	}
+	p.setPrice(price);
+	p.setChangedFamilyPrice(ChangedFamilyPrice);
+	p.setPid(ids[0]);
+	p.setProduct_ids(ids);
+	p.setDotted_pid(dotted_pid);
+	p.setPic_id(pic_id);
+	p.setMainPics(mainPics);
+	p.setProductName(ProductName);
+	p.setProductType(ProductType);
+	p.setProductTypeInfo(productTypeInfo);
+	p.setTitle(title);
+	p.setSeller_cid(seller_cid);
+p.setSeller_cate(seller_cate);
+}
+catch (Exception e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+return p;
+}
+
+public static void initProductdescribtion(Product p) {
+	String buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + p.getPid() + "/");
+	GetAnything something = new GetAnything();
+	String assembledSize = something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize");
+	String designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
+	String designer = something.getDesigner(buf);
+	// String numberOfPackages = something.geT(buf,
+	// "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
+	String productInformation = something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation");
+	String environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
+	String goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
+	String careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
+	// String lowestPrice = something.geT(buf,
+	// "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">",
+	// "</div>", "lowestPrice");
+	String custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
+	String keyFeatures = something.getKeyFeatures(buf);
+
+	VelocityContext context = new VelocityContext();
+	context.put("ProductName", p.getProductName());
+	context.put("ProductName", p.getProductType[0]);
+	context.put("assembledSize", assembledSize);
+	context.put("designerThoughts", designerThoughts);
+	context.put("designer", designer);
+	context.put("productInformation", productInformation);
+	context.put("environment", environment);
+	context.put("goodToKnow", goodToKnow);
+	context.put("careInst", careInst);
+	context.put("custMaterials", custMaterials);
+	context.put("keyFeatures", keyFeatures);
+String[] productId=p.getProduct_ids();
+context.put("productId", productId);
+	String[] productType=p.getProductType();
+	context.put("productType", productType);
+	ArrayList<String> typecolorlist=new ArrayList<String>(); 
+	for(String pt:productType)
+		{String typecolor;
+		if (pt.contains("黄"))
+			typecolor= "#e5cd00";
+		else if (pt.contains("红"))
+			typecolor= "#cc0000";
+		else if (pt.contains("绿"))
+			typecolor= "#22cc00";
+		else if (pt.contains("蓝"))
+			typecolor= "#1759a8";
+		else if (pt.contains("橙"))
+			typecolor= "#f27405";
+		else
+			typecolor= "#000000";
+		typecolorlist.add(typecolor);
+	}
+	context.put("typecolorlist", typecolorlist);
+	double[] price=p.getPrice();
+	context.put("price", price);
+	ArrayList<String> pic_id=p.getPic_id();
+	context.put("pic_id", pic_id);
+	String productName=p.getProductName();
+	context.put("productName", productName);
+	context.put("product_id", p.getPid());
+	context.put("mainPics", p.getMainPics());
+	
+	context.put("product", p);
+	context.put("math", new MathTool());
+	String result = VelocityUtil.filterVM("productDetail.vm", context);
+	p.setDescribtion(result);
+}
 
 	/**
 	 * 获取宜家库存信息
 	 */
-	public static void getStockInfo(String id,boolean b_stockinfo,boolean b_weight,boolean b_size) {
+	public static void setStockInfo(String id,boolean b_stockinfo,boolean b_weight,boolean b_size) {
 		String buf = new String();
 		String buf2 = new String();
 		isheavy=-1;
@@ -153,13 +286,13 @@ if(b_weight==true||b_size==true)
 	 * 生成新增加的产品列表
 	 */
 	public void generateNewProductList() {
-		List<Product> listInFile = new ArrayList<Product>();
+		List<SmallProduct> listInFile = new ArrayList<SmallProduct>();
 		for (int i = 0; new File(Constant.ikea_product_file + i).exists(); i++) {
 			listInFile.addAll(getProductListFromFile(i));
 		}
-		List<Product> listInHtml = getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile());
-		List<Product> newAddProduct = new ArrayList<Product>();
-		for (Product product : listInHtml) {
+		List<SmallProduct> listInHtml = getAllProdutIdsFromHtml(getCatListFromFile(), TaobaoUtils.getCCMapFromFile());
+		List<SmallProduct> newAddProduct = new ArrayList<SmallProduct>();
+		for (SmallProduct product : listInHtml) {
 			if (!listInFile.contains(product)) {
 				System.out.println("新增加产品：" + product);
 				newAddProduct.add(product);
@@ -276,8 +409,8 @@ if(b_weight==true||b_size==true)
 	 * @param index
 	 * @return
 	 */
-	private static List<Product> getProductListFromFile(int index) {
-		List<Product> pList = new ArrayList<Product>();
+	private static List<SmallProduct> getProductListFromFile(int index) {
+		List<SmallProduct> pList = new ArrayList<SmallProduct>();
 		String pid;
 		try {
 			InputStreamReader insReader = new InputStreamReader(new FileInputStream(new File(Constant.ikea_product_file + index)), "utf-8");
@@ -285,7 +418,7 @@ if(b_weight==true||b_size==true)
 			String temp[];
 			while ((pid = bufReader.readLine()) != null) {
 				temp = pid.split(Constant.split);
-				Product p = new Product(temp[0], temp[1], temp[2]);
+				SmallProduct p = new SmallProduct(temp[0], temp[1], temp[2]);
 				pList.add(p);
 			}
 			bufReader.close();
@@ -301,7 +434,7 @@ if(b_weight==true||b_size==true)
 	 * @param pList
 	 * @param filePath
 	 */
-	public static void saveProductList2File(List<Product> pList, String filePath) {
+	public static void saveProductList2File(List<SmallProduct> pList, String filePath) {
 		for (int i = 0; i * (Constant.num_product_per_file) < pList.size() + 1; i++) {
 			try {
 				FileWriter fw = new FileWriter(new File(filePath + i));
@@ -329,14 +462,14 @@ if(b_weight==true||b_size==true)
 	 *            淘宝sellerCid
 	 * @return
 	 */
-	public static List<Product> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
-		List<Product> result = new ArrayList<Product>();
-		List<Product> tmp;
+	public static List<SmallProduct> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
+		List<SmallProduct> result = new ArrayList<SmallProduct>();
+		List<SmallProduct> tmp;
 		for (Categroy categroy : ikeacatList) {
 			tmp = getProductListFromHtml(categroy);
-			for (Product p : tmp) {
+			for (SmallProduct p : tmp) {
 				if (result.contains(p)) {
-					Product pInList = result.get(result.indexOf(p));
+					SmallProduct pInList = result.get(result.indexOf(p));
 					if (!pInList.category.equals(p.category)) {
 						Constant.baseLoger.info("该产品还属于其他目录：" + p.pid);
 						pInList.category = pInList.category + "," + p.category;
@@ -357,7 +490,7 @@ if(b_weight==true||b_size==true)
 	 * @param c
 	 * @return
 	 */
-	private static List<Product> getProductListFromHtml(Categroy c) {
+	private static List<SmallProduct> getProductListFromHtml(Categroy c) {
 		String html = HtmlUtil.getHtmlContent(c.url);
 		int count = 0;
 		while (html == null) {
@@ -367,7 +500,7 @@ if(b_weight==true||b_size==true)
 			}
 			html = HtmlUtil.getHtmlContent(c.url);
 		}
-		List<Product> pidlist = new ArrayList<Product>();
+		List<SmallProduct> pidlist = new ArrayList<SmallProduct>();
 
 		if (html != null) {
 
@@ -382,7 +515,7 @@ if(b_weight==true||b_size==true)
 						continue;
 					int endIx = date.indexOf("/\"", beginIx);
 					String pid = date.substring(beginIx + 24, endIx);
-					Product p = new Product();
+					SmallProduct p = new SmallProduct();
 					p.category = c.name;
 					p.pid = pid;
 					p.containPreviousPrice = date.contains("previousPrice") ? 1 : 0;
@@ -409,7 +542,7 @@ if(b_weight==true||b_size==true)
 					String tmp = html.substring(beginIx + beginIxLength, endIx);
 					if (tmp.length() != 0) {
 						result = tmp.replace("\"", "");
-						Product p1 = new Product();
+						SmallProduct p1 = new SmallProduct();
 						p1.category = c.name;
 						p1.pid = result;
 						pidlist.add(p1);
@@ -454,16 +587,19 @@ class Categroy {
 	}
 }
 
-class Product {
+class SmallProduct {
+
 	public String pid;
 	public String category;
 	public String cid;
 	public int containPreviousPrice;
 
-	public Product() {
+	public SmallProduct() {
 	}
 
-	public Product(String cat, String cd, String pd) {
+
+
+	public SmallProduct(String cat, String cd, String pd) {
 		this.category = cat;
 		this.cid = cd;
 		this.pid = pd;
@@ -476,7 +612,7 @@ class Product {
 
 	@Override
 	public boolean equals(Object obj) {
-		String otherPid = ((Product) obj).pid;
+		String otherPid = ((SmallProduct) obj).pid;
 		return otherPid.equals(pid) || otherPid.contains(pid) || pid.contains(otherPid);
 	}
 

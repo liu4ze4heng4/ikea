@@ -30,10 +30,9 @@ public class MainDriver implements Runnable {
 				String[] tmp = pis.get(i).split(Constant.split);
 
 //				Product pd = new Product(tmp[2], tmp[1]);
-				Product pd = new Product(tmp[2],TaobaoUtils.getCCMapFromFile());
+//				Product pd = new Product(tmp[2],TaobaoUtils.getCCMapFromFile());
 				
-				pd.toCSV(Constant.product_cvs_file);
-				 pd.toPic(5, "E:\\QuHoo\\8\\","jpg");
+//				pd.toCsic(5, "E:\\QuHoo\\8\\","jpg");
 
 				// pd.toSQL();
 			} else

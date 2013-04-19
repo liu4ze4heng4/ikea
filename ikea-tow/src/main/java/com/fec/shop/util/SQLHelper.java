@@ -41,7 +41,7 @@ public void addSingleProduct(Product product){
 		stmt.setString(5, product.getSeller_cid());
 		stmt.setString(6, product.getSeller_cate());
 		stmt.setDouble(7, product.getWeight());
-		stmt.setString(8, product.getPicpath());
+		stmt.setString(8, product.getPicpathFromWeb().toString());
 		stmt.setString(9, "000000");
 		stmt.setString(10, product.getaProductId(0));
 
@@ -72,7 +72,8 @@ public void addProductFromFile(int i)
 	for(int j=4354;i<pids.size();j++)
 	{String pid=pids.get(j);
 		String[] tmp=pid.split(Constant.split);
-		Product p= new Product(tmp[2],TaobaoUtils.getCCMapFromFile());
+		Product p= IkeaUtils.initProduct(tmp[2]);
+	
 		addSingleProduct(p);
 	}
 }
@@ -88,7 +89,18 @@ public void updateSingleProduct(String pid){
 //	String sql = "update datebase_main set item_weight='"+weight+"' where outer_id = '"+pid+"' ";
 	
 ////=============更新邮费模板&CID===========	
-	String sql = "update datebase_main set postageid='755800881',num='10',cid='50006298' where outer_id = '"+pid+"' ";
+//	String sql = "update datebase_main set postageid='755800881',num='10',cid='50006298' where outer_id = '"+pid+"' ";
+//	try {
+//		Thread.sleep(2);
+//	} catch (InterruptedException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+
+////=============更新PICPATH===========	
+	Product product=IkeaUtils.initProduct(pid);
+	String sql = "update datebase_main set pic_path='"+product.getPicpathFromWeb().replace("\\", "\\\\")+"' where outer_id = '"+pid+"' ";
+	System.out.println(product.getPicpathFromWeb());
 	try {
 		Thread.sleep(2);
 	} catch (InterruptedException e) {
@@ -96,7 +108,9 @@ public void updateSingleProduct(String pid){
 		e.printStackTrace();
 	}
 	
-////==============更新库存==============	
+	
+	
+	////==============更新库存==============	
 //	IkeaUtils.getStockInfo(pid,true,false,false);
 //	String quantity=IkeaUtils.getQuantity();
 //	if(quantity=="无库存")
@@ -142,8 +156,9 @@ public void updateAllProduct(){
 		System.out.println("========ClassNotFoundException===========" + e.getMessage());
 		e.printStackTrace();}
 	int count=1;
-	for(String pid:pids)
-	{updateSingleProduct(pid);
+	for(int i = 511;i<pids.size();i++)
+	{String pid=pids.get(i);
+		updateSingleProduct(pid);
 	
 	System.out.println(count++);}
 	}
@@ -198,6 +213,37 @@ public void updateAllProduct(){
 //			e.printStackTrace();
 //		}
 	}
+/**
+ * 从数据库获取待上传产品	
+ */
+public  Product getProduct(String pid){
+	String sql = "select * from  datebase_main where outer_id=" + pid;
+	Product p=new Product();
+	try {
+		Statement stmt = getConnection().createStatement();
+		ResultSet rs = null;		
+		rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			p.setNum(rs.getInt("num")) ;
+			double[] price=new double[1];
+			price[0]=rs.getInt("price");
+			p.setPrice(price);
+			p.setTitle(rs.getString("title"));
+			p.setSeller_cid(rs.getString("seller_cids"));
+			p.setWeight(rs.getDouble("item_weight"));
+			p.setPid(rs.getString("outer_id"));
+			p.setPicpath(rs.getString("pic_path"));
+		}
+	} catch (SQLException e) {
+		System.out.println("=========SQLException==========" + e.getMessage());
+		e.printStackTrace();
+	} catch (ClassNotFoundException e) {
+		System.out.println("========ClassNotFoundException===========" + e.getMessage());
+		e.printStackTrace();
+	}
+	return p;
+}	
+	
 /**
  * 从数据库根据商品pid获取 产品的taobaoId
  * @param code
