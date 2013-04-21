@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class HtmlUtil {
 
-	public static String getHtmlContent(String url0) {
+	public static String getHtmlContent(String url0) throws IOException {
 		String content = null;
 		String strURL = url0;
 		URL url;
@@ -35,10 +35,7 @@ public class HtmlUtil {
 		} catch (MalformedURLException e) {
 			System.err.println("抓取失败MalformedURLException："+url0);
 			return null;
-		} catch (IOException e) {
-			System.err.println("抓取失败IOException："+url0);
-			return null;
-		}
+		} 
 		return content;
 	}
 }

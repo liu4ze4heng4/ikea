@@ -20,7 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fec.shop.constant.Constant;
-import com.fec.shop.model.Product;
+import com.fec.shop.model.ProductDetail;
+import com.fec.shop.model.ProductSimple;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.FileItem;
@@ -124,12 +125,12 @@ public class TaobaoUtils {
 	private static void addTaobaoItem(String id)  {
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
 		SQLHelper sh=new SQLHelper();
-		Product p=sh.getProduct(id);
+		ProductSimple p=sh.getProduct(id);
 
 		ItemAddRequest req = new ItemAddRequest();
 
 		req.setNum(30L);
-		req.setPrice(Double.toString(p.getaPrice(0)));
+		req.setPrice(Double.toString(p.getPrice().get(0)));
 		req.setType("fixed");
 		req.setStuffStatus("new");
 		req.setTitle(p.getTitle());
@@ -204,11 +205,15 @@ public class TaobaoUtils {
 		
 	}
 /**
- * 更新淘宝产品描述信息
+ * 从IKEA更新淘宝产品描述信息
  */
 	private static void updateItemFromWeb(String id,String tid) {
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
-Product p=IkeaUtils.initProduct(id);
+ProductSimple p=null;
+IkeaUtils.initProductSimple(p);
+ProductDetail pd = null;
+IkeaUtils.initProductdetail(pd);
+
 		ItemUpdateRequest req = new ItemUpdateRequest();
 		req.setNumIid(Long.parseLong(tid));
 //		req.setCid(1512L);
@@ -216,7 +221,7 @@ Product p=IkeaUtils.initProduct(id);
 //		req.setNum(50L);
 //		req.setPrice("200.07");
 //		req.setTitle("Nokia N97全新行货");
-		req.setDesc(p.getDescribtion());
+		req.setDesc(pd.getDescribtion());
 //		req.setLocationState("浙江");
 //		req.setLocationCity("杭州");
 //		req.setPostFee("5.07");
@@ -232,14 +237,14 @@ Product p=IkeaUtils.initProduct(id);
 //		}
 //		
 //		req.setIncrement("10.50");
-		File picpath=new File("E:\\QuHoo\\all\\"+p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
+		File picpath=new File("E:\\QuHoo\\all\\"+p.getPid() + "_" + p.getMainPics().get(0) + "_S4.jpg");
 if(picpath.exists())
 		{FileItem fItem = new FileItem(picpath);	
 		req.setImage(fItem);
 		System.out.println("从已处理更新了主图");}
-else if(new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg").exists() )
+else if(new File("E:\\IKEA临时项目\\products\\" + p.getPid() + "_" + p.getMainPics().get(0) + "_S4.jpg").exists() )
 {
-	picpath=new File("E:\\IKEA临时项目\\products\\" + p.getProduct_id() + "_" + p.getaMainPic(0) + "_S4.jpg");
+	picpath=new File("E:\\IKEA临时项目\\products\\" + p.getPid() + "_" + p.getMainPics().get(0) + "_S4.jpg");
 	FileItem fItem = new FileItem(picpath);
 	req.setImage(fItem);
 	System.out.println("从网络更新了主图");}
@@ -255,7 +260,7 @@ else{
 //		req.setSkuProperties("pid:vid;pid:vid");
 //		req.setSellerCids("1105");
 		req.setPostageId(755800881L);
-		req.setOuterId(p.getaProductId(0));
+		req.setOuterId(p.getProductIds().get(0));
 //		req.setProductId(123456789L);
 //		req.setPicPath("i7/T1rfxpXcVhXXXH9QcZ_033150.jpg");
 //		req.setAutoFill("time_card");

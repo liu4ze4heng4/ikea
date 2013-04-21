@@ -1,6 +1,7 @@
 package com.fec.shop.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
 import com.fec.shop.model.Category;
-import com.fec.shop.model.Product;
+import com.fec.shop.model.ProductDetail;
+import com.fec.shop.model.ProductSimple;
 
 public class SQLHelper {
 	
@@ -26,28 +29,132 @@ public class SQLHelper {
 		Connection con = DriverManager.getConnection(url, userName, password);
 		return con;
 	}
+	/**
+	 * 添加一个详细产品到datebase_detail
+	 * @param product
+	 */
+	public void addSingleProductDetail(ProductDetail product){
+		String sql = "insert into datebase_detail(pid,productName,assembledSize,designer,designerThoughts,picIds,environment,goodToKnow,careInst,custMaterials,keyFeatures,productIds,productType,price,mainPics,productTypeInfo) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			stmt.setString(1, product.getPid());
+			stmt.setString(2, product.getProductName());
+			stmt.setString(3, product.getAssembledSize());
+			stmt.setString(4, product.getDesigner());
+			stmt.setString(5, product.getDesignerThoughts());
+			StringBuilder picids=new StringBuilder();
+			ArrayList<String> PicIds=product.getPicIds();
+			for(int i=0;i<PicIds.size();i++)
+			{	String picId=PicIds.get(i);
+				picids.append(picId);
+			if(i!=PicIds.size()-1)
+				picids.append(",");
+			}
+			stmt.setString(6, picids.toString());
+			stmt.setString(7, product.getEnvironment());
+			stmt.setString(8, product.getGoodToKnow());
+			stmt.setString(9, product.getCareInst());
+			stmt.setString(10, product.getCustMaterials());
+			stmt.setString(11, product.getKeyFeatures());
+			StringBuilder pids=new StringBuilder();
+			ArrayList<String> pidd=product.getProductIds();
+			for(int i=0;i<pidd.size();i++)
+			{	String pid=pidd.get(i);
+			pids.append(pid);
+			if(i!=pidd.size()-1)
+				pids.append(",");
+			}
+			stmt.setString(12, pids.toString());
+			StringBuilder pts=new StringBuilder();
+			ArrayList<String> ptt=product.getProductType();
+			for(int i=0;i<ptt.size();i++)
+			{	String pt=ptt.get(i);
+			pts.append(pt);
+			if(i!=ptt.size()-1)
+				pts.append(",");
+			}
+			stmt.setString(13, pts.toString());
+			StringBuilder prices=new StringBuilder();
+			ArrayList<Double> prii=product.getPrice();
+			for(int i=0;i<prii.size();i++)
+			{	double price=prii.get(i);
+			prices.append(price);
+			if(i!=prii.size()-1)
+				prices.append(",");
+			}
+			stmt.setString(14, prices.toString());
+			StringBuilder mps=new StringBuilder();
+			LinkedList<String> mpp=product.getMainPics();
+			for(int i=0;i<mpp.size();i++)
+			{	String mp=mpp.get(i);
+			mps.append(mp);
+			if(i!=mpp.size()-1)
+				mps.append(",");
+			}
+			stmt.setString(15, mps.toString());
+			stmt.setString(16,product.getProductTypeInfo());
+	
+
+
+			stmt.execute();
+			System.out.println(product.getProductIds().get(0)+"added!");
+
+		} catch (SQLException e) {
+			System.out.println("=========SQLException==========" + e.getMessage());
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("========ClassNotFoundException===========" + e.getMessage());
+			e.printStackTrace();
+		}	
+		catch (Exception e) {
+			System.out.println("========Exception===========未知" + e.getMessage());
+			e.printStackTrace();
+		}	
+	}
+	/**
+	 * 从文件批量添加产品到datebase_detail
+	 * @param i
+	 * @throws IOException 
+	 */
+	public void addProductDetailFromFile(int i) 
+	{
+		List<String> pids=new ArrayList<String>();
+		pids.addAll(IkeaUtils.getProductStrListFromFile(i));
+		for(int j=0;i<pids.size();j++)
+		{String pid=pids.get(j);
+			String[] tmp=pid.split(Constant.split);
+try{
+			ProductDetail p= new ProductDetail(tmp[2]);
+			System.out.println(tmp[2]);
+		IkeaUtils.initProductdetail(p);
+			addSingleProductDetail(p);
+}catch(IOException ie){System.err.println("IO");}
+		}
+	}
+	
+	
 /**
- * 添加一个产品到数据库
+ * 添加一个简单产品到datebase_main
  * @param product
  */
-public void addSingleProduct(Product product){
+public void addSingleProduct(ProductSimple product){
 	String sql = "insert into datebase_main(title,num,price,cid,seller_cids,seller_cates,item_weight,pic_path,postageid,outer_id) values(?,?,?,?,?,?,?,?,?,?)";
 	try {
 		PreparedStatement stmt = getConnection().prepareStatement(sql);
-		stmt.setString(1, product.getProductName()+product.getProductTypeInfo()+"["+product.getProduct_dian_id()+"]");
+		stmt.setString(1, product.getProductName()+product.getProductTypeInfo()+"["+product.getDotted_pid()+"]");
 		stmt.setLong(2, product.getNum());
-		stmt.setDouble(3, product.getaPrice(0));
+		stmt.setDouble(3, product.getPrice().get(0));
 		stmt.setString(4, "000000");
 		stmt.setString(5, product.getSeller_cid());
 		stmt.setString(6, product.getSeller_cate());
 		stmt.setDouble(7, product.getWeight());
 		stmt.setString(8, product.getPicpathFromWeb().toString());
 		stmt.setString(9, "000000");
-		stmt.setString(10, product.getaProductId(0));
+		stmt.setString(10, product.getProductIds().get(0));
 
 
 		stmt.execute();
-		System.out.println(product.getaProductId(0)+"added!");
+		System.out.println(product.getProductIds().get(0)+"added!");
 
 	} catch (SQLException e) {
 		System.out.println("=========SQLException==========" + e.getMessage());
@@ -62,26 +169,28 @@ public void addSingleProduct(Product product){
 	}	
 }
 /**
- * 从文件批量添加产品到数据库
+ * 从文件批量添加产品到datebase_main
  * @param i
+ * @throws IOException 
  */
-public void addProductFromFile(int i)
+public void addProductFromFile(int i) throws IOException
 {
 	List<String> pids=new ArrayList<String>();
 	pids.addAll(IkeaUtils.getProductStrListFromFile(i));
 	for(int j=4354;i<pids.size();j++)
 	{String pid=pids.get(j);
 		String[] tmp=pid.split(Constant.split);
-		Product p= IkeaUtils.initProduct(tmp[2]);
-	
+		ProductSimple p= new ProductSimple(tmp[2]);
+	IkeaUtils.initProductSimple(p);
 		addSingleProduct(p);
 	}
 }
 /**
- * 更新数据库单个产品信息
+ * 更新datebase_main单个产品信息
  * @param product
+ * @throws IOException 
  */
-public void updateSingleProduct(String pid){
+public void updateSingleProduct(String pid) throws IOException{
 ////=========更新重量===========
 //	IkeaUtils.getStockInfo(pid,false,true,false);
 //	BigDecimal weightA = new BigDecimal(IkeaUtils.getWholeweight());
@@ -98,7 +207,8 @@ public void updateSingleProduct(String pid){
 //	}
 
 ////=============更新PICPATH===========	
-	Product product=IkeaUtils.initProduct(pid);
+	ProductSimple product=new ProductSimple(pid);
+	IkeaUtils.initProductSimple(product);
 	String sql = "update datebase_main set pic_path='"+product.getPicpathFromWeb().replace("\\", "\\\\")+"' where outer_id = '"+pid+"' ";
 	System.out.println(product.getPicpathFromWeb());
 	try {
@@ -136,10 +246,11 @@ public void updateSingleProduct(String pid){
 }
 
 /**
- * 更新数据库所有产品信息
+ * 更新datebase_main(database)所有产品信息
  * @param product
+ * @throws IOException 
  */
-public void updateAllProduct(){
+public void updateAllProduct() throws IOException{
 	String sql = "select * from  datebase_main";
 	ArrayList<String> pids=new ArrayList<String>();
 	try {
@@ -194,7 +305,7 @@ public void updateAllProduct(){
 //		e.printStackTrace();
 //	}
 //}
-	public void insertProduct(Product product) {
+	public void insertProduct(ProductSimple product) {
 //		String sql = "insert into tbl_product(product_dian_id,productNameProdInfo,productTypeProdInfo,price,category) values(?,?,?,?,?)";
 //		try {
 //			PreparedStatement stmt = getConnection().prepareStatement(sql);
@@ -214,19 +325,19 @@ public void updateAllProduct(){
 //		}
 	}
 /**
- * 从数据库获取待上传产品	
+ * 从datebase_main获取待上传产品	
  */
-public  Product getProduct(String pid){
+public  ProductSimple getProduct(String pid){
 	String sql = "select * from  datebase_main where outer_id=" + pid;
-	Product p=new Product();
+	ProductSimple p=new ProductSimple();
 	try {
 		Statement stmt = getConnection().createStatement();
 		ResultSet rs = null;		
 		rs = stmt.executeQuery(sql);
 		if (rs.next()) {
 			p.setNum(rs.getInt("num")) ;
-			double[] price=new double[1];
-			price[0]=rs.getInt("price");
+ArrayList<Double> price=new ArrayList<Double>();
+			price.add(rs.getDouble("price"));
 			p.setPrice(price);
 			p.setTitle(rs.getString("title"));
 			p.setSeller_cid(rs.getString("seller_cids"));
@@ -408,10 +519,15 @@ public  String getcid(String name) {
 	System.out.println(cid);
 	return cid.toString();
 }
-	public static void main(String[] Args){
+	public static void main(String[] Args) throws IOException{
 		SQLHelper sh=new SQLHelper();
-//		sh.addProductFromFile(0);
+		sh.addProductDetailFromFile(0);
+//		ProductDetail pd=new ProductDetail("90188427,00135570");
+//		IkeaUtils.initProductdetail(pd);
+//		System.out.println(pd.getPicIds());
+//		sh.addSingleProductDetail(pd);
 //		sh.updateSingleProduct("40176455");
-		sh.updateAllProduct();
+//		sh.updateAllProduct();
+
 	}
 }

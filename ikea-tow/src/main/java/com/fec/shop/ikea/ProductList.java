@@ -1,5 +1,6 @@
 package com.fec.shop.ikea;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,11 +29,14 @@ public class ProductList {
 	}
 
 	public ArrayList<String> getProductIds(String categoryUrl) {
-		String html = HtmlUtil.getHtmlContent(categoryUrl);
+		String html;
+		try {
+			html = HtmlUtil.getHtmlContent(categoryUrl);
+		
 		String cn=getCategoryName(html);
 		int index = 0;
 		int x = 1;
-		try {
+
 			productIds.clear();
 			while (true) {
 				int beginIx = html.indexOf("<div id=\"item_", index);
@@ -46,16 +50,21 @@ public class ProductList {
 				index = endIx;
 				x++;
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+	
 		productIds.addAll(getExtraProductUrls(html));
 		HashSet<String> productUrlSet = new HashSet<String>();
 		productUrlSet.addAll(productIds);
 		productIds.clear();
 		productIds.addAll(productUrlSet);
 		System.out.println(Thread.currentThread().getName() + "======" + productIds.size() + "==========" + cn);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return productIds;
 	}
 

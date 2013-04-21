@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fec.shop.constant.Constant;
-import com.fec.shop.model.Product;
+import com.fec.shop.model.ProductSimple;
 import com.fec.shop.util.Errors;
 import com.fec.shop.util.IkeaUtils;
 import com.fec.shop.util.TaobaoUtils;

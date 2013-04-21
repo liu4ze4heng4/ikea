@@ -83,7 +83,7 @@ public class StockinfoGui extends JFrame{
 
 	class BackRun implements Runnable {
 		public void run() {
-			
+			try{
 			Log1.setText("进行中……");
 			IkeaUtils.setStockInfo(ProductId.getText(),true,true,true);
 			Log1.setText("库存信息："+"产品信息：\n");
@@ -105,7 +105,7 @@ public class StockinfoGui extends JFrame{
 			else if(IkeaUtils.getIsheavy()==-1)
 				Log1.append("货物类型未知\n");
 				frame.repaint();
-			
+			}catch(IOException ie){System.err.println("io errrror");}
 		}
 	}
 

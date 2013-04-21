@@ -1,5 +1,6 @@
 package com.fec.shop.ikea;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +20,12 @@ public class IkeaCategoryHelper {
 	}
 
 	public static void initAllCategoryFromHtml() {
-		String html = HtmlUtil.getHtmlContent(categoryListUrl);
-		int index = 20000;
+		String html;
 		try {
+			html = HtmlUtil.getHtmlContent(categoryListUrl);
+		
+		int index = 20000;
+
 			while (true) {
 				int beginIx = html.indexOf(" href=\"/cn/zh/catalog/categories/departments", index);
 				if (beginIx > 1) {
@@ -45,7 +49,11 @@ public class IkeaCategoryHelper {
 				} else
 					break;
 			}
-		} catch (Exception e) {
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

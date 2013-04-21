@@ -1,5 +1,6 @@
 package com.fec.shop.ikea;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -15,11 +16,14 @@ public class IkeaProductHelper {
 			System.out.println("category url is null!");
 			return;
 		}
-		String html = HtmlUtil.getHtmlContent(categoryUrl);
+		String html;
+		try {
+			html = HtmlUtil.getHtmlContent(categoryUrl);
+		
 		String cn = getCategoryName(html);
 		int index = 0;
 		int x = 1;
-		try {
+
 			while (true) {
 				int beginIx = html.indexOf("<div id=\"item_", index);
 				if (beginIx <= 0)
@@ -32,11 +36,16 @@ public class IkeaProductHelper {
 				index = endIx;
 				x++;
 			}
+		
+		
+		getExtraProductUrls(productMap, html);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getExtraProductUrls(productMap, html);
 	}
 
 	private static String getCategoryName(String html) {

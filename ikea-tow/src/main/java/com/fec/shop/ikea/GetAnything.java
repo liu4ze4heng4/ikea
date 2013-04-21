@@ -79,10 +79,9 @@ if(cmap.containsKey(result))
 		int endIx = buf.indexOf("<strong>", beginIx);
 		String result = buf.substring(beginIx + "<div id=\"type\" class=\"productType\">".length(), endIx);
 		result = result.replace("	", "");
-
 		String[] temp=result.split(",");
 		if(temp==null||temp.length<=1){
-			return  " ";
+			return  "";
 		}else{
 			result=temp[1];
 		}
@@ -117,7 +116,6 @@ if(cmap.containsKey(result))
 		String tmp = buf.substring(beginIx + beginIxLength + 5, endIx);
 		String result = tmp.replace("</b>", "");
 		tmp = result.replace(",", "");
-		System.out.println(tmp);
 		double price = (new Double(tmp));
 		// System.out.println(result);
 		// InfoList.add(Info);

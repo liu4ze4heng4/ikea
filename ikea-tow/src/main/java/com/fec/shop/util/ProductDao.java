@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.fec.shop.model.Product;
+import com.fec.shop.model.ProductSimple;
 
 public class ProductDao {
 	public Connection getConnection() throws SQLException, java.lang.ClassNotFoundException {

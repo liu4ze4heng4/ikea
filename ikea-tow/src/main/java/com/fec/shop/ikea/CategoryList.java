@@ -1,5 +1,6 @@
 package com.fec.shop.ikea;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -7,7 +8,7 @@ import com.fec.shop.util.HtmlUtil;
 
 public class CategoryList {
 
-	public static ArrayList<String> getAllCategoryUrls(String main_url) {
+	public static ArrayList<String> getAllCategoryUrls(String main_url) throws IOException {
 		ArrayList<String> categoryUrls = new ArrayList<String>();
 		String html = HtmlUtil.getHtmlContent(main_url);
 		int index = 20000;
@@ -44,6 +45,11 @@ public class CategoryList {
 	}
 
 	public static void main(String[] args) {
-		CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		try {
+			CategoryList.getAllCategoryUrls("http://www.ikea.com/cn/zh/catalog/allproducts/");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

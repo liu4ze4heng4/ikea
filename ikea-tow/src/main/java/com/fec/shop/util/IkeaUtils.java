@@ -23,22 +23,29 @@ import org.apache.velocity.tools.generic.MathTool;
 
 import com.fec.shop.constant.Constant;
 import com.fec.shop.ikea.GetAnything;
-import com.fec.shop.model.Product;
+import com.fec.shop.model.ProductSimple;
+import com.fec.shop.model.ProductDetail;
 import com.taobao.api.ApiException;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
 		// IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),
 		// TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
-		IkeaUtils.setStockInfo("60169835",true,true,true);
+		try
+		{IkeaUtils.setStockInfo("60169835", true, true, true);}
+		catch(IOException ie)
+		{
+				System.err.println("IOexception!");}
 		// SQLHelper sh=new SQLHelper();
 		// sh.getProductTids();
 	}
+
 	static String quantity;
 	static String info = "无发货时效信息";
-	static int isheavy=-1;
-	static double wholeweight=0;
-	static double wholesize=0;
+	static int isheavy = -1;
+	static double wholeweight = 0;
+	static double wholesize = 0;
+
 	public static String getQuantity() {
 		return quantity;
 	}
@@ -58,228 +65,185 @@ public class IkeaUtils {
 	public static double getWholesize() {
 		return wholesize;
 	}
-public static Product initProduct(String id)
-{Product p=new Product();
-String[] ids = id.split(",");
-String buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[0] + "/");
-Map<String, String> cmap=TaobaoUtils.getCCMapFromFile();
-double[] price = new double[100];
-Arrays.fill(price, 200000);
-	
+/**
+ * 生成ProductSimple
+ * @param p
+ */
+	public static void initProductSimple(ProductSimple p) {
+		String buf = p.getBuf();
+		ArrayList<String> product_ids = p.getProductIds();
+		Map<String, String> cmap = TaobaoUtils.getCCMapFromFile();
+		ArrayList<Double> price = new ArrayList<Double>();
+		Collections.fill(price, 99999.0);
 
-try{
-	GetAnything something = new GetAnything();
-	double ChangedFamilyPrice=something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice"); 
-	price[0] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
-	String dotted_pid=something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
-	String[] picurl = new String[100];
-	picurl = something.getPicUrl(buf, ids[0]);
-	ArrayList<String> pic_id = new ArrayList<String>();
-	Collections.addAll(pic_id, picurl);
-	LinkedList<String> mainPics = new LinkedList<String>();
-	mainPics.add(pic_id.get(0));
-	String ProductName = something.getProductName(buf);
-	String[] ProductType = new String[100];
-	ProductType[0] = something.getProductType(buf);
-	String productTypeInfo = something.getProductTypeInfo(buf);
-	String title=ProductName+productTypeInfo + "[" + dotted_pid + "]";
-	for (int i = 1; i < ids.length; i++) {
-		buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + ids[i] + "/");
+		try {
+			GetAnything something = new GetAnything();
 
-		price[i] = something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo");
-		ProductType[i] = something.getProductType(buf);
-		Collections.addAll(pic_id, something.getPicUrl(buf, ids[i]));
-		mainPics.add(something.getPicUrl(buf, ids[i])[0]);
+			double ChangedFamilyPrice = something.getPrice(buf, "<meta name=\"changed_family_price\" conten", "\" />", "changedFamilyPrice");
+			price.add(something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo"));
+			String dotted_pid = something.geT(buf, "<div id=\"itemNumber\" class=\"floatLeft\">", "</div>", "product.id");
+			String[] picurl = new String[100];
+			picurl = something.getPicUrl(buf, product_ids.get(0));
+			ArrayList<String> pic_id = new ArrayList<String>();
+			Collections.addAll(pic_id, picurl);
+			LinkedList<String> mainPics = new LinkedList<String>();
+			mainPics.add(pic_id.get(0));
+			String ProductName = something.getProductName(buf);
+			ArrayList<String> ProductType = new ArrayList<String>();
+			ProductType.add(something.getProductType(buf));
+			String productTypeInfo = something.getProductTypeInfo(buf);
+			String title = ProductName + productTypeInfo + "[" + dotted_pid + "]";
+			for (int i = 1; i < product_ids.size(); i++) {
+				buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + product_ids.get(i) + "/");
+
+				price.add(something.getPrice(buf, "<div class=\"priceFamilyTextDollar\"  id=\"priceProdInfo\">", "</div>", "priceProdInfo"));
+				ProductType.add(something.getProductType(buf));
+				Collections.addAll(pic_id, something.getPicUrl(buf, product_ids.get(i)));
+				mainPics.add(something.getPicUrl(buf, product_ids.get(i))[0]);
+			}
+			String seller_cid = null;
+			String seller_cate = null;
+			if (buf.contains("IRWStats.subCategoryLocal\" content=\"")) {
+				seller_cid = something.getSeller_cids(buf, cmap);
+				seller_cate = something.getSeller_cates(buf, cmap);
+			}
+			p.setPrice(price);
+			p.setChangedFamilyPrice(ChangedFamilyPrice);
+			p.setPid(product_ids.get(0));
+			p.setDotted_pid(dotted_pid);
+			p.setPicIds(pic_id);
+			p.setMainPics(mainPics);
+			p.setProductName(ProductName);
+			p.setProductType(ProductType);
+			p.setProductTypeInfo(productTypeInfo);
+			p.setTitle(title);
+			p.setSeller_cid(seller_cid);
+			p.setSeller_cate(seller_cate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	String seller_cid=null;
-	String seller_cate=null;
-	if (buf.contains("IRWStats.subCategoryLocal\" content=\"")) {
-		seller_cid = something.getSeller_cids(buf, cmap);
-		seller_cate = something.getSeller_cates(buf, cmap);
-	}
-	p.setPrice(price);
-	p.setChangedFamilyPrice(ChangedFamilyPrice);
-	p.setPid(ids[0]);
-	p.setProduct_ids(ids);
-	p.setDotted_pid(dotted_pid);
-	p.setPic_id(pic_id);
-	p.setMainPics(mainPics);
-	p.setProductName(ProductName);
-	p.setProductType(ProductType);
-	p.setProductTypeInfo(productTypeInfo);
-	p.setTitle(title);
-	p.setSeller_cid(seller_cid);
-p.setSeller_cate(seller_cate);
-}
-catch (Exception e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
-return p;
-}
 
-public static void initProductdescribtion(Product p) {
-	String buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + p.getPid() + "/");
-	GetAnything something = new GetAnything();
-	String assembledSize = something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize");
-	String designerThoughts = something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts");
-	String designer = something.getDesigner(buf);
-	// String numberOfPackages = something.geT(buf,
-	// "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
-	String productInformation = something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation");
-	String environment = something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment");
-	String goodToKnow = something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow");
-	String careInst = something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst");
-	// String lowestPrice = something.geT(buf,
-	// "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">",
-	// "</div>", "lowestPrice");
-	String custMaterials = something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials");
-	String keyFeatures = something.getKeyFeatures(buf);
+/**
+ * 生成ProductDetail	
+ * @param p
+ */
+	public static void initProductdetail(ProductDetail pd) {
+		IkeaUtils.initProductSimple(pd);
+		String buf=pd.getBuf();
+		GetAnything something = new GetAnything();
+		pd.setAssembledSize(something.geT(buf, "<div id =\"metric\" class=\"texts\"", "</div>", "assembledSize"));
+		pd.setDesignerThoughts(something.geT(buf, "<div id=\"designerThoughts\" class=\"texts\">", "</div>", "designerThoughts"));
+		pd.setDesigner(something.getDesigner(buf));
+		// String numberOfPackages = something.geT(buf,
+		// "<span id=\"numberOfPackages\">", "</span>", "numberOfPackages");
+//		pd.setProductInformation(something.geT(buf, "<div class=\"texts\" style=\"width: 200px;\">", "</div>", "productInformation"));
+		pd.setEnvironment(something.geT(buf, "<div id=\"environment\" class=\"texts\">", "</div>", "environment"));
+		pd.setGoodToKnow(something.geT(buf, "<div id=\"goodToKnow\" class=\"texts\">", "</div>", "goodToKnow"));
+		pd.setCareInst(something.geT(buf, "<div id=\"careInst\" class=\"texts Wdth\">", "</div>", "careInst"));
+		// String lowestPrice = something.geT(buf,
+		// "<div id=\"lowestPrice\" class=\"texts\"><div class=\"prodInfoHeadline\">",
+		// "</div>", "lowestPrice");
+		pd.setCustMaterials(something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials"));
+		pd.setKeyFeatures(something.getKeyFeatures(buf));
 
-	VelocityContext context = new VelocityContext();
-	context.put("ProductName", p.getProductName());
-	context.put("ProductName", p.getProductType[0]);
-	context.put("assembledSize", assembledSize);
-	context.put("designerThoughts", designerThoughts);
-	context.put("designer", designer);
-	context.put("productInformation", productInformation);
-	context.put("environment", environment);
-	context.put("goodToKnow", goodToKnow);
-	context.put("careInst", careInst);
-	context.put("custMaterials", custMaterials);
-	context.put("keyFeatures", keyFeatures);
-String[] productId=p.getProduct_ids();
-context.put("productId", productId);
-	String[] productType=p.getProductType();
-	context.put("productType", productType);
-	ArrayList<String> typecolorlist=new ArrayList<String>(); 
-	for(String pt:productType)
-		{String typecolor;
-		if (pt.contains("黄"))
-			typecolor= "#e5cd00";
-		else if (pt.contains("红"))
-			typecolor= "#cc0000";
-		else if (pt.contains("绿"))
-			typecolor= "#22cc00";
-		else if (pt.contains("蓝"))
-			typecolor= "#1759a8";
-		else if (pt.contains("橙"))
-			typecolor= "#f27405";
-		else
-			typecolor= "#000000";
-		typecolorlist.add(typecolor);
+		
 	}
-	context.put("typecolorlist", typecolorlist);
-	double[] price=p.getPrice();
-	context.put("price", price);
-	ArrayList<String> pic_id=p.getPic_id();
-	context.put("pic_id", pic_id);
-	String productName=p.getProductName();
-	context.put("productName", productName);
-	context.put("product_id", p.getPid());
-	context.put("mainPics", p.getMainPics());
-	
-	context.put("product", p);
-	context.put("math", new MathTool());
-	String result = VelocityUtil.filterVM("productDetail.vm", context);
-	p.setDescribtion(result);
-}
 
 	/**
-	 * 获取宜家库存信息
+	 * 获取IKEA库存信息
 	 */
-	public static void setStockInfo(String id,boolean b_stockinfo,boolean b_weight,boolean b_size) {
+	public static void setStockInfo(String id, boolean b_stockinfo, boolean b_weight, boolean b_size) throws IOException {
+		
 		String buf = new String();
 		String buf2 = new String();
-		isheavy=-1;
-		wholeweight=0;
-		wholesize=0;
-		ArrayList<Double> weight=new ArrayList<Double>();
-		
+		isheavy = -1;
+		wholeweight = 0;
+		wholesize = 0;
+		ArrayList<Double> weight = new ArrayList<Double>();
 
-		ArrayList<Double> sizer=new ArrayList<Double>();
+		ArrayList<Double> sizer = new ArrayList<Double>();
 		id = id.replace(".", "").replace("S", "");
-if(b_stockinfo==true)
-		{buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo=" + id + "&change=true&_=1");
-		if (buf == null)
-			buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=spr&itemNo=" + id + "&change=true&_=1");
+		
+		
+		if (b_stockinfo == true) {
+			buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=art&itemNo=" + id + "&change=true&_=1");
+			if (buf == null)
+				buf = HtmlUtil.getHtmlContent("http://m.ikea.com/cn/zh/store/availability/?storeCode=802&itemType=spr&itemNo=" + id + "&change=true&_=1");
 
+			if (buf.contains("北京商场当前有库存")) {
+				int beginIx = buf.indexOf("北京商场当前有库存");
+				int endIx = buf.indexOf("</b>", beginIx);
+				quantity = buf.substring(beginIx + "北京商场当前有库存：".length(), endIx);
+				quantity = quantity.replace("<b>", "").replace(" ", "");
 
-		if (buf.contains("北京商场当前有库存")) {
-			int beginIx = buf.indexOf("北京商场当前有库存");
-			int endIx = buf.indexOf("</b>", beginIx);
-			quantity = buf.substring(beginIx+"北京商场当前有库存：".length(), endIx);
-			quantity = quantity.replace("<b>", "").replace(" ", "");
-
-					if (buf.contains("联系工作人员")) {
-						info = "本产品在外仓，不能及时发货";
-					} else {
-						info = "可以及时发货";
-					}
-
-				
-		} else if (buf.contains("北京商场当前无库存")) {
-			quantity = "无库存";
-		} else if (buf.contains("北京商场不出售该产品")) {
-			quantity = "商场不出售该产品";
-		} else
-
-			quantity = "未知错误2，请重试";
-		}
-if(b_weight==true||b_size==true)
-{
-		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/" + id);
-		if (buf2 == null)
-		buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/S" + id);
-		String regexStr = "<div class=\"rowContainerPackage\">[\\s\\S]*?<div class=\"clear\"></div>";
-		Pattern productCell = Pattern.compile(regexStr);
-		Matcher m = productCell.matcher(buf2);
-		while (m.find()) {
-			if (!"".equals(m.group())) {
-				String content=m.group();
-				int beginIx = content.indexOf("<div class=\"colPack\">");
-				int endIx = content.indexOf("</div>", beginIx);
-				int count=new Integer(content.substring(beginIx+"<div class=\"colPack\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", ""));
-				if(b_size==true)
-				{
-				beginIx = content.indexOf("<div class=\"colWidth\">");
-				endIx = content.indexOf("</div>", beginIx);
-				ArrayList<Double> size=new ArrayList<Double>();
-				size.add(new Double(content.substring(beginIx+"<div class=\"colWidth\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
-
-				 beginIx = content.indexOf("<div class=\"colHeight\">");
-				 endIx = content.indexOf("</div>", beginIx);
-				size.add(new Double(content.substring(beginIx+"<div class=\"colHeight\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
-				 beginIx = content.indexOf("<div class=\"colLength\">");
-				 endIx = content.indexOf("</div>", beginIx);
-				size.add(new Double(content.substring(beginIx+"<div class=\"colLength\">".length(), endIx).replace("	", "").replace("厘米","").replace("&nbsp;", "0")));
-				if(!size.contains((double)0))
-				sizer.add(count*size.get(0)*size.get(1)*size.get(2)/1000000);
-				else
-					sizer.add((double) 9999);
-				}
-				if(b_weight==true)
-				{
-				beginIx = content.indexOf("<div class=\"colWeight\">");
-				 endIx = content.indexOf("</div>", beginIx);
-				weight.add(count*new Double(content.substring(beginIx+"<div class=\"colWeight\">".length(), endIx).replace("	", "").replace("千克","").replace("&nbsp;", "0")));
-				}
+				if (buf.contains("联系工作人员")) {
+					info = "本产品在外仓，不能及时发货";
 				} else {
-				info = "未知错误1";
+					info = "可以及时发货";
+				}
+
+			} else if (buf.contains("北京商场当前无库存")) {
+				quantity = "无库存";
+			} else if (buf.contains("北京商场不出售该产品")) {
+				quantity = "商场不出售该产品";
+			} else
+
+				quantity = "未知错误2，请重试";
+		}
+		if (b_weight == true || b_size == true) {
+			buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/" + id);
+			if (buf2 == null)
+				buf2 = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/packagepopup/S" + id);
+			String regexStr = "<div class=\"rowContainerPackage\">[\\s\\S]*?<div class=\"clear\"></div>";
+			Pattern productCell = Pattern.compile(regexStr);
+			Matcher m = productCell.matcher(buf2);
+			while (m.find()) {
+				if (!"".equals(m.group())) {
+					String content = m.group();
+					int beginIx = content.indexOf("<div class=\"colPack\">");
+					int endIx = content.indexOf("</div>", beginIx);
+					int count = new Integer(content.substring(beginIx + "<div class=\"colPack\">".length(), endIx).replace("	", "").replace("千克", "").replace("&nbsp;", ""));
+					if (b_size == true) {
+						beginIx = content.indexOf("<div class=\"colWidth\">");
+						endIx = content.indexOf("</div>", beginIx);
+						ArrayList<Double> size = new ArrayList<Double>();
+						size.add(new Double(content.substring(beginIx + "<div class=\"colWidth\">".length(), endIx).replace("	", "").replace("厘米", "").replace("&nbsp;", "0")));
+
+						beginIx = content.indexOf("<div class=\"colHeight\">");
+						endIx = content.indexOf("</div>", beginIx);
+						size.add(new Double(content.substring(beginIx + "<div class=\"colHeight\">".length(), endIx).replace("	", "").replace("厘米", "").replace("&nbsp;", "0")));
+						beginIx = content.indexOf("<div class=\"colLength\">");
+						endIx = content.indexOf("</div>", beginIx);
+						size.add(new Double(content.substring(beginIx + "<div class=\"colLength\">".length(), endIx).replace("	", "").replace("厘米", "").replace("&nbsp;", "0")));
+						if (!size.contains((double) 0))
+							sizer.add(count * size.get(0) * size.get(1) * size.get(2) / 1000000);
+						else
+							sizer.add((double) 9999);
+					}
+					if (b_weight == true) {
+						beginIx = content.indexOf("<div class=\"colWeight\">");
+						endIx = content.indexOf("</div>", beginIx);
+						weight.add(count * new Double(content.substring(beginIx + "<div class=\"colWeight\">".length(), endIx).replace("	", "").replace("千克", "").replace("&nbsp;", "0")));
+					}
+				} else {
+					info = "未知错误1";
+				}
+			}
+			for (int i = 0; i < sizer.size(); i++)
+				wholesize = wholesize + sizer.get(i);
+			for (int i = 0; i < weight.size(); i++)
+				wholeweight = wholeweight + weight.get(i);
+			if (wholesize < 9999) {
+				if (b_weight == true && b_size == true) {
+					if (wholesize * 210 < wholeweight)
+						isheavy = 1;
+					else
+						isheavy = 0;
+				}
 			}
 		}
-		for(int i=0;i<sizer.size();i++)
-		wholesize=wholesize+sizer.get(i);
-		for(int i=0;i<weight.size();i++)
-			wholeweight=wholeweight+weight.get(i);
-		if(wholesize<9999){
-			if(b_weight==true&&b_size==true)
-			{
-			if(wholesize*210<wholeweight)
-		isheavy=1;
-		else
-			isheavy=0;}}
-}	
 	}
 
 	/**
@@ -336,9 +300,11 @@ if(b_weight==true||b_size==true)
 	public static List<Categroy> getCategoryFromHtml() {
 		String categoryListUrl = "http://www.ikea.com/cn/zh/catalog/allproducts/";
 		List<Categroy> allCategory = new ArrayList<Categroy>();
-		String html = HtmlUtil.getHtmlContent(categoryListUrl);
+		try
+		{String html = HtmlUtil.getHtmlContent(categoryListUrl);
+				
 		int index = 20000;
-		try {
+	
 			while (true) {
 				int beginIx = html.indexOf(" href=\"/cn/zh/catalog/categories/departments", index);
 				if (beginIx > 1) {
@@ -359,7 +325,11 @@ if(b_weight==true||b_size==true)
 					index = endIx;
 				} else
 					break;
-			}
+			}}
+			catch(IOException ie)
+			{
+				System.err.println("抓取失败IOException");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -491,7 +461,9 @@ if(b_weight==true||b_size==true)
 	 * @return
 	 */
 	private static List<SmallProduct> getProductListFromHtml(Categroy c) {
+		try{
 		String html = HtmlUtil.getHtmlContent(c.url);
+		
 		int count = 0;
 		while (html == null) {
 			if (count++ > 3) {
@@ -528,7 +500,7 @@ if(b_weight==true||b_size==true)
 				}
 			}
 
-			// 再抓取json里面的
+			// 再抓取JSON里面的
 			int index = 11000;
 			String result;
 			try {
@@ -558,6 +530,9 @@ if(b_weight==true||b_size==true)
 		}
 		Constant.baseLoger.info("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;
+		}catch(IOException ie)
+		{System.err.println("抓取失败ConnectException");
+		return null;}
 	}
 
 }
@@ -596,8 +571,6 @@ class SmallProduct {
 
 	public SmallProduct() {
 	}
-
-
 
 	public SmallProduct(String cat, String cd, String pd) {
 		this.category = cat;
