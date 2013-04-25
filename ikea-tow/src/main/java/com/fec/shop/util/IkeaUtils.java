@@ -29,13 +29,8 @@ import com.taobao.api.ApiException;
 
 public class IkeaUtils {
 	public static void main(String[] args) {
-		// IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),
-		// TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
-		try
-		{IkeaUtils.setStockInfo("60169835", true, true, true);}
-		catch(IOException ie)
-		{
-				System.err.println("IOexception!");}
+		 IkeaUtils.saveProductList2File(getAllProdutIdsFromHtml(getCatListFromFile(),TaobaoUtils.getCCMapFromFile()),Constant.ikea_product_file);
+//		try{IkeaUtils.setStockInfo("60169835", true, true, true);}catch(IOException ie){System.err.println("IOexception!");}
 		// SQLHelper sh=new SQLHelper();
 		// sh.getProductTids();
 	}
@@ -69,7 +64,7 @@ public class IkeaUtils {
  * 生成ProductSimple
  * @param p
  */
-	public static void initProductSimple(ProductSimple p) {
+	public static ProductSimple initProductSimple(ProductSimple p) {
 		String buf = p.getBuf();
 		ArrayList<String> product_ids = p.getProductIds();
 		Map<String, String> cmap = TaobaoUtils.getCCMapFromFile();
@@ -123,13 +118,14 @@ public class IkeaUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return p;
 	}
 
 /**
  * 生成ProductDetail	
  * @param p
  */
-	public static void initProductdetail(ProductDetail pd) {
+	public static ProductDetail initProductdetail(ProductDetail pd) {
 		IkeaUtils.initProductSimple(pd);
 		String buf=pd.getBuf();
 		GetAnything something = new GetAnything();
@@ -148,7 +144,7 @@ public class IkeaUtils {
 		pd.setCustMaterials(something.geT(buf, "<div id=\"custMaterials\" class=\"texts\">", "</div>", "custMaterials"));
 		pd.setKeyFeatures(something.getKeyFeatures(buf));
 
-		
+		return pd;
 	}
 
 	/**
@@ -434,9 +430,10 @@ public class IkeaUtils {
 	 */
 	public static List<SmallProduct> getAllProdutIdsFromHtml(List<Categroy> ikeacatList, Map<String, String> taobaocidMap) {
 		List<SmallProduct> result = new ArrayList<SmallProduct>();
-		List<SmallProduct> tmp;
+		List<SmallProduct> tmp=new ArrayList<SmallProduct>();
 		for (Categroy categroy : ikeacatList) {
 			tmp = getProductListFromHtml(categroy);
+			if (tmp==null)continue;
 			for (SmallProduct p : tmp) {
 				if (result.contains(p)) {
 					SmallProduct pInList = result.get(result.indexOf(p));
@@ -476,20 +473,33 @@ public class IkeaUtils {
 
 		if (html != null) {
 
-			String regexStr = "<div class=\"productDetails\">[\\s\\S]*?</a>";
+			String regexStr = "<div class=\"productDetails\">[\\s\\S]*?</script>";
 			Pattern productCell = Pattern.compile(regexStr);
 			Matcher m = productCell.matcher(html);
 			while (m.find()) {
 				if (!"".equals(m.group())) {
 					String date = m.group();
+					System.out.println(date);
 					int beginIx = date.indexOf("/cn/zh/catalog/products/");
 					if (beginIx <= 0)
 						continue;
 					int endIx = date.indexOf("/\"", beginIx);
-					String pid = date.substring(beginIx + 24, endIx);
+					StringBuilder pid=new StringBuilder();
+pid.append(date.substring(beginIx + 24, endIx));
+if(date.contains("jsonPartNumbers.push([")){
+beginIx = date.indexOf("jsonPartNumbers.push([");
+int beginIxLength = "jsonPartNumbers.push([".length();
+ endIx = date.indexOf("]);", beginIx);
+String tmp = date.substring(beginIx + beginIxLength, endIx);
+if (tmp.length() != 0) {
+	tmp = tmp.replace("\"", "");
+	pid.append(","+tmp);
+}}
+					
 					SmallProduct p = new SmallProduct();
 					p.category = c.name;
-					p.pid = pid;
+					p.pid = pid.toString();
+					
 					p.containPreviousPrice = date.contains("previousPrice") ? 1 : 0;
 					if (p.containPreviousPrice == 1) {
 						Constant.dailyCheepLoger.info("优惠产品：pid: " + p.pid + ",category" + p.category);
@@ -500,33 +510,33 @@ public class IkeaUtils {
 				}
 			}
 
-			// 再抓取JSON里面的
-			int index = 11000;
-			String result;
-			try {
-
-				while (true) {
-					int beginIx = html.indexOf("jsonPartNumbers.push([", index);
-					if (beginIx <= 10)
-						break;
-					int beginIxLength = "jsonPartNumbers.push([".length();
-					int endIx = html.indexOf("]);", beginIx);
-					String tmp = html.substring(beginIx + beginIxLength, endIx);
-					if (tmp.length() != 0) {
-						result = tmp.replace("\"", "");
-						SmallProduct p1 = new SmallProduct();
-						p1.category = c.name;
-						p1.pid = result;
-						pidlist.add(p1);
-					}
-
-					index = endIx;
-				}
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			// 再抓取JSON里面的
+//			int index = 11000;
+//			String result;
+//			try {
+//
+//				while (true) {
+//					int beginIx = html.indexOf("jsonPartNumbers.push([", index);
+//					if (beginIx <= 10)
+//						break;
+//					int beginIxLength = "jsonPartNumbers.push([".length();
+//					int endIx = html.indexOf("]);", beginIx);
+//					String tmp = html.substring(beginIx + beginIxLength, endIx);
+//					if (tmp.length() != 0) {
+//						result = tmp.replace("\"", "");
+//						SmallProduct p1 = new SmallProduct();
+//						p1.category = c.name;
+//						p1.pid = result;
+//						pidlist.add(p1);
+//					}
+//
+//					index = endIx;
+//				}
+//
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 		Constant.baseLoger.info("====================" + c.name + "抓取了：" + pidlist.size() + "个产品id");
 		return pidlist;

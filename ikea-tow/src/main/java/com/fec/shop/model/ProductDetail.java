@@ -30,7 +30,6 @@ public ProductDetail(String id) throws IOException {
 	Collections.addAll(ids, id.split(","));
 	setProductIds(ids);
 	buf = HtmlUtil.getHtmlContent("http://www.ikea.com/cn/zh/catalog/products/" + productIds.get(0) + "/");
-
 }
 
 public ProductDetail() {

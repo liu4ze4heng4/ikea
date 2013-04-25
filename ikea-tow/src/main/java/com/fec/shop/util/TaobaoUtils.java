@@ -122,11 +122,13 @@ public class TaobaoUtils {
 
 
 
-	private static void addTaobaoItem(String id)  {
+	private static void addTaobaoItem(String id) throws IOException  {
 		TaobaoClient client = new DefaultTaobaoClient(Constant.url, Constant.appkey, Constant.appSecret);
 		SQLHelper sh=new SQLHelper();
 		ProductSimple p=sh.getProduct(id);
-
+		ProductDetail pd = new ProductDetail(id);
+		pd=IkeaUtils.initProductdetail(pd);
+		pd.creatDescribtion();
 		ItemAddRequest req = new ItemAddRequest();
 
 		req.setNum(30L);
@@ -134,7 +136,7 @@ public class TaobaoUtils {
 		req.setType("fixed");
 		req.setStuffStatus("new");
 		req.setTitle(p.getTitle());
-		req.setDesc("12345667890");
+		req.setDesc(pd.getDescribtion());
 		req.setLocationState("北京");
 		req.setLocationCity("北京");
 		req.setApproveStatus("instock");
@@ -196,7 +198,7 @@ public class TaobaoUtils {
 		// req.setSubStock(1L);
 		ItemAddResponse response;
 		try {
-			response = client.execute(req, "6101508db5e3251c1508e4bd8a89da7c49d44f121b33dc642635718");
+			response = client.execute(req, "61012147c3fda388d5d6f51c0c3770b225720ca4356190142635718");
 			System.out.println(response.getBody()+"!");
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
@@ -212,7 +214,7 @@ public class TaobaoUtils {
 ProductSimple p=null;
 IkeaUtils.initProductSimple(p);
 ProductDetail pd = null;
-IkeaUtils.initProductdetail(pd);
+pd=IkeaUtils.initProductdetail(pd);
 
 		ItemUpdateRequest req = new ItemUpdateRequest();
 		req.setNumIid(Long.parseLong(tid));

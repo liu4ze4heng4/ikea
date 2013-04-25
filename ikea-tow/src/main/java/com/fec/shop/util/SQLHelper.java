@@ -120,7 +120,7 @@ public class SQLHelper {
 	{
 		List<String> pids=new ArrayList<String>();
 		pids.addAll(IkeaUtils.getProductStrListFromFile(i));
-		for(int j=0;i<pids.size();j++)
+		for(int j=4356;i<pids.size();j++)
 		{String pid=pids.get(j);
 			String[] tmp=pid.split(Constant.split);
 try{
